@@ -1,0 +1,13 @@
+//
+// Created by omer on 15/01/2020.
+//
+
+#ifndef ALGORITHMICPROGRAMMING2__CLIENTHANDLER_H_
+#define ALGORITHMICPROGRAMMING2__CLIENTHANDLER_H_
+
+using namespace std;
+class ClientHandler {
+    virtual void handleClient(int socketDescription)=0; /* Not sure about the return value */
+};
+
+#endif //ALGORITHMICPROGRAMMING2__CLIENTHANDLER_H_
