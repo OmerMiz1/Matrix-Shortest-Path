@@ -26,6 +26,7 @@ class Main {
         CacheManager<string,string> *cache = new FileCacheManager<string,string>(CACHE_CAPACITY);
         ClientHandler *handler = new MyTestClientHandler(solver, cache);
         Server *mss = new MySerialServer();
+        return 0;
     }
 };
 

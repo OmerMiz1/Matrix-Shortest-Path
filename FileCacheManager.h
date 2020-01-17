@@ -12,13 +12,13 @@
 #include "CacheManager.h"
 
 template<typename P, typename S>
-class FileCacheManager : CacheManager<P,S> {
+class FileCacheManager : public CacheManager<P,S> {
     int capacity;
     int count = 0;
     //a list that will store all of the cache, sorted so will also be used as recently used indicator
-    list<pair<P, S>> cacheList;
+    list<pair<P, S>> *cacheList;
     //a map of pointers to the items of the list, so that getting an object will be O(1)
-    unordered_map<P,typename list<pair<P, S>>::iterator> cacheMap;
+    unordered_map<P,typename list<pair<P, S>>::iterator> *cacheMap;
 
 public:
     FileCacheManager(int capacity);
@@ -34,4 +34,5 @@ private:
     void removeLRU();
 };
 
+template class FileCacheManager<string,string>;
 #endif //ALGORITHMICPROGRAMMING2__FILECACHEMANAGER_H_

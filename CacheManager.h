@@ -21,4 +21,5 @@ class CacheManager {
     virtual S get(P problem)=0;
 };
 
+template class CacheManager<string,string>;
 #endif //ALGORITHMICPROGRAMMING2__CACHEMANAGER_H_

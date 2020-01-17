@@ -20,7 +20,7 @@ FileCacheManager<P, S>::~FileCacheManager() {
 template<typename P, typename S>
 bool FileCacheManager<P, S>::contains(P problem) {
     //if the problem is in the map
-    if (cacheMap.find(problem) != cacheMap.end()) {
+    if (cacheMap->find(problem) != cacheMap->end()) {
         return true;
     }
     //if the problem isn't in the map return if it's in a file
@@ -30,17 +30,17 @@ bool FileCacheManager<P, S>::contains(P problem) {
 template<typename P, typename S>
 S FileCacheManager<P, S>::get(P problem) {
     //if the problem is in the map
-    if (cacheMap.find(problem) != cacheMap.end()) {
-        typename list<pair<P, S>>::iterator pointer = cacheMap[problem];
+    if (cacheMap->find(problem) != cacheMap->end()) {
+        typename list<pair<P, S>>::iterator pointer = (*cacheMap)[problem];
         S solution = pointer->second;
-        cacheList.erase(pointer);
-        cacheList.push_front(make_pair(problem, solution));
-        cacheMap[problem] = cacheList.begin();
-        return cacheMap[problem]->second;
+        cacheList->erase(pointer);
+        cacheList->push_front(make_pair(problem, solution));
+        (*cacheMap)[problem] = cacheList->begin();
+        return (*cacheMap)[problem]->second;
     }
     //if the problem isn't in the map, and in a file
     if (tryToReadFromFile(problem)) {
-        return cacheList.begin()->second;
+        return cacheList->begin()->second;
     }
     //if the problem isn't in the map or fhe file
     return nullptr;
@@ -49,26 +49,26 @@ S FileCacheManager<P, S>::get(P problem) {
 template<typename P, typename S>
 void FileCacheManager<P, S>::insert(P problem, S solution) {
     if (this->contains(problem)) {
-        typename list<pair<P, S>>::iterator pointer = cacheMap[problem];
-        cacheList.erase(pointer);
-        cacheList.push_front(make_pair(problem, solution));
-        cacheMap[problem] = cacheList.begin();
+        typename list<pair<P, S>>::iterator pointer = (*cacheMap)[problem];
+        cacheList->erase(pointer);
+        cacheList->push_front(make_pair(problem, solution));
+        (*cacheMap)[problem] = cacheList->begin();
         updateFile(problem, solution);
     } else { //new problem
         if (count == capacity) {
             removeLRU();
         }
-        cacheList.push_front(make_pair(problem, solution));
-        cacheMap[problem] = cacheList.begin();
+        cacheList->push_front(make_pair(problem, solution));
+        (*cacheMap)[problem] = cacheList->begin();
         count++;
-        writeSoFile(problem, solution);
+        writeToFile(problem, solution);
     }
 }
 
 template<typename P, typename S>
 void FileCacheManager<P, S>::writeToFile(P problem, S solution) {
     ofstream outFile;
-    P problemClassName = typeid(P).name();
+    string problemClassName = typeid(P).name();
     outFile.open(problemClassName + "_" + problem, ios::binary);
     if (!outFile.is_open()) {
         throw "Failed to create a file";
@@ -88,7 +88,7 @@ void FileCacheManager<P, S>::updateFile(P problem, S solution) {
 
 template<typename P, typename S>
 bool FileCacheManager<P, S>::tryToReadFromFile(P problem) {
-    P problemClassName = typeid(P).name();
+    string problemClassName = typeid(P).name();
     fstream inFile(problemClassName + "_" + problem, ios::in | ios::binary);
     if (!inFile) {
         return false;
@@ -98,8 +98,8 @@ bool FileCacheManager<P, S>::tryToReadFromFile(P problem) {
     }
     S solution;
     inFile.read((char *)&solution, sizeof(solution));
-    cacheList.push_front(make_pair(problem, solution));
-    cacheMap[problem] = cacheList.begin();
+    cacheList->push_front(make_pair(problem, solution));
+    (*cacheMap)[problem] = cacheList->begin();
     count++;
     return true;
 }
@@ -107,9 +107,9 @@ bool FileCacheManager<P, S>::tryToReadFromFile(P problem) {
 template<typename P, typename S>
 void FileCacheManager<P, S>::removeLRU() {
     count--;
-    typename list<pair<P, S>>::iterator pointer = cacheList.end();
+    typename list<pair<P, S>>::iterator pointer = cacheList->end();
     pointer--;
     P problem = pointer->first;
-    cacheMap.erase(problem);
-    cacheList.erase(pointer);
+    cacheMap->erase(problem);
+    cacheList->erase(pointer);
 }
