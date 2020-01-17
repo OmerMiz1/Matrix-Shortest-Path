@@ -18,7 +18,7 @@ class CacheManager {
         /* TODO: Hashing to string should be done here? on in implementations?*/
     virtual void insert(P problem, S solution)=0;
     virtual bool contains(P given_problem)=0;
-    virtual S get(P problem, S solution)=0;
+    virtual S get(P problem)=0;
 };
 
 #endif //ALGORITHMICPROGRAMMING2__CACHEMANAGER_H_
