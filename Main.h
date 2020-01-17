@@ -7,6 +7,7 @@
 
 #define CACHE_CAPACITY 10
 
+#include "server_side.h"
 #include "ClientHandler.h"
 #include "MyTestClientHandler.h"
 #include "StringReverser.h"
@@ -14,6 +15,7 @@
 #include "MySerialServer.h"
 
 class Main {
+ public:
     int main(int argc, char *argv[]) {
         if(argc < 2) {
             clog<<"Error: not enough arguments..."<<endl;

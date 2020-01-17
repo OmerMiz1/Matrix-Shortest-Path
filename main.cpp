@@ -1,9 +1,10 @@
 #include <iostream>
 #include <string.h>
-using namespace std;
+#include "Main.h"
 
 
-int main() {
-    std::cout << "Hello, World testing!" << std::endl;
+int main(int argc, char *argv[]) {
+    auto myMain = new Main();
+    myMain->main(argc,argv);
     return 0;
 }

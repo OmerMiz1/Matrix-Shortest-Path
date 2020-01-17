@@ -5,13 +5,15 @@
 #ifndef ALGORITHMICPROGRAMMING2__STATE_H_
 #define ALGORITHMICPROGRAMMING2__STATE_H_
 
-template <typename T>
+template<typename T>
 class State {
-private:
+ private:
     T myState; //the state of this state
-    double cost; //the cost that it took us to get to this state, 0 if this is the first state
-    State<T> prev_state; //the state that this state got from, null if this is the first state
-public:
+    double
+        cost; //the cost that it took us to get to this state, 0 if this is the first state
+    State<T>
+        prev_state; //the state that this state got from, null if this is the first state
+ public:
     /**
      * A constructor to State
      * @param myState the current state
@@ -51,7 +53,7 @@ public:
      * @param cost the new cost to get to this state
      * @param prev_state the new prev_state that we got to this state from
      */
-    void updateRoute(double cost, State<T>prev_state);
+    void updateRoute(double cost, State<T> prev_state);
 };
 
 #endif //ALGORITHMICPROGRAMMING2__STATE_H_
