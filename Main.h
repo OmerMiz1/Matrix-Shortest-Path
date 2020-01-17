@@ -7,12 +7,16 @@
 
 #define CACHE_CAPACITY 10
 
+#include <thread>
+
 #include "server_side.h"
 #include "ClientHandler.h"
 #include "MyTestClientHandler.h"
 #include "StringReverser.h"
 #include "FileCacheManager.h"
 #include "MySerialServer.h"
+
+using namespace std;
 
 class Main {
  public:
@@ -21,11 +25,13 @@ class Main {
             clog<<"Error: not enough arguments..."<<endl;
             exit(EXIT_FAILURE);
         }
-        int port = stoi(argv[0]);
+        int port = stoi(argv[1]);
         Solver<string,string> *solver = new StringReverser();
         CacheManager<string,string> *cache = new FileCacheManager<string,string>(CACHE_CAPACITY);
         ClientHandler *handler = new MyTestClientHandler(solver, cache);
         Server *mss = new MySerialServer();
+//        thread th(&MySerialServer::open, mss, port, handler);
+        mss->open(port, handler);
         return 0;
     }
 };

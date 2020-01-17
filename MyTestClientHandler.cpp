@@ -54,17 +54,20 @@ string MyTestClientHandler::readMessageFromClient(int client_socketfd) {
     string buf_str;
     buf_str.clear();
 
+    /*TODO: bug- doesnt stop at the right place.*/
     do {
         char buffer[MAX_CHARS] = {'\0'};
         bytes_read = read(client_socketfd, buffer, MAX_CHARS);
         /*Print error, return failure value*/
         if (bytes_read == -1) {
-            clog << "Error reading from client, client_socketfd = ";
-            clog << client_socketfd << endl;
+            perror("MyTestClientHandler::readMessageFromClient()");
+            /*clog << "Error reading from client, client_socketfd = ";
+            clog << client_socketfd << endl;*/
             return ERROR_READING;
         } else if (0 < bytes_read && bytes_read < MAX_CHARS) {
             buf_str.append(buffer);
         }
+        cout<<buffer<<endl; /*TODO: for debugging.*/
     } while (bytes_read != 0); /*0 if end of message reached*/
     return buf_str;
 }

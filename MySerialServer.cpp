@@ -19,11 +19,31 @@
  * @return 0 success, negative value o.w (might also terminate the program).
  */
 int MySerialServer::open(int port, ClientHandler *handler) {
+    struct timeval tv{};
+    fd_set fdset;
 
     /*OPEN SOCKET*/
     this->sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1)  {
         clog<<"Could not create a socket."<<endl;
+        this->done = true;
+        exit(EXIT_FAILURE);
+    }
+
+    FD_ZERO(&fdset);
+    FD_SET(sockfd, &fdset);
+
+    /*// Forcefully attaching socket to the port 8080
+    int opt = 1;
+    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,&opt, sizeof(opt))) {
+        perror("setsockopt");
+        exit(EXIT_FAILURE);
+    }*/
+
+    /*SET TIMEOUT*/
+    tv.tv_sec = TIME_OUT_SECONDS;
+    if(setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv) != 0) {
+        clog<<"Error setting socket timeout..."<<endl;
         this->done = true;
         exit(EXIT_FAILURE);
     }
@@ -61,6 +81,7 @@ int MySerialServer::open(int port, ClientHandler *handler) {
  */
 void MySerialServer::start(int port, ClientHandler *handler) {
     int accepted_count = 0;
+    socklen_t addr_len = sizeof(address);
 
     /*Accepts clients one-by-one until done*/
     while(!done) {
@@ -75,27 +96,31 @@ void MySerialServer::start(int port, ClientHandler *handler) {
         /*TODO not completely sure about this...
          * if not here, its supposed to be also in open() function*/
         tv.tv_sec = TIME_OUT_SECONDS;
-        if(setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv) != 0) {
+        /*if(setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv) != 0) {
             clog<<"Error setting socket timeout..."<<endl;
             this->done = true;
             exit(EXIT_FAILURE);
-        }
+        }*/
 
         /*SELECT FROM QUEUE*/
         int select_status = select(this->sockfd+1, &fdset, nullptr, nullptr, &tv);
         if (select_status <= 0) {
-            clog<<"Error selecting client..."<<endl;
+            clog<<"Server timed out...\nTotal: #clients_accepted = "<<accepted_count<<endl;
             this->done = true;
             return;
         }
 
         /*ACCEPT*/
-        client_socket = accept(sockfd,(struct sockaddr *) &address,(socklen_t *) &address);
-        if (client_socket == -1) {
-                clog<<"Error accepting simulator"<<endl;
+        if(FD_ISSET(sockfd, &fdset)) {
+            addr_len = sizeof(address);
+            client_socket = accept(sockfd,(struct sockaddr*) &address,&addr_len);
+            if (client_socket == -1) {
                 this->done = true;
+                perror("MySerialServer::start ERROR:");
                 return;
             }
+
+        }
 
         /*Mainly used for visualizing whats going on*/
         ++accepted_count;
