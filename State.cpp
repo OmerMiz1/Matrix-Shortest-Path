@@ -25,8 +25,8 @@ State<T>::State(T myState):myState(myState) {
 }
 
 template<typename T>
-bool State<T>::operator>(double cost) {
-    return this->cost > cost;
+bool State<T>::operator<(State<T> other_state) {
+    return this->cost < other_state.cost;
 }
 
 template<typename T>

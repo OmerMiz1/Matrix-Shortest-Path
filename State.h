@@ -40,11 +40,11 @@ public:
      */
     bool operator==(State<T> other_state);
     /**
-     * Checks if this state's cost is greater then a given cost
-     * @param cost the other cost
-     * @return true - if this state's cost is greater then the given cost, false - otherwise
+     * Checks if this state's cost is smaller then an other state's cost
+     * @param other_state the other state
+     * @return true - if this state's cost is smaller then the other state's cost, false - otherwise
      */
-    bool operator>(double cost);
+    bool operator<(State<T> other_state);
 
     /**
      * Update the route to this states //TODO make sure to update priority queue too!
