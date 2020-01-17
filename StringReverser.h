@@ -10,11 +10,10 @@
 
 using namespace std;
 
-class StringReverser : Solver<string,string> {
+class StringReverser : public Solver<string,string> {
  private:
 
  public:
- private:
     string solve(string problem) override;
 };
 

@@ -8,11 +8,11 @@
 #include <utility>
 #include <string>
 #include <list>
-#include <unordered_map>
+#include <bits/unordered_map.h>
 #include "CacheManager.h"
 
 template<typename P, typename S>
-class FileCacheManager : CacheManager<P,S> {
+class FileCacheManager : public CacheManager<P,S> {
     int capacity;
     int count = 0;
     //a list that will store all of the cache, sorted so will also be used as recently used indicator
@@ -22,7 +22,6 @@ class FileCacheManager : CacheManager<P,S> {
 
 public:
     FileCacheManager(int capacity);
-    ~FileCacheManager();
     void insert(P problem, S solution);
     bool contains(P given_problem);
     S get(P problem);

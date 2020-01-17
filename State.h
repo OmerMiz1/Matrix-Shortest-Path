@@ -1,11 +1,11 @@
 //
-// Created by Dor on 17/01/2020.
+// Created by omer on 17/01/2020.
 //
 
 #ifndef ALGORITHMICPROGRAMMING2__STATE_H_
 #define ALGORITHMICPROGRAMMING2__STATE_H_
 
-template<typename T>
+template <typename T>
 class State {
 private:
     T myState; //the state of this state

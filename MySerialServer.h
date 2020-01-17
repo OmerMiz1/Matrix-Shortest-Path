@@ -13,9 +13,7 @@
 
 #include "Server.h"
 
-using namespace server_side; /*NOTE: has to come AFTER including header */
-
-class MySerialServer : Server {
+class MySerialServer : public Server {
  private:
     bool done = false;
     int sockfd = -1;
@@ -23,7 +21,7 @@ class MySerialServer : Server {
 
  public:
     /* NOTE: This class must be generic for all kinds of servers (protocols and such). */
-    int open(int, ClientHandler*) override;
+    int open(int, ClientHandler *) override;
     void stop() override;
     void start(int port, ClientHandler *handler);
 };
