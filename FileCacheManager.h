@@ -22,9 +22,7 @@ class FileCacheManager : CacheManager<P,S> {
 
 public:
     FileCacheManager(int capacity);
-
-    virtual ~FileCacheManager();
-
+    ~FileCacheManager();
     void insert(P problem, S solution);
     bool contains(P given_problem);
     S get(P problem);
