@@ -6,7 +6,8 @@
 #define ALGORITHMICPROGRAMMING2__FILECACHEMANAGER_H_
 #include "CacheManager.h"
 
-class FileCacheManager: CacheManager {
+template <typename P, typename S>
+class FileCacheManager : CacheManager<P,S> {
 
 };
 

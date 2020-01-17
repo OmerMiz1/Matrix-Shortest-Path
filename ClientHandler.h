@@ -6,8 +6,10 @@
 #define ALGORITHMICPROGRAMMING2__CLIENTHANDLER_H_
 
 using namespace std;
+
 class ClientHandler {
-    virtual void handleClient(int socketDescription)=0; /* Not sure about the return value */
+ public:
+    virtual int handleClient(int client_socketfd)=0; /* Not sure about the return value */
 };
 
 #endif //ALGORITHMICPROGRAMMING2__CLIENTHANDLER_H_

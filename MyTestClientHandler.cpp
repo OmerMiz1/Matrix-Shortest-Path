@@ -3,3 +3,6 @@
 //
 
 #include "MyTestClientHandler.h"
+MyTestClientHandler::MyTestClientHandler(Solver *solver) {
+
+}

@@ -7,7 +7,7 @@
 
 template <typename P, typename S>
 class Solver {
-
+    virtual S solve(P problem)=0;
 };
 
 #endif //ALGORITHMICPROGRAMMING2__SOLVER_H_

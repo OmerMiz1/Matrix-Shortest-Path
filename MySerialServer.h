@@ -5,13 +5,27 @@
 #ifndef ALGORITHMICPROGRAMMING2__MYSERIALSERVER_H_
 #define ALGORITHMICPROGRAMMING2__MYSERIALSERVER_H_
 
+#include <chrono>
+#include <iostream>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
 #include "Server.h"
+
 using namespace server_side; /*NOTE: has to come AFTER including header */
 
 class MySerialServer : Server {
-    /* NOTE: This class must be generic for all kinds of servers (protocols and
-     * such). */
+ private:
+    bool done = false;
+    int sockfd = -1;
+    sockaddr_in address{};
 
+ public:
+    /* NOTE: This class must be generic for all kinds of servers (protocols and such). */
+    int open(int, ClientHandler*) override;
+    void stop() override;
+    void start(int port, ClientHandler *handler);
 };
 
 #endif //ALGORITHMICPROGRAMMING2__MYSERIALSERVER_H_
