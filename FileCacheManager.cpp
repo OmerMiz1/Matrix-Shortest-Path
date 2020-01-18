@@ -3,6 +3,7 @@
 //
 
 #include <fstream>
+#include <iostream>
 #include "FileCacheManager.h"
 
 template<typename P, typename S>
@@ -68,7 +69,10 @@ void FileCacheManager<P, S>::insert(P problem, S solution) {
 template<typename P, typename S>
 void FileCacheManager<P, S>::writeToFile(P problem, S solution) {
     ofstream outFile;
-    string problemClassName = typeid(P).name();
+    string problemClassName = typeid(problem).name(); //TODO change to typeid(*P).name() ???
+    /*TODO: debug check prints*/
+    cout<<typeid(problem).name()<<endl;
+    //out<<typeid(*problem).name()<<endl; //get by reference?
     outFile.open(problemClassName + "_" + problem, ios::binary);
     if (!outFile.is_open()) {
         throw "Failed to create a file";
@@ -88,7 +92,7 @@ void FileCacheManager<P, S>::updateFile(P problem, S solution) {
 
 template<typename P, typename S>
 bool FileCacheManager<P, S>::tryToReadFromFile(P problem) {
-    string problemClassName = typeid(P).name();
+    string problemClassName = typeid(P).name(); //TODO change to typeid(*P).name() ???
     fstream inFile(problemClassName + "_" + problem, ios::in | ios::binary);
     if (!inFile) {
         return false;
