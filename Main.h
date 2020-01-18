@@ -22,7 +22,7 @@ class Main {
  public:
     int main(int argc, char *argv[]) {
         if(argc < 2) {
-            clog<<"Error: not enough arguments..."<<endl;
+            perror("main");
             exit(EXIT_FAILURE);
         }
         int port = stoi(argv[1]);

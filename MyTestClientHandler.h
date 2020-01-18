@@ -25,7 +25,7 @@ class MyTestClientHandler : public ClientHandler {
     CacheManager<string,string> *cache;
 
     /*Helper functions*/
-    string readMessageFromClient(int client_socketfd);
+    string* readMessageFromClient(int client_socketfd);
 
  public:
     MyTestClientHandler(Solver<string,string>*, CacheManager<string,string>*);
