@@ -16,7 +16,7 @@ public:
 
     explicit State(T myState);
 
-    State<T> getState();
+    T getState();
 
     bool operator==(State<T> other_state);
 

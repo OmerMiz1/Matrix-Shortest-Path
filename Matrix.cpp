@@ -35,7 +35,7 @@ Matrix<T>::~Matrix() {
  * @return the cell in the (x,y) place in the matrix
  */
 template<typename T>
-const T *Matrix<T>::getCell(int x, int y) const {
+const T *Matrix<T>::getCell(int x, int y)  {
     return &(this->matrix[x][y]);
 }
 
@@ -44,7 +44,7 @@ const T *Matrix<T>::getCell(int x, int y) const {
  * @return the number of rows in the matrix
  */
 template<typename T>
-int Matrix<T>::getRowsCount() const {
+int Matrix<T>::getRowsCount()  {
     return this->rows_count;
 }
 
@@ -53,7 +53,7 @@ int Matrix<T>::getRowsCount() const {
  * @return the number of columns in the matrix
  */
 template<typename T>
-int Matrix<T>::getColumnsCount() const {
+int Matrix<T>::getColumnsCount()  {
     return this->columns_count;
 }
 

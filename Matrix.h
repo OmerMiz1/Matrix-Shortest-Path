@@ -5,18 +5,26 @@
 #ifndef ALGORITHMICPROGRAMMING2_MATRIX_H
 #define ALGORITHMICPROGRAMMING2_MATRIX_H
 
+#include "Point.h"
+#include "State.h"
+
 template<typename T>
 class Matrix {
+protected:
     int rows_count;
     int columns_count;
     T **matrix;
+
 public:
     Matrix(int rows, int columns);
     ~Matrix();
-    const T* getCell(int x, int y) const;
-    int getRowsCount() const;
-    int getColumnsCount() const;
+    const T* getCell(int x, int y);
+    int getRowsCount();
+    int getColumnsCount();
 };
+
+template class Matrix<State<Point>>;
+//template class Matrix<Point>;
 
 
 #endif //ALGORITHMICPROGRAMMING2_MATRIX_H

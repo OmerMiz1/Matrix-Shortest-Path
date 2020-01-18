@@ -29,7 +29,7 @@ State<T>::State(T myState):myState(myState) {
  * @return this states state
  */
 template<typename T>
-State<T> State<T>::getState() {
+T State<T>::getState() {
     return this->myState;
 }
 
