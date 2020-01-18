@@ -10,13 +10,14 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <thread>
 
 #include "Server.h"
 
 class MySerialServer : public Server {
  private:
-    bool done = false;
     int sockfd = -1;
+    bool done = false;
     sockaddr_in address{};
 
  public:

@@ -66,6 +66,7 @@ int MySerialServer::open(int port, ClientHandler *handler) {
         exit(EXIT_FAILURE);
     }
 
+    /*Start infinite loop that handles clients.*/
     start(port, handler);
 
     /*Clean exit, open ran successfully*/
@@ -112,12 +113,11 @@ void MySerialServer::start(int port, ClientHandler *handler) {
                 perror("server_start#2");
                 return;
             }
-
         }
 
         /*Mainly used for visualizing whats going on*/
         ++accepted_count; /*TODO: debug*/
-        printf("Server: client #%d accepted\n", accepted_count);
+        cout<<"Server: client #" <<accepted_count<<" accepted..."<<endl;
 
         /*If handler had error, just print error. mainly for debug.*/
         exit_status = handler->handleClient(client_socket);
@@ -130,3 +130,5 @@ void MySerialServer::start(int port, ClientHandler *handler) {
 void MySerialServer::stop() {
     this->done = true;
 }
+
+/*TODO: debug*/
