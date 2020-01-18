@@ -16,9 +16,9 @@ string StringReverser::solve(string problem) {
     problem_reversed.clear();
 
     /*Iterate problem string in reversed order*/
-    for(auto revIt = problem.rbegin(); revIt != problem.rend(); ++revIt) {
-        problem_reversed.push_back(*revIt);
+    for(auto it = problem.rbegin(); it != problem.rend(); ++it) {
+        problem_reversed.push_back(*it);
     }
 
-    return problem_reversed;
+    return problem_reversed.append("\n");
 }

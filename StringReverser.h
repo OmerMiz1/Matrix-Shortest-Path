@@ -7,6 +7,9 @@
 
 #include "Solver.h"
 #include <string>
+#include <cstring>
+#include <list>
+#include <regex>
 
 using namespace std;
 

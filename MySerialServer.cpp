@@ -105,7 +105,7 @@ void MySerialServer::start(int port, ClientHandler *handler) {
         /*SELECT FROM QUEUE*/
         int select_status = select(this->sockfd+1, &fdset, nullptr, nullptr, &tv);
         if (select_status <= 0) {
-            clog<<"Server timed out...\nTotal: #clients_accepted = "<<accepted_count<<endl;
+            clog<<"Server timed out...\nTotal clients handled: "<<accepted_count<<endl;
             this->done = true;
             return;
         }
