@@ -32,6 +32,18 @@ public:
     bool operator==(State<T> other_state);
     bool operator<(State<T> other_state);
     bool operator>(State<T> other_state);
+
+    class costComparator {
+        bool operator()(const State<T> first, const State<T> second) {
+            return first.cost<second.cost;
+        }
+    };
+
+    class positionComparator {
+        bool operator()(const State<T> first, const State<T> second) {
+            return *(first.getState())<*(second.getState());
+        }
+    };
     State<T> clone() const override;
 };
 
