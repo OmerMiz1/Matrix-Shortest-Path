@@ -13,28 +13,29 @@
 #include "Searchable.h"
 #include "Matrix.h"
 
-
 class SearchableMatrix : public Searchable<Point>, public Matrix<State<Point>> {
  private:
-    friend class SearchableBuilder;
-    State<Point> initial_state;
-    State<Point> goal_state;
-    State<Point> current_state;
+    State<Point> *initial_state = nullptr;
+    State<Point> *goal_state;
 
     State<Point>* getAbove(State<Point> state);
     State<Point>* getBelow(State<Point> state);
     State<Point>* getLeft(State<Point> state);
     State<Point>* getRight(State<Point> state);
     bool isValidCellInMatrix(int x, int y);
-    void addRow(vector<Vertex>*) override;
-    void removeRow(int) override;
 
  public:
-    //SearchableMatrix(char * buf) :Matrix<State<Point>>(30, 30) {} //TODO implement
     State<Point> getInitialState() override;
     bool isGoalState(State<Point> state) override;
     list<State<Point>> getAllPossibleStates(State<Point> state) override;
+    State<Point>* getCell(Point*);
+    State<Point>* getCell(int, int) override;
 
+    /*TODO: AddRow and RemoveRow shouldnt be public! BANDAGE!*/
+    void addRow(vector<Vertex>*) override;
+    void removeRow(int) override;
+    void setInitialState(Point* initial_point);
+    void setGoalState(Point* goal_point);
 };
 
 

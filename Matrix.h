@@ -29,7 +29,7 @@ class Matrix {
 
  public:
     /*Matrix(int rows, int columns);*/
-    /*~Matrix();*/
+    virtual /*~Matrix();*/
     const T *getCell(int x, int y);
     int getRowsCount();
     int getColsCount();

@@ -80,5 +80,6 @@ template<typename T>
 void Matrix<T>::removeRow(int row_num) {
     auto toRemoveIter = find(this->matrix.begin(), this->matrix.end(), row_num);
     this->matrix.erase(toRemoveIter);
+    this->rows_count--;
 }
 

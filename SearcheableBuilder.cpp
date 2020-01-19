@@ -51,10 +51,11 @@ SearchableMatrix* SearcheableBuilder::buildMatrix(list<string> data) {
             auto cur_cell = buildMatrixCell(row_index, col_index, cost, nullptr);
             row->push_back(cur_cell);
         }
-
         sMatrix->addRow(row);
     }
 
+    sMatrix->setInitialState(initial);
+    sMatrix->setGoalState(goal);
     return sMatrix;
 }
 

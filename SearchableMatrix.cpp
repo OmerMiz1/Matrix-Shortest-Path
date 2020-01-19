@@ -9,7 +9,7 @@
  * @return the initial state
  */
 State<Point> SearchableMatrix::getInitialState() {
-    return this->initial_state;
+    return (*this->initial_state);
 }
 
 /**
@@ -18,10 +18,10 @@ State<Point> SearchableMatrix::getInitialState() {
  * @return true - if the given state is the goal state, false - otherwises
  */
 bool SearchableMatrix::isGoalState(State<Point> state) {
-    return state == goal_state;
+    return state == (*goal_state);
 }
 
- /**
+/**
   * Returns all possible states that you can get to from the given state
   * @param state the state you get from
   * @return a list of all of the the given state neighbors
@@ -133,6 +133,52 @@ void SearchableMatrix::addRow(vector<Vertex>* row) {
  */
 void SearchableMatrix::removeRow(int row_index) {
     Matrix::removeRow(row_index);
+}
+
+/** Get cell state given point.
+ *
+ * @param point
+ * @return
+ */
+State<Point> *SearchableMatrix::getCell(Point *point) {
+    return (this->getCell(point->getX(), point->getY()));
+}
+
+/** Get cell state by given coordinates.
+ *
+ * @param x
+ * @param y
+ * @return
+ */
+State<Point> *SearchableMatrix::getCell(int x, int y) {
+    try {
+        return &this->matrix.at(x).at(y);
+    } catch (const char* e) {
+        perror("getCell");
+        perror(e);
+        return nullptr;
+    }
+}
+
+/** Sets the initial state of the searchable matrix.
+ * TODO: Potential bug: initial_state was deleted and then its possible to set it.
+ *
+ * @param initial_point
+ */
+void SearchableMatrix::setInitialState(Point *initial_point) {
+    if(this->initial_state != nullptr) {
+        this->initial_state = this->getCell(initial_point);
+    }
+}
+
+/** Sets the goal state of the searchable matrix.
+ * TODO: Potential bug: initial_state was deleted and then its possible to set it.
+ * @param goal_point
+ */
+void  SearchableMatrix::setGoalState(Point *goal_point) {
+    if(this->goal_state != nullptr) {
+        this->goal_state = this->getCell(goal_point);
+    }
 }
 
 
