@@ -29,12 +29,12 @@ State<T>::State(T *myState):myState(myState) {
  * @return this states state
  */
 template<typename T>
-T* State<T>::getState() {
-    return this->myState;
+T State<T>::getState() {
+    return dynamic_cast<Cloneable<T>>(myState)->clone();
 }
 
 template <typename T>
-int State<T>::getCost() {
+double State<T>::getCost() {
     return this->cost;
 }
 
@@ -52,8 +52,7 @@ State<T> State<T>::getPrev() {
 template <typename T>
 bool State<T>::is(State<T> other_state) {
     return (this->cost == other_state.getCost()
-    && this->myState == other_state.getState()
-    /*&& this->prev_state == other_state.getPrev()*/);
+    && this->myState == other_state.getState());
     /*TODO: not adding this, might be an expensive recursion*/
 }
 
@@ -65,6 +64,11 @@ bool State<T>::is(State<T> other_state) {
  */
 template<typename T>
 bool State<T>::operator==(State<T> other_state) {
+    if(ReferenceEquals(this, nullptr) && ReferenceEquals(other_state, nullptr)) {
+        return true;
+    } else if(ReferenceEquals(this, nullptr) || ReferenceEquals(other_state, nullptr)) {
+        return false;
+    }
     return (this->cost == other_state.getCost());
 }
 
@@ -81,6 +85,26 @@ bool State<T>::operator<(State<T> other_state) {
 template<typename T>
 bool State<T>::operator>(State<T> other_state) {
     return (this->cost > other_state.getCost());
+}
+
+template<typename T>
+void State<T>::setPrev(State<T> prev) {
+    this->prev_state = prev;
+}
+
+template<class T>
+State<T> State<T>::clone() const {
+    return State<T>(dynamic_cast<Cloneable<T>>(myState).clone());
+}
+
+template<class T>
+list<State<T>> State<T>::backtrace() const {
+    list<State<T>> backtrace_path;
+
+    for(State<T> cur_front = this->clone(); cur_front != nullptr; cur_front = cur_front.prev_state->clone()) {
+        backtrace_path.push_front(cur_front);
+    }
+    return backtrace_path;
 }
 
 /**

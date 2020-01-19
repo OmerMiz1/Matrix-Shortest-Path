@@ -31,18 +31,22 @@ list<State<Point>> SearchableMatrix::getAllPossibleStates(State<Point> state) {
 
     State<Point>* temp = this->getAbove(state);
     if (temp != nullptr) {
+        temp->setPrev(state);
         statesList.push_back(*temp);
     }
     temp = this->getBelow(state);
     if (temp != nullptr) {
+
         statesList.push_back(*temp);
     }
     temp = this->getLeft(state);
     if (temp != nullptr) {
+
         statesList.push_back(*temp);
     }
     temp = this->getRight(state);
     if (temp != nullptr) {
+
         statesList.push_back(*temp);
     }
     return statesList;

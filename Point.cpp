@@ -31,3 +31,15 @@ int Point::getY() {
     return this->y;
 }
 
+/** Overriden in order to create comparator at State<T>
+ *
+ * @param other
+ * @return
+ */
+bool Point::operator<(Point *other) {
+    return !(this == other);
+}
+Point Point::clone() const {
+    return Point(this->x, this->y);
+}
+

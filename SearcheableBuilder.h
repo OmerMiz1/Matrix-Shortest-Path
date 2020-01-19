@@ -10,14 +10,17 @@
 #include <regex>
 
 #include "SearchableMatrix.h"
+#include "MyClientHandler.h"
 
 using namespace std;
 
+template <class P, class S>
 class SearcheableBuilder {
- public:
-    SearchableMatrix* buildMatrix(list<string> data);
-    Point* buildMatrixState(string state_str);
-    Vertex buildMatrixCell(int x,int y, int cost, Vertex* prev);
+ private:
+    friend class MyClientHandler<P,S>;
+    Searchable<P>* buildMatrix(list<string> data);
+    P* buildMatrixState(string state_str);
+    State<P> buildMatrixCell(int x,int y, int cost, Vertex* prev);
 };
 
 

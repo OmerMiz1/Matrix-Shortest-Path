@@ -4,7 +4,8 @@
 
 #include "SearcheableBuilder.h"
 
-SearchableMatrix* SearcheableBuilder::buildMatrix(list<string> data) {
+template <class P, class S>
+Searchable<P>* SearcheableBuilder<P,S>::buildMatrix(list<string> data) {
     auto sMatrix = new SearchableMatrix;
     Point *initial, *goal;
     int row_index=0, col_index=0;
@@ -65,7 +66,8 @@ SearchableMatrix* SearcheableBuilder::buildMatrix(list<string> data) {
  * @param state_str
  * @return
  */
-Point* SearcheableBuilder::buildMatrixState(string state_str) {
+ template <class P, class S>
+P* SearcheableBuilder<P,S>::buildMatrixState(string state_str) {
     regex intRx("(-?\\d+)");
     smatch matches;
     int x, y;
@@ -79,7 +81,6 @@ Point* SearcheableBuilder::buildMatrixState(string state_str) {
         perror(e);
         return nullptr;
     }
-
     return new Point(x,y);
 }
 
@@ -92,7 +93,8 @@ Point* SearcheableBuilder::buildMatrixState(string state_str) {
  * @param prev should be null ptr
  * @return
  */
-Vertex SearcheableBuilder::buildMatrixCell(int row, int col, int cost, Vertex *prev) {
+ template <class P, class S>
+State<P> SearcheableBuilder<P,S>::buildMatrixCell(int row, int col, int cost, Vertex *prev) {
     auto cur_cell = new Point(row, col);
     return Vertex(cur_cell, cost, prev);
 }
