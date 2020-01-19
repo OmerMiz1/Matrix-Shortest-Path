@@ -10,6 +10,7 @@ class Point {
     int x;
     int y;
 public:
+    Point(int, int);
     bool operator==(Point* other);
     int getX();
     int getY();

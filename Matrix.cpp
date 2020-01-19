@@ -52,7 +52,33 @@ int Matrix<T>::getRowsCount()  {
  * @return the number of columns in the matrix
  */
 template<typename T>
-int Matrix<T>::getColumnsCount()  {
+int Matrix<T>::getColsCount()  {
     return this->columns_count;
+}
+
+
+/** Add an entire row to matrix.
+ * TODO: PROBLEM: new_row length can be different than cols_count!
+ *  POSSIBLE SOLUTION1: first element of each row vector will specify the count.
+ *  POSSIBLE SOLUTION2: keep a map for sizes of each row.
+ * @tparam T
+ * @param new_row
+ */
+template <typename T>
+void Matrix<T>::addRow(vector<T>* new_row) {
+    this->matrix.push_back(*new_row);
+    this->rows_count++;
+}
+
+
+/** Removes specific row.
+ *
+ * @tparam T
+ * @param row_num index of row to be removed
+ */
+template<typename T>
+void Matrix<T>::removeRow(int row_num) {
+    auto toRemoveIter = find(this->matrix.begin(), this->matrix.end(), row_num);
+    this->matrix.erase(toRemoveIter);
 }
 

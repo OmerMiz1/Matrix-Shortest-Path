@@ -7,8 +7,6 @@
 
 #include "Point.h"
 
-
-
 template<typename T>
 class State {
 private:
@@ -33,8 +31,5 @@ public:
 
 /*Alias to State<Point>*/
 typedef State<Point> Vertex;
-
-/*Templates supported*/
-template class State<Point>;
 
 #endif //ALGORITHMICPROGRAMMING2__STATE_H_

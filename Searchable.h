@@ -8,6 +8,7 @@
 #include "State.h"
 
 using namespace std;
+
 template <typename P>
 class Searchable {
 public:

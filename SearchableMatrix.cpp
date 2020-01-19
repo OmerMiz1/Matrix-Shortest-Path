@@ -118,3 +118,23 @@ bool SearchableMatrix::isValidCellInMatrix(int x, int y) {
     }
     return false;
 }
+
+/** Adds a row to matrix.
+ *
+ * @param row vector of Vertices.
+ */
+void SearchableMatrix::addRow(vector<Vertex>* row) {
+    Matrix<Vertex>::addRow(row);
+}
+
+/** Removes a row given an index.
+ *
+ * @param row_index
+ */
+void SearchableMatrix::removeRow(int row_index) {
+    Matrix::removeRow(row_index);
+}
+
+
+
+

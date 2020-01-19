@@ -4,6 +4,8 @@
 
 #include "Point.h"
 
+Point::Point(int xVal, int yVal): x(xVal), y(yVal) {}
+
 /**
  * Checks equality between this point and another one
  * @param other the other point we want to check
@@ -28,3 +30,4 @@ int Point::getX() {
 int Point::getY() {
     return this->y;
 }
+
