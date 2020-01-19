@@ -10,23 +10,23 @@
  * @param columns the number columns in the matrix
  */
 template <typename T>
-Matrix<T>::Matrix(int rows, int columns): rows_count(rows), columns_count(columns) {
-    this->matrix = new int*[rows_count];
+/*Matrix<T>::Matrix(int rows, int columns): rows_count(rows), columns_count(columns) {
+    this->matrix = new T*[rows_count];
     for(int i = 0; i < rows_count; ++i) {
         this->matrix[i] = new T[columns_count];
     }
-}
+}*/
 
 /**
  * A d'tor for Matrix
  */
-template<typename T>
+/*template<typename T>
 Matrix<T>::~Matrix() {
     for(int i = 0; i < rows_count; ++i) {
         delete(this->matrix[i]);
     }
     delete(this->matrix);
-}
+}*/
 
 /**
  * Returns a certain cell of the matrix
@@ -34,7 +34,6 @@ Matrix<T>::~Matrix() {
  * @param y the y coordinate of the cell
  * @return the cell in the (x,y) place in the matrix
  */
-template<typename T>
 const T *Matrix<T>::getCell(int x, int y)  {
     return &(this->matrix[x][y]);
 }

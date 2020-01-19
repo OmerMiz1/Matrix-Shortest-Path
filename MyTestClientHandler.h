@@ -29,7 +29,7 @@ class MyTestClientHandler : public ClientHandler {
 
  public:
     MyTestClientHandler(Solver<string,string>*, CacheManager<string,string>*);
-    int handleClient(int client_socketfd) override;
+    void handleClient(int client_socketfd) override;
 };
 
 #endif //ALGORITHMICPROGRAMMING2__MYTESTCLIENTHANDLER_H_

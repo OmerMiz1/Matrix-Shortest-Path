@@ -18,7 +18,7 @@ State<Point> SearchableMatrix::getInitialState() {
  * @return true - if the given state is the goal state, false - otherwises
  */
 bool SearchableMatrix::isGoalState(State<Point> state) {
-    return state == this->goal_state;
+    return state == goal_state;
 }
 
  /**
@@ -53,9 +53,9 @@ list<State<Point>> SearchableMatrix::getAllPossibleStates(State<Point> state) {
  * @param curr_state the given state
  * @return the states above the give state, null - if doesn't exist
  */
-State<Point> *SearchableMatrix::getAbove(State<Point> curr_state) {
-    int upX = curr_state.getState().getX();
-    int upY = curr_state.getState().getY() - 1;
+State<Point>* SearchableMatrix::getAbove(State<Point> curr_state) {
+    int upX = curr_state.getState()->getX();
+    int upY = curr_state.getState()->getY() - 1;
     if (this->isValidCellInMatrix(upX, upY)) {
         return &(this->matrix[upX][upY]);
     }
@@ -67,9 +67,9 @@ State<Point> *SearchableMatrix::getAbove(State<Point> curr_state) {
  * @param curr_state the given state
  * @return the states below the give state, null - if doesn't exist
  */
-State<Point> *SearchableMatrix::getBelow(State<Point> curr_state)  {
-    int downX = curr_state.getState().getX();
-    int downY = curr_state.getState().getY() + 1;
+State<Point>* SearchableMatrix::getBelow(State<Point> curr_state)  {
+    int downX = curr_state.getState()->getX();
+    int downY = curr_state.getState()->getY() + 1;
     if (this->isValidCellInMatrix(downX, downY)) {
         return &(this->matrix[downX][downY]);
     }
@@ -81,9 +81,9 @@ State<Point> *SearchableMatrix::getBelow(State<Point> curr_state)  {
  * @param curr_state the given state
  * @return the states that's to the left of the give state, null - if doesn't exist
  */
-State<Point> *SearchableMatrix::getLeft(State<Point> curr_state) {
-    int leftX = curr_state.getState().getX() - 1;
-    int leftY = curr_state.getState().getY();
+State<Point>* SearchableMatrix::getLeft(State<Point> curr_state) {
+    int leftX = curr_state.getState()->getX() - 1;
+    int leftY = curr_state.getState()->getY();
     if (this->isValidCellInMatrix(leftX, leftY)) {
         return &(this->matrix[leftX][leftY]);
     }
@@ -95,9 +95,9 @@ State<Point> *SearchableMatrix::getLeft(State<Point> curr_state) {
  * @param curr_state the given state
  * @return the states that's to the right of the give state, null - if doesn't exist
  */
-State<Point> *SearchableMatrix::getRight(State<Point> curr_state) {
-    int rightX = curr_state.getState().getX() + 1;
-    int rightY = curr_state.getState().getY();
+State<Point>* SearchableMatrix::getRight(State<Point> curr_state) {
+    int rightX = curr_state.getState()->getX() + 1;
+    int rightY = curr_state.getState()->getY();
     if (this->isValidCellInMatrix(rightX, rightY)) {
         return &(this->matrix[rightX][rightY]);
     }

@@ -7,19 +7,20 @@
 
 using namespace std;
 
+/*Interface*/
 /**
  * 1. lru list: Queue, the front pair contains the least recently used object.
  * 2. cacheMap: contains the data for fast access.
  **/
 template<typename P, typename S>
 class CacheManager {
-                /*TODO: should we use the code from ex2?*/
  public:
-        /* TODO: Hashing to string should be done here? on in implementations?*/
+    /* TODO: Hashing to string should be done here? on in implementations?*/
     virtual void insert(P problem, S solution)=0;
     virtual bool contains(P given_problem)=0;
     virtual S get(P problem)=0;
 };
 
 template class CacheManager<string,string>;
+
 #endif //ALGORITHMICPROGRAMMING2__CACHEMANAGER_H_

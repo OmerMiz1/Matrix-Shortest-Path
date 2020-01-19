@@ -15,10 +15,11 @@
 #include "StringReverser.h"
 #include "FileCacheManager.h"
 #include "MySerialServer.h"
+#include "MyParallelServer.h"
 
 using namespace std;
 
-class Main {
+class server_side::boot::Main {
  public:
     int main(int argc, char *argv[]) {
         if(argc < 2) {
@@ -29,8 +30,7 @@ class Main {
         Solver<string,string> *solver = new StringReverser();
         CacheManager<string,string> *cache = new FileCacheManager<string,string>(CACHE_CAPACITY);
         ClientHandler *handler = new MyTestClientHandler(solver, cache);
-        Server *mss = new MySerialServer();
-//        thread th(&MySerialServer::open, mss, port, handler);
+        server_side::Server *mss = new MyParallelServer();
         mss->open(port, handler);
         return 0;
     }

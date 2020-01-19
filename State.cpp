@@ -11,7 +11,7 @@
  * @param prevState the state that this state got from
  */
 template<typename T>
-State<T>::State(T myState, double cost, const State<T> &prevState):myState(myState), cost(cost),
+State<T>::State(T *myState, double cost, State<T> *prevState):myState(myState), cost(cost),
                                                                    prev_state(prevState) {}
 
 /**
@@ -19,7 +19,7 @@ State<T>::State(T myState, double cost, const State<T> &prevState):myState(mySta
  * @param myState the current state
  */
 template<typename T>
-State<T>::State(T myState):myState(myState) {
+State<T>::State(T *myState):myState(myState) {
     this->cost = 0;
     this->prev_state = nullptr;
 }
@@ -29,8 +29,32 @@ State<T>::State(T myState):myState(myState) {
  * @return this states state
  */
 template<typename T>
-T State<T>::getState() {
+T* State<T>::getState() {
     return this->myState;
+}
+
+template <typename T>
+int State<T>::getCost() {
+    return this->cost;
+}
+
+/*template <typename T>
+State<T> State<T>::getPrev() {
+    return this->prev_state;
+}*/
+
+/** Returns true if its the same object.
+ *
+ * @tparam T
+ * @param other_state
+ * @return
+ */
+template <typename T>
+bool State<T>::is(State<T> other_state) {
+    return (this->cost == other_state.getCost()
+    && this->myState == other_state.getState()
+    /*&& this->prev_state == other_state.getPrev()*/);
+    /*TODO: not adding this, might be an expensive recursion*/
 }
 
 /**
@@ -41,7 +65,7 @@ T State<T>::getState() {
  */
 template<typename T>
 bool State<T>::operator==(State<T> other_state) {
-    return this->myState == other_state.myState;
+    return (this->cost == other_state.getCost());
 }
 
 /**
@@ -51,16 +75,21 @@ bool State<T>::operator==(State<T> other_state) {
  */
 template<typename T>
 bool State<T>::operator<(State<T> other_state) {
-    return this->cost < other_state.cost;
+    return (this->cost < other_state.getCost());
+}
+
+template<typename T>
+bool State<T>::operator>(State<T> other_state) {
+    return (this->cost > other_state.getCost());
 }
 
 /**
  * Update the route to this states //TODO make sure to update priority queue too!
  * @param cost the new cost to get to this state
  * @param prev_state the new prev_state that we got to this state from
- */
+ *//*
 template<typename T>
 void State<T>::updateRoute(double cost, State<T> prev_state) {
     this->cost = cost;
     this->prev_state = prev_state;
-}
+}*/

@@ -1,12 +1,10 @@
 //
-// Created by omer on 15/01/2020.
+// Created by omer on 18/01/2020.
 //
 #define MAX_CLIENTS 10
-#define TIME_OUT_SECONDS 120
+#define TIME_OUT_SECONDS 30
 
-
-#include "MySerialServer.h"
-
+#include "MyParallelServer.h"
 
 /** Opened server starts listening until stop() is called or error.
  *
@@ -18,14 +16,14 @@
  * @param handler in-charge of handling the client requests.
  * @return 0 success, negative value o.w (might also terminate the program).
  */
-int MySerialServer::open(int port, ClientHandler *handler) {
+int MyParallelServer::open(int port, ClientHandler *handler) {
     struct timeval tv{};
     fd_set fdset;
 
     /*OPEN SOCKET*/
     this->sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1)  {
-        perror("open#1");
+        perror("parallel_open#1");
         this->done = true;
         exit(EXIT_FAILURE);
     }
@@ -33,10 +31,17 @@ int MySerialServer::open(int port, ClientHandler *handler) {
     FD_ZERO(&fdset);
     FD_SET(sockfd, &fdset);
 
+    /*// Forcefully attaching socket to the port 8080
+    int opt = 1;
+    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,&opt, sizeof(opt))) {
+        perror("setsockopt");
+        exit(EXIT_FAILURE);
+    }*/
+
     /*SET TIMEOUT*/
     tv.tv_sec = TIME_OUT_SECONDS;
     if(setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv) != 0) {
-        perror("open#2");
+        perror("parallel_open#2");
         this->done = true;
         exit(EXIT_FAILURE);
     }
@@ -47,37 +52,38 @@ int MySerialServer::open(int port, ClientHandler *handler) {
 
     /*BIND*/
     if (::bind(sockfd, (struct sockaddr *) &address, sizeof(address)) == -1) {
-        perror("open#3");
+        perror("parallel_open#3");
         this->done = true;
         exit(EXIT_FAILURE);
     }
 
     /*LISTEN*/
     if (listen(sockfd, MAX_CLIENTS) == -1) {
-        perror("open#4");
+        perror("parallel_open#4");
         this->done = true;
         exit(EXIT_FAILURE);
     }
 
     /*Start infinite loop that handles clients.*/
     start(port, handler);
+
+    /*Clean exit, open ran successfully*/
+    close(sockfd);
     return 0;
 }
+void MyParallelServer::stop() {
+    this->done = true;
+}
 
-/** Starts handling clients one-by-one until stop() is called or error reached.
- *
- * @param port server is assigned to
- * @param handler ClientHandler object
- * @param tv time value struct used for managing timeouts.
- */
-void MySerialServer::start(int port, ClientHandler *handler) {
+/*TODO: add mutexes to handlers? to handleClient()? how????*/
+void MyParallelServer::start(int port, ClientHandler *handler) {
     int accepted_count = 0;
     socklen_t addr_len;
 
     /*Accepts clients one-by-one until done*/
     while(!done) {
         /*Reset values every iteration*/
-        int exit_status = 0, client_socket = 0;
+        int client_socket = 0;
         struct timeval tv{};
         fd_set fdset;
         FD_ZERO(&fdset);
@@ -100,7 +106,7 @@ void MySerialServer::start(int port, ClientHandler *handler) {
             client_socket = accept(sockfd,(struct sockaddr*) &address,&addr_len);
             if (client_socket == -1) {
                 this->done = true;
-                perror("start#2");
+                perror("parallel_start#2");
                 return;
             }
         }
@@ -108,19 +114,26 @@ void MySerialServer::start(int port, ClientHandler *handler) {
         /*Mainly used for visualizing whats going on*/
         ++accepted_count; /*TODO: debug*/
         cout<<"Server: client #" <<accepted_count<<" accepted..."<<endl;
-
-        /*Handle current client*/
-        handler->handleClient(client_socket);
+        this->threads.emplace_back(thread(&ClientHandler::handleClient, handler, client_socket));
     }
 
-    /*Case of unsuccessful close*/
+    joinAllThreads();
+
+    /*Error closing socket*/
     if(close(sockfd)==-1) {
-        perror("start#3");
-        return;
+        perror("parallel_start#3");
     }
     cout<<"Server closed successfully..."<<endl;
+
 }
 
-void MySerialServer::stop() {
-    this->done = true;
+/** Join all threads before closing server (possibly after time-out, error, etc)
+ *
+ */
+void MyParallelServer::joinAllThreads() {
+    for(auto& t : this->threads) {
+        if(t.joinable()) {
+            t.join();
+        }
+    }
 }

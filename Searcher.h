@@ -8,16 +8,16 @@
 #include <list>
 
 #include "State.h"
+#include "Searchable.h"
 
 using namespace std;
 
-template<typename P>
+/*Interface*/
+template<typename P, typename S>
 class Searcher {
- private:
-    int evaluated_nodes_count;
-
  public:
-
+    virtual S search(Searchable<P>)=0;
+    virtual
 
 };
 

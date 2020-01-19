@@ -16,15 +16,13 @@ protected:
     T **matrix;
 
 public:
-    Matrix(int rows, int columns);
+    /*Matrix(int rows, int columns);*/
     ~Matrix();
     const T* getCell(int x, int y);
     int getRowsCount();
     int getColumnsCount();
 };
 
-template class Matrix<State<Point>>;
-//template class Matrix<Point>;
-
+template class Matrix<Vertex>;
 
 #endif //ALGORITHMICPROGRAMMING2_MATRIX_H

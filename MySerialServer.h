@@ -14,7 +14,7 @@
 
 #include "Server.h"
 
-class MySerialServer : public Server {
+ class MySerialServer : public server_side::Server {
  private:
     int sockfd = -1;
     bool done = false;
