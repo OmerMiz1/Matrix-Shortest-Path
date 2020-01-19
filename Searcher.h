@@ -17,8 +17,6 @@ template<typename P, typename S>
 class Searcher {
  public:
     virtual S search(Searchable<P>)=0;
-    virtual
-
 };
 
 #endif //ALGORITHMICPROGRAMMING2__SEARCHER_H_
