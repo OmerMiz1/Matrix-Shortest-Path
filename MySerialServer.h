@@ -13,7 +13,8 @@
 #include <thread>
 
 #include "Server.h"
-
+using namespace std;
+using namespace server_side;
  class MySerialServer : public server_side::Server {
  private:
     int sockfd = -1;

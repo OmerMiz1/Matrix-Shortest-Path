@@ -15,12 +15,13 @@ using namespace std;
 template<typename P, typename S>
 class CacheManager {
  public:
-    /* TODO: Hashing to string should be done here? on in implementations?*/
     virtual void insert(P problem, S solution)=0;
     virtual bool contains(P given_problem)=0;
     virtual S get(P problem)=0;
 };
 
-template class CacheManager<string,string>;
+/*TODO: if doesnt work without declaration of CacheManager<Searchable<P>, list<State<P>>
+ * just add explicit declaration*/
+
 
 #endif //ALGORITHMICPROGRAMMING2__CACHEMANAGER_H_

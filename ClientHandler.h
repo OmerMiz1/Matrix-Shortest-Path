@@ -5,10 +5,13 @@
 #ifndef ALGORITHMICPROGRAMMING2__CLIENTHANDLER_H_
 #define ALGORITHMICPROGRAMMING2__CLIENTHANDLER_H_
 
+#include "Cloneable.h"
+
 /*Interface*/
-class ClientHandler {
+
+class ClientHandler : virtual Cloneable<ClientHandler> {
  public:
-    virtual void handleClient(int client_socketfd)=0; /* Not sure about the return value */
+    virtual void handleClient(int client_socketfd)=0;
 };
 
 #endif //ALGORITHMICPROGRAMMING2__CLIENTHANDLER_H_

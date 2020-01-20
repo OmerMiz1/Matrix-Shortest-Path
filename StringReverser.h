@@ -13,11 +13,11 @@
 
 using namespace std;
 
-class StringReverser : public Solver<string,string> {
- private:
-
+template<class P, class S>
+class StringReverser : public Solver<P,S> {
  public:
-    string solve(string problem) override;
+    S solve(P problem) override;
+    Solver<P,S> clone() const override;
 };
 
 #endif //ALGORITHMICPROGRAMMING2__STRINGREVERSER_H_

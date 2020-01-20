@@ -8,7 +8,8 @@
  * Returns the initial state
  * @return the initial state
  */
-State<Point> SearchableMatrix::getInitialState() {
+ template <class P>
+Vertex SearchableMatrix<P>::getInitialState() {
     return (*this->initial_state);
 }
 
@@ -17,7 +18,8 @@ State<Point> SearchableMatrix::getInitialState() {
  * @param state the state we want to check
  * @return true - if the given state is the goal state, false - otherwises
  */
-bool SearchableMatrix::isGoalState(State<Point> state) {
+template <class P>
+bool SearchableMatrix<P>::isGoalState(Vertex state) {
     return state == (*goal_state);
 }
 
@@ -26,10 +28,11 @@ bool SearchableMatrix::isGoalState(State<Point> state) {
   * @param state the state you get from
   * @return a list of all of the the given state neighbors
   */
-list<State<Point>> SearchableMatrix::getAllPossibleStates(State<Point> state) {
-    list<State<Point>> statesList;
+template <class P>
+list<Vertex> SearchableMatrix<P>::getAllPossibleStates(Vertex state) {
+    list<Vertex> statesList;
 
-    State<Point>* temp = this->getAbove(state);
+    Vertex* temp = this->getAbove(state);
     if (temp != nullptr) {
         temp->setPrev(state);
         statesList.push_back(*temp);
@@ -57,13 +60,20 @@ list<State<Point>> SearchableMatrix::getAllPossibleStates(State<Point> state) {
  * @param curr_state the given state
  * @return the states above the give state, null - if doesn't exist
  */
-State<Point>* SearchableMatrix::getAbove(State<Point> curr_state) {
-    int upX = curr_state.getState()->getX();
-    int upY = curr_state.getState()->getY() - 1;
+template <class P>
+State<P>* SearchableMatrix<P>::getAbove(State<P> curr_state) {
+    int upX = curr_state.getState().getX();
+    int upY = curr_state.getState().getY() - 1;
     if (this->isValidCellInMatrix(upX, upY)) {
         return &(this->matrix[upX][upY]);
     }
     return nullptr;
+    /*TODO: When using vector's implmentation...
+     *try {
+        return this->matrix.at(upX).at(upY);
+    } catch (const char *e) {
+        return nullptr;
+    }*/
 }
 
 /**
@@ -71,7 +81,8 @@ State<Point>* SearchableMatrix::getAbove(State<Point> curr_state) {
  * @param curr_state the given state
  * @return the states below the give state, null - if doesn't exist
  */
-State<Point>* SearchableMatrix::getBelow(State<Point> curr_state)  {
+template <class P>
+State<P>* SearchableMatrix<P>::getBelow(State<P> curr_state)  {
     int downX = curr_state.getState()->getX();
     int downY = curr_state.getState()->getY() + 1;
     if (this->isValidCellInMatrix(downX, downY)) {
@@ -85,7 +96,8 @@ State<Point>* SearchableMatrix::getBelow(State<Point> curr_state)  {
  * @param curr_state the given state
  * @return the states that's to the left of the give state, null - if doesn't exist
  */
-State<Point>* SearchableMatrix::getLeft(State<Point> curr_state) {
+template <class P>
+State<P>* SearchableMatrix<P>::getLeft(State<P> curr_state) {
     int leftX = curr_state.getState()->getX() - 1;
     int leftY = curr_state.getState()->getY();
     if (this->isValidCellInMatrix(leftX, leftY)) {
@@ -99,7 +111,8 @@ State<Point>* SearchableMatrix::getLeft(State<Point> curr_state) {
  * @param curr_state the given state
  * @return the states that's to the right of the give state, null - if doesn't exist
  */
-State<Point>* SearchableMatrix::getRight(State<Point> curr_state) {
+template <class P>
+State<P>* SearchableMatrix<P>::getRight(State<P> curr_state) {
     int rightX = curr_state.getState()->getX() + 1;
     int rightY = curr_state.getState()->getY();
     if (this->isValidCellInMatrix(rightX, rightY)) {
@@ -114,9 +127,11 @@ State<Point>* SearchableMatrix::getRight(State<Point> curr_state) {
  * @param y the y coordinate
  * @return true - if the coordinate are in the matrix, false - otherwise
  */
-bool SearchableMatrix::isValidCellInMatrix(int x, int y) {
-    if (x >= 0 && x <= this->rows_count - 1) {
-        if (y >= 0 && y <= this->columns_count) {
+template <class P>
+bool SearchableMatrix<P>::isValidCellInMatrix(int x, int y) {
+    /*TODO: why do i see the comparison operatos as overridden?*/
+    if (x >= 0 && x <= Matrix::getRowsCount() - 1) {
+        if (y >= 0 && y <= Matrix::getColsCount()) {
             return true;
         }
     }
@@ -127,7 +142,8 @@ bool SearchableMatrix::isValidCellInMatrix(int x, int y) {
  *
  * @param row vector of Vertices.
  */
-void SearchableMatrix::addRow(vector<Vertex>* row) {
+template <class P>
+void SearchableMatrix<P>::addRow(vector<Vertex>* row) {
     Matrix<Vertex>::addRow(row);
 }
 
@@ -135,16 +151,18 @@ void SearchableMatrix::addRow(vector<Vertex>* row) {
  *
  * @param row_index
  */
-void SearchableMatrix::removeRow(int row_index) {
+template <class P>
+void SearchableMatrix<P>::removeRow(int row_index) {
     Matrix::removeRow(row_index);
 }
 
 /** Get cell state given point.
- *
+ *  NOTE: P is'nt a point, its an inner state of State<P>, (its the P).
  * @param point
  * @return
  */
-State<Point> *SearchableMatrix::getCell(Point *point) {
+template <class P>
+State<P> *SearchableMatrix<P>::getCell(P *point) {
     return (this->getCell(point->getX(), point->getY()));
 }
 
@@ -154,9 +172,10 @@ State<Point> *SearchableMatrix::getCell(Point *point) {
  * @param y
  * @return
  */
-State<Point> *SearchableMatrix::getCell(int x, int y) {
+template <class P>
+State<P> *SearchableMatrix<P>::getCell(int x, int y) {
     try {
-        return &this->matrix.at(x).at(y);
+        return Matrix::getCell(x,y);
     } catch (const char* e) {
         perror("getCell");
         perror(e);
@@ -169,7 +188,8 @@ State<Point> *SearchableMatrix::getCell(int x, int y) {
  *
  * @param initial_point
  */
-void SearchableMatrix::setInitialState(Point *initial_point) {
+template <class P>
+void SearchableMatrix<P>::setInitialState(P *initial_point) {
     if(this->initial_state != nullptr) {
         this->initial_state = this->getCell(initial_point);
     }
@@ -179,7 +199,8 @@ void SearchableMatrix::setInitialState(Point *initial_point) {
  * TODO: Potential bug: initial_state was deleted and then its possible to set it.
  * @param goal_point
  */
-void  SearchableMatrix::setGoalState(Point *goal_point) {
+template <class P>
+void  SearchableMatrix<P>::setGoalState(P *goal_point) {
     if(this->goal_state != nullptr) {
         this->goal_state = this->getCell(goal_point);
     }

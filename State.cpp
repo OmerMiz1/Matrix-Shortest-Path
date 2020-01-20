@@ -94,13 +94,24 @@ void State<T>::setPrev(State<T> prev) {
 
 template<class T>
 State<T> State<T>::clone() const {
-    return State<T>(dynamic_cast<Cloneable<T>>(myState).clone());
+    State<T> cur = *this, prev = this->prev_state; /*TODO: Removed State<T>(T*) CTOR, usages pointed to this line only.*/
+    list<State<T>> path;
+
+    path.push_front(cur);
+    while(prev != nullptr) {
+        path.push_front(prev);
+        cur = prev;
+        prev = cur.prev_state;
+    }
+
+    return State<T>(dynamic_cast<Cloneable<T>>(myState).clone(), this->cost, this->prev_state->clone());
 }
 
 template<class T>
 list<State<T>> State<T>::backtrace() const {
     list<State<T>> backtrace_path;
 
+    /*Iterates till the end of the path by using prev_state.*/
     for(State<T> cur_front = this->clone(); cur_front != nullptr; cur_front = cur_front.prev_state->clone()) {
         backtrace_path.push_front(cur_front);
     }

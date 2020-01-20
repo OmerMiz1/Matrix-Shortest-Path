@@ -2,18 +2,18 @@
 // Created by omer on 19/01/2020.
 //
 
-#include "SearcheableBuilder.h"
+#include "SearchableBuilder.h"
 
-template <class P, class S>
-Searchable<P>* SearcheableBuilder<P,S>::buildMatrix(list<string> data) {
-    auto sMatrix = new SearchableMatrix;
+template <class P>
+Searchable<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
+    auto sMatrix = new SearchableMatrix<P>;
     Point *initial, *goal;
     int row_index=0, col_index=0;
     regex intRx("(-?\\d+)");
 
     auto it = data.rbegin();
-    /*Double check "goal" didnt sneak in*/
-    if(!it->compare("goal")) {
+    /*Double check "end" didnt sneak in*/
+    if(!it->compare("end")) {
         ++it;
         data.pop_back();
     }
@@ -30,7 +30,7 @@ Searchable<P>* SearcheableBuilder<P,S>::buildMatrix(list<string> data) {
     /*Iterates data list. Each string represents a ROW in the matrix*/
     for(auto row_iter = data.begin(); row_iter != data.end(); ++row_iter, ++row_index, col_index=0) {
         auto row = new vector<Vertex>;
-        int cost;
+        double cost;
 
         /*Regex iterators to match each integer in parsed string*/
         auto start = sregex_iterator(row_iter->begin(), row_iter->end(), intRx);
@@ -40,7 +40,7 @@ Searchable<P>* SearcheableBuilder<P,S>::buildMatrix(list<string> data) {
         for (sregex_iterator cols_iter = start; cols_iter != end; ++cols_iter, ++col_index) {
             string cost_str = cols_iter->str();
             try {
-                cost = stoi(cost_str);
+                cost = stol(cost_str);
             } catch (const char* e) {
                 perror("buildMatrix");
                 perror(e);
@@ -66,8 +66,8 @@ Searchable<P>* SearcheableBuilder<P,S>::buildMatrix(list<string> data) {
  * @param state_str
  * @return
  */
- template <class P, class S>
-P* SearcheableBuilder<P,S>::buildMatrixState(string state_str) {
+template <class P>
+P* SearchableBuilder<P>::buildMatrixState(string state_str) {
     regex intRx("(-?\\d+)");
     smatch matches;
     int x, y;
@@ -84,7 +84,7 @@ P* SearcheableBuilder<P,S>::buildMatrixState(string state_str) {
     return new Point(x,y);
 }
 
-/** Returns a Vertex which is State<Point>.
+/** Cell in our case is a State<P>, a point with cost.
  *  NOTE: prev should be nullptr as for now.
  *
  * @param row index
@@ -93,9 +93,12 @@ P* SearcheableBuilder<P,S>::buildMatrixState(string state_str) {
  * @param prev should be null ptr
  * @return
  */
- template <class P, class S>
-State<P> SearcheableBuilder<P,S>::buildMatrixCell(int row, int col, int cost, Vertex *prev) {
-    auto cur_cell = new Point(row, col);
+template <class P>
+State<P> SearchableBuilder<P>::buildMatrixCell(int row, int col, double cost, Vertex *prev) {
+    /*TODO next assignments, need to find better solution for this generic type
+     * P C'TOR. maybe make sure p has a specific C'TOR, can use strings and builder
+     * DP*/
+    auto cur_cell = new P(row, col);
     return Vertex(cur_cell, cost, prev);
 }
 

@@ -15,19 +15,21 @@
 #include <mutex>
 
 #include "Server.h"
+using namespace std;
+using namespace server_side;
 
- class MyParallelServer : public server_side::Server{
+class MyParallelServer : public server_side::Server{
  private:
     int sockfd = -1;
     bool done = false;
     sockaddr_in address{};
     list<thread> threads;
+    void joinAllThreads();
+    void start(ClientHandler* handler);
 
  public:
     int open(int port, ClientHandler *handler) override;
     void stop() override;
-    void start(int port, ClientHandler* handler);
-    void joinAllThreads();
 };
 
 #endif //ALGORITHMICPROGRAMMING2__MYPARALLELSERVER_H_

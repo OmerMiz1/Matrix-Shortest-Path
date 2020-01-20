@@ -28,7 +28,7 @@ Matrix<T>::~Matrix() {
     delete(this->matrix);
 }*/
 
-/**
+/** Might throw exception?
  * Returns a certain cell of the matrix
  * @param x the x coordinate of the cell
  * @param y the y coordinate of the cell

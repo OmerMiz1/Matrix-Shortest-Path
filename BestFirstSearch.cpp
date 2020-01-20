@@ -4,26 +4,28 @@
 
 #include <set>
 #include <iostream>
+
 #include "HashPriorityQueue.h"
 #include "BestFirstSearch.h"
 
 using namespace std;
 
-template<typename P, typename S>
-S BestFirstSearch<P, S>::solve(P problem) {
-    return nullptr;
-}
-
-template<>
-list<Vertex> BestFirstSearch<Searchable<Point>,list<Vertex>>::solve(Searchable<Point> problem) {
+/**
+ *
+ * @tparam P
+ * @param problem
+ * @return
+ */
+template <class P>
+list<Vertex> BestFirstSearch<P>::search(Searchable<P> problem) {
     cout<<"Started BestFirstSearch"<<endl;
-    HashPriorityQueue<Point> open;
-    set<Vertex, State<Point>::positionComparator> closed;
+    HashPriorityQueue<P> open;
+    set<Vertex, /*class*/Vertex::positionComparator> closed; /*TODO: bring "class" back if doesnt compile.*/
     open.insert(problem.getInitialState());
     while (!open.empty()) {
         this->evaluatedNodesCount++;
         // n <- dequeue open
-        State<Point> n = open.topAndPop();
+        Vertex n = open.topAndPop();
         cout<<"Before: "<<closed.count(n)<<endl;
         // add n to closed
         closed.insert(n);

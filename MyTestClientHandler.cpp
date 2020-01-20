@@ -4,50 +4,45 @@
 
 #define MAX_CHARS 1024
 #define END_CONNECTION_REQUEST "end"
-#define ERROR_READING nullptr
 
 #include "MyTestClientHandler.h"
 
-
-MyTestClientHandler::MyTestClientHandler(Solver<string, string> *solverObj,
-                                         CacheManager<string, string> *cacheObj)
+template<class P, class S>
+MyTestClientHandler<P,S>::MyTestClientHandler(Solver<P, S> *solverObj,
+                                         CacheManager<P, S> *cacheObj)
     : solver(solverObj), cache(cacheObj) {}
+
 /**
  *
  * @param client_socketfd
  * @return
  */
-void MyTestClientHandler::handleClient(int client_socketfd) {
-    int bytes_read = 0, result_count=0;
+template<class P, class S>
+void MyTestClientHandler<P,S>::handleClient(int client_socketfd) {
     string *message, result;
-    ssize_t sent_status;
-    SearcheableBuilder* s = new SearcheableBuilder();
+    auto s = new SearchableBuilder<P>();
     /*Assuming client send 1 message, read it until the end and then handle*/
     while (1) {
         message = readMessageFromClient(client_socketfd);
-
         if (message == nullptr) {
             perror("handleClient#1");
             return;
         }
-
         /*Client requested to end connection*/
         else if (!message->compare(END_CONNECTION_REQUEST)) {
-            cout<<"Closing connection: \"end\" received..."<< endl;
-            return;
+            break;
         }
 
         /*Solve problem and send to client*/
         result = this->solver->solve(*message);
-
         if (send(client_socketfd, result.c_str(), result.size(), 0) == -1) {
             perror("handleClient#2");
             return;
         }
     }
 }
-
-string* MyTestClientHandler::readMessageFromClient(int client_socketfd) {
+template<class P, class S>
+string* MyTestClientHandler<P,S>::readMessageFromClient(int client_socketfd) {
     /*Clear to avoid garbage*/
     int bytes_read = 0;
 
@@ -69,4 +64,9 @@ string* MyTestClientHandler::readMessageFromClient(int client_socketfd) {
     /*Also error, shouldnt get here.*/
     perror("readMessageFromClient#2");
     return nullptr;
+}
+
+template<class P, class S>
+ClientHandler<P,S> MyTestClientHandler<P,S>::clone() const {
+    return MyTestClientHandler(solver->clone(), cache->clone());
 }

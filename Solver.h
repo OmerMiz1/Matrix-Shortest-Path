@@ -6,7 +6,7 @@
 #define ALGORITHMICPROGRAMMING2__SOLVER_H_
 
 template <typename P, typename S>
-class Solver {
+class Solver : Cloneable<Solver<P,S>> {
  public:
     virtual S solve(P problem)=0;
 };

@@ -11,6 +11,8 @@ namespace server_side {
 
     namespace boot {
         class Main;
+        class SerialTester;
+        class ParallelTester;
     }
 }
 

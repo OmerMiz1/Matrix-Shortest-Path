@@ -4,8 +4,9 @@
 
 #include "StringReverser.h"
 
-string StringReverser::solve(string problem) {
-    string problem_reversed;
+template<class P, class S>
+S StringReverser<P, S>::solve(P problem) {
+    P problem_reversed;
 
     /*Empty word or 1 char, nothing is need to be done*/
     if(problem.length() <= 1) {
@@ -19,6 +20,10 @@ string StringReverser::solve(string problem) {
     for(auto it = problem.rbegin(); it != problem.rend(); ++it) {
         problem_reversed.push_back(*it);
     }
-
     return problem_reversed.append("\n");
+}
+
+template<class P, class S>
+Solver<P, S> StringReverser<P, S>::clone() const {
+    return Solver<P, S>();
 }

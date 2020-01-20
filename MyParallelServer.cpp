@@ -31,7 +31,8 @@ int MyParallelServer::open(int port, ClientHandler *handler) {
     FD_ZERO(&fdset);
     FD_SET(sockfd, &fdset);
 
-    /*// Forcefully attaching socket to the port 8080
+    /* TODO: remove before submitting.
+     * // Forcefully attaching socket to the port 8080
     int opt = 1;
     if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,&opt, sizeof(opt))) {
         perror("setsockopt");
@@ -65,18 +66,24 @@ int MyParallelServer::open(int port, ClientHandler *handler) {
     }
 
     /*Start infinite loop that handles clients.*/
-    start(port, handler);
+    start(handler);
 
     /*Clean exit, open ran successfully*/
     close(sockfd);
     return 0;
 }
+
 void MyParallelServer::stop() {
     this->done = true;
 }
 
-/*TODO: add mutexes to handlers? to handleClient()? how????*/
-void MyParallelServer::start(int port, ClientHandler *handler) {
+/** Starts listening to port and accepting clients.
+ * Each client will be handled in its own thread.
+ *
+ * @param port listening port.
+ * @param handler injected handler to be used.
+ */
+void MyParallelServer::start(ClientHandler *handler) {
     int accepted_count = 0;
     socklen_t addr_len;
 
@@ -95,7 +102,7 @@ void MyParallelServer::start(int port, ClientHandler *handler) {
         /*SELECT FROM QUEUE*/
         int select_status = select(this->sockfd+1, &fdset, nullptr, nullptr, &tv);
         if (select_status <= 0) {
-            cout<<("Server time-out...")<<endl;
+            cout<<("Server timed-out...")<<endl;
             this->done = true;
             break;
         }
@@ -115,20 +122,19 @@ void MyParallelServer::start(int port, ClientHandler *handler) {
         ++accepted_count; /*TODO: debug*/
         cout<<"Server: client #" <<accepted_count<<" accepted..."<<endl;
         this->threads.emplace_back(thread(&ClientHandler::handleClient, handler, client_socket));
-    }
-
+    } // End of while, server is done listening.
     joinAllThreads();
 
     /*Error closing socket*/
     if(close(sockfd)==-1) {
         perror("parallel_start#3");
+        return;
     }
     cout<<"Server closed successfully..."<<endl;
-
 }
 
-/** Join all threads before closing server (possibly after time-out, error, etc)
- *
+/** Join all threads before closing server
+ * (possibly after time-out, error, etc...).
  */
 void MyParallelServer::joinAllThreads() {
     for(auto& t : this->threads) {

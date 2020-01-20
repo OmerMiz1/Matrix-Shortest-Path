@@ -12,31 +12,37 @@
 #include "Point.h"
 #include "Searchable.h"
 #include "Matrix.h"
+//#include "SearchableBuilder.h"
 
-class SearchableMatrix : public Searchable<Point>, public Matrix<State<Point>> {
+template <class P>
+class SearchableMatrix : public Searchable<P>, public Matrix<Vertex> {
  private:
-    State<Point> *initial_state = nullptr;
-    State<Point> *goal_state;
+    /*Allows SearchableBuilder::buildMatrix to use setters.*/
+    template<P>
+    friend class SearchableBuilder;
 
-    State<Point>* getAbove(State<Point> state);
-    State<Point>* getBelow(State<Point> state);
-    State<Point>* getLeft(State<Point> state);
-    State<Point>* getRight(State<Point> state);
+    Vertex *initial_state = nullptr;
+    Vertex *goal_state = nullptr;
+
+    State<P>* getAbove(State<P> state);
+    State<P>* getBelow(State<P> state);
+    State<P>* getLeft(State<P> state);
+    State<P>* getRight(State<P> state);
+
+    void addRow(vector<Vertex>*) override;
+    void removeRow(int) override;
+    void setInitialState(P* initial_point);
+    void setGoalState(P* goal_point);
+
+    /*TODO: Maybe using vector's regular at() is faster?*/
     bool isValidCellInMatrix(int x, int y);
 
  public:
-    State<Point> getInitialState() override;
-    bool isGoalState(State<Point> state) override;
-    list<State<Point>> getAllPossibleStates(State<Point> state) override;
-    State<Point>* getCell(Point*);
-    State<Point>* getCell(int, int) override;
-
-    /*TODO: AddRow and RemoveRow shouldnt be public! BANDAGE!*/
-    void addRow(vector<Vertex>*) override;
-    void removeRow(int) override;
-    void setInitialState(Point* initial_point);
-    void setGoalState(Point* goal_point);
+    Vertex getInitialState() override;
+    bool isGoalState(Vertex state) override;
+    list<Vertex> getAllPossibleStates(Vertex state) override;
+    State<P>* getCell(P*);
+    State<P>* getCell(int, int) override;
 };
-
 
 #endif //ALGORITHMICPROGRAMMING2_SEARCHABLEMATRIX_H

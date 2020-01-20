@@ -7,25 +7,19 @@
 
 #include "Solver.h"
 #include "State.h"
-#include "Searchable.h"
 #include "Point.h"
+#include "Searchable.h"
+#include "BestFirstSearch.h"
 
 #include <list>
 #include <climits>
 
 /*Object Adapter*/
 template <typename P, typename S>
-class MatrixShortestPaths : public Solver<P, S> {
- private:
-    list<Vertex> shortest_path;
-    long path_cost = INT_MAX;
-
-    /*TODO: not really in use*/
-    void calculatePathCost();
-
+class MatrixShortestPaths : public Solver<Searchable<P>, list<Searchable<P>>> {
  public:
-    list<Vertex> solve(Searchable<Point> sMatrix) override;
-
+    S solve(Searchable<P> sMatrix) override;
+    Solver<Searchable<P>, S> clone() const override;
 };
 
 #endif //ALGORITHMICPROGRAMMING2__MATRIXSHORTESTPATHS_H_
