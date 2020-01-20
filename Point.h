@@ -16,8 +16,7 @@ public:
     bool operator<(Point* other);
     int getX();
     int getY();
- private:
-    Point clone() const override;
+    Point* clone() const override;
 };
 
 

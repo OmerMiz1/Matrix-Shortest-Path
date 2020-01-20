@@ -10,7 +10,7 @@
 #include "State.h"
 #include "Searchable.h"
 
-using namespace std;
+;using namespace std;
 
 /*Interface*/
 template<typename P, typename S>

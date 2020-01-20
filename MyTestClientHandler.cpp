@@ -65,8 +65,8 @@ string* MyTestClientHandler<P,S>::readMessageFromClient(int client_socketfd) {
     perror("readMessageFromClient#2");
     return nullptr;
 }
-
 template<class P, class S>
-ClientHandler<P,S> MyTestClientHandler<P,S>::clone() const {
-    return MyTestClientHandler(solver->clone(), cache->clone());
+MyTestClientHandler<P,S> *MyTestClientHandler<P, S>::clone() const {
+    return new MyTestClientHandler<P,S>(solver->clone(), cache->clone());
 }
+

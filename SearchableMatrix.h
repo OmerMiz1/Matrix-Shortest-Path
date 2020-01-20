@@ -15,21 +15,21 @@
 //#include "SearchableBuilder.h"
 
 template <class P>
-class SearchableMatrix : public Searchable<P>, public Matrix<Vertex> {
+class SearchableMatrix : public Searchable<P>, public Matrix<State<P>> {
  private:
     /*Allows SearchableBuilder::buildMatrix to use setters.*/
-    template<P>
+    template<typename S>
     friend class SearchableBuilder;
 
-    Vertex *initial_state = nullptr;
-    Vertex *goal_state = nullptr;
+    State<P> *initial_state = nullptr;
+    State<P> *goal_state = nullptr;
 
     State<P>* getAbove(State<P> state);
     State<P>* getBelow(State<P> state);
     State<P>* getLeft(State<P> state);
     State<P>* getRight(State<P> state);
 
-    void addRow(vector<Vertex>*) override;
+    void addRow(vector<State<P>>*) override;
     void removeRow(int) override;
     void setInitialState(P* initial_point);
     void setGoalState(P* goal_point);
@@ -38,11 +38,13 @@ class SearchableMatrix : public Searchable<P>, public Matrix<Vertex> {
     bool isValidCellInMatrix(int x, int y);
 
  public:
-    Vertex getInitialState() override;
-    bool isGoalState(Vertex state) override;
-    list<Vertex> getAllPossibleStates(Vertex state) override;
-    State<P>* getCell(P*);
+    State<P> getInitialState() override;
+    bool isGoalState(State<P> state) override;
+    list<State<P>> getAllPossibleStates(State<P> state) override;
     State<P>* getCell(int, int) override;
+    State<P>* getCell(P*);
 };
+
+template class SearchableMatrix<State<Point>>;
 
 #endif //ALGORITHMICPROGRAMMING2_SEARCHABLEMATRIX_H

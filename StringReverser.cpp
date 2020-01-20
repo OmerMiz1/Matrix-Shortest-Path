@@ -4,7 +4,7 @@
 
 #include "StringReverser.h"
 
-template<class P, class S>
+;template<class P, class S>
 S StringReverser<P, S>::solve(P problem) {
     P problem_reversed;
 
@@ -24,6 +24,6 @@ S StringReverser<P, S>::solve(P problem) {
 }
 
 template<class P, class S>
-Solver<P, S> StringReverser<P, S>::clone() const {
-    return Solver<P, S>();
+StringReverser<P, S>* StringReverser<P, S>::clone() const {
+    return new StringReverser<P, S>();
 }

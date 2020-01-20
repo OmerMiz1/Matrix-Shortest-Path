@@ -21,7 +21,6 @@
 #include "MatrixShortestPaths.h"
 
 using namespace std;
-/*
 
 class server_side::boot::Main {
  public:
@@ -39,7 +38,6 @@ class server_side::boot::Main {
         return 0;
     }
 };
-*/
 
 class server_side::boot::SerialTester {
  public:

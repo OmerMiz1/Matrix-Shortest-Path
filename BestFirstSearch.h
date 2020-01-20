@@ -7,15 +7,15 @@
 
 #include "Searcher.h"
 #include "Searchable.h"
-#include "State.h"
+#include "State.h"/*list<State<P>>*/
 
-template <class P>
-class BestFirstSearch : public Searcher<P ,list<Vertex>> {
+template <class P, class S>
+class BestFirstSearch : public Searcher<Searchable<P> ,S> {
 private:
     int evaluatedNodesCount = 0;
 
 public:
-    list<Vertex> search(Searchable<P> problem) override;
+    S search(P problem) override;
 };
 
 #endif //ALGORITHMICPROGRAMMING2_BESTFIRSTSEARCH_H

@@ -83,7 +83,7 @@ string MyClientHandler<P,S>::readMessageFromClient(int client_socketfd) {
 }
 
 template<class P, class S>
-ClientHandler MyClientHandler<P, S>::clone() const {
-    return MyClientHandler<P,S>(my_solver->clone(), my_cache->clone());
+MyClientHandler<P,S>* MyClientHandler<P, S>::clone() const {
+    return new MyClientHandler<P,S>(my_solver->clone(), my_cache->clone());
 
 }

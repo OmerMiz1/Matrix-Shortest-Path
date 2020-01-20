@@ -78,8 +78,10 @@ void Matrix<T>::addRow(vector<T>* new_row) {
  */
 template<typename T>
 void Matrix<T>::removeRow(int row_num) {
-    auto toRemoveIter = find(this->matrix.begin(), this->matrix.end(), row_num);
-    this->matrix.erase(toRemoveIter);
+    auto startIt = this->matrix.at(row_num).begin();
+    auto endIt = this->matrix.at(row_num).end();
+
+    this->matrix.at(row_num).erase(startIt, endIt);
     this->rows_count--;
 }
 

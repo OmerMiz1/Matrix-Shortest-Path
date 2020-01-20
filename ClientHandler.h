@@ -9,7 +9,7 @@
 
 /*Interface*/
 
-class ClientHandler : virtual Cloneable<ClientHandler> {
+class ClientHandler : virtual public Cloneable<ClientHandler> {
  public:
     virtual void handleClient(int client_socketfd)=0;
 };

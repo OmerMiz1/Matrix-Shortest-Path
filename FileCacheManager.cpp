@@ -117,3 +117,8 @@ void FileCacheManager<P, S>::removeLRU() {
     cacheMap->erase(problem);
     cacheList->erase(pointer);
 }
+
+template<typename P, typename S>
+FileCacheManager<P, S>* FileCacheManager<P, S>::clone() const {
+    return new FileCacheManager<P, S>(capacity);
+}

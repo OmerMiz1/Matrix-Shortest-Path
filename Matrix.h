@@ -15,9 +15,7 @@ using namespace std;
 
 template<typename T>
 class Matrix {
-
  protected:
-    friend class SearcableBuilder;
     int rows_count;
     int columns_count;
     vector<vector<T>> matrix;
@@ -28,14 +26,12 @@ class Matrix {
      *void removeCol(int*/
 
  public:
-    /*Matrix(int rows, int columns);*/
-    virtual /*~Matrix();*/
-    const T *getCell(int x, int y);
+    virtual const T *getCell(int x, int y);
     int getRowsCount();
     int getColsCount();
 };
 
-template
-class Matrix<Vertex>;
+template class Matrix<State<Point>>;
 
 #endif //ALGORITHMICPROGRAMMING2_MATRIX_H
+

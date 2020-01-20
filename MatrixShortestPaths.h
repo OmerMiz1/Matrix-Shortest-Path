@@ -16,10 +16,11 @@
 
 /*Object Adapter*/
 template <typename P, typename S>
-class MatrixShortestPaths : public Solver<Searchable<P>, list<Searchable<P>>> {
+class MatrixShortestPaths : public Solver<Searchable<P>, S> {
  public:
     S solve(Searchable<P> sMatrix) override;
-    Solver<Searchable<P>, S> clone() const override;
+    MatrixShortestPaths<P, S> *clone() const override;
 };
 
+template class MatrixShortestPaths<State<Point>, list<State<Point>>>;
 #endif //ALGORITHMICPROGRAMMING2__MATRIXSHORTESTPATHS_H_

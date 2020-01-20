@@ -29,7 +29,7 @@ class MyClientHandler : ClientHandler {
  public:
     MyClientHandler(Solver<P,S> solver, CacheManager<P,S> cache);
     void handleClient(int client_socketfd) override;
-    ClientHandler clone() const override;
+    MyClientHandler* clone() const override;
 };
 
 #endif //ALGORITHMICPROGRAMMING2__MYCLIENTHANDLER_H_

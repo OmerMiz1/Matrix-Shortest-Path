@@ -27,12 +27,14 @@ public:
     void insert(P problem, S solution);
     bool contains(P given_problem);
     S get(P problem);
+    FileCacheManager<P,S>* clone() const override;
 
 private:
     void writeToFile(P, S);
     void updateFile(P, S);
     bool tryToReadFromFile(P);
     void removeLRU();
+
 };
 
 template class FileCacheManager<string,string>;

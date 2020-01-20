@@ -16,16 +16,16 @@ using namespace std;
  * @param problem
  * @return
  */
-template <class P>
-list<Vertex> BestFirstSearch<P>::search(Searchable<P> problem) {
+template <class P, class S>
+S BestFirstSearch<P,S>::search(P problem) {
     cout<<"Started BestFirstSearch"<<endl;
     HashPriorityQueue<P> open;
-    set<Vertex, /*class*/Vertex::positionComparator> closed; /*TODO: bring "class" back if doesnt compile.*/
+    set<State<P>, typename State<P>::positionComparator> closed; /*TODO: brought "typename" back, not sure if its good.*/
     open.insert(problem.getInitialState());
     while (!open.empty()) {
         this->evaluatedNodesCount++;
         // n <- dequeue open
-        Vertex n = open.topAndPop();
+        State<P> n = open.topAndPop();
         cout<<"Before: "<<closed.count(n)<<endl;
         // add n to closed
         closed.insert(n);
@@ -33,9 +33,8 @@ list<Vertex> BestFirstSearch<P>::search(Searchable<P> problem) {
         // if n is the goal state
         if (problem.isGoalState(n)) {
             cout<<"Found the goal state"<<endl;
-            list<Vertex> backtrace;
             //backtrace the route that got you to n and return it as list
-            return n.backtrace();
+            return n;
         }
         // creates n's successors
         auto successors = problem.getAllPossibleStates(n);
@@ -48,7 +47,7 @@ list<Vertex> BestFirstSearch<P>::search(Searchable<P> problem) {
             // if in closed or in open
             } else {
                 // get the vertex himself
-                Vertex before;
+                State<P> before;
                 if (open.contains(s)) {
                     before = open.find(s);
                 } else {
