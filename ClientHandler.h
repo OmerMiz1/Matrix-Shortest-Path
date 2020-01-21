@@ -8,7 +8,6 @@
 #include "Cloneable.h"
 
 /*Interface*/
-
 class ClientHandler : virtual public Cloneable<ClientHandler> {
  public:
     virtual void handleClient(int client_socketfd)=0;

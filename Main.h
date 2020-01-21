@@ -18,7 +18,7 @@
 #include "MyParallelServer.h"
 #include "FileCacheManager.h"
 #include "StringReverser.h"
-#include "MatrixShortestPaths.h"
+#include "SearchSolver.h"
 
 using namespace std;
 
@@ -30,11 +30,13 @@ class server_side::boot::Main {
             exit(EXIT_FAILURE);
         }
         int port = stoi(argv[1]);
-        auto solver = new MatrixShortestPaths<State<Point>, list<State<Point>>>;
-        auto cache = new FileCacheManager    <State<Point>, list<State<Point>>>(CACHE_CAPACITY);
-        auto handler = new MyClientHandler   <State<Point>, list<State<Point>>>(solver, cache);
-        server_side::Server *mss = new MyParallelServer();
-        mss->open(port, handler);
+        /*Solver<State<Point>, list<State<Point>>>* solver = new SearchSolver<State<Point>>();
+         * MyClientHandler<Searchable<State<Point>>,list<State<Point>>>* handler = new MyClientHandler(solver, cache);*/
+        SearchSolver<State<Point>> *solver;
+        FileCacheManager <State<Point>, list<State<Point>>> *cache;
+        MyClientHandler<Searchable<State<Point>>, list<State<Point>>> *handler;
+        MyParallelServer mps;
+        mps.open(port, handler);
         return 0;
     }
 };

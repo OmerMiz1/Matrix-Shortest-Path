@@ -17,10 +17,11 @@ using namespace std;
  * @return
  */
 template <class P, class S>
-S BestFirstSearch<P,S>::search(P problem) {
+S BestFirstSearch<P,S>::search(Searchable<P> problem) {
     cout<<"Started BestFirstSearch"<<endl;
     HashPriorityQueue<P> open;
-    set<State<P>, typename State<P>::positionComparator> closed; /*TODO: brought "typename" back, not sure if its good.*/
+    /*TODO: brought "typename" back, not sure if its good.*/
+    set<State<P>, typename State<P>::positionComparator> closed;
     open.insert(problem.getInitialState());
     while (!open.empty()) {
         this->evaluatedNodesCount++;

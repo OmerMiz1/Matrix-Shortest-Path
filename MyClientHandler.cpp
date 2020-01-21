@@ -30,6 +30,7 @@ template <class P, class S>
 void MyClientHandler<P,S>::handleClient(int client_socketfd) {
     list<string> recieved_data;
     string cur_line,result;
+    S solution;
 
     while (1) {
         cur_line = readMessageFromClient(client_socketfd);
@@ -44,9 +45,15 @@ void MyClientHandler<P,S>::handleClient(int client_socketfd) {
         recieved_data.push_back(cur_line);
     }
 
-    SearchableBuilder<P> s_builder{};
-    Searchable<P> problem = s_builder.buildMatrix();
-    list<Searchable<P>> solution = this->solver.solve(problem);
+    P problem = buildProblem(recieved_data);
+    if(!(my_cache->contains(problem))) {
+        solution = my_solver->solve(problem);
+        my_cache->insert(problem,solution);
+    } else {
+        solution = my_cache->get(problem);
+    }
+
+    /*TODO: print solution (S should be printable)*/
 
     if (send(client_socketfd, result.c_str(), result.size(), 0) == -1) {
         perror("handleClient#2");
@@ -87,3 +94,14 @@ MyClientHandler<P,S>* MyClientHandler<P, S>::clone() const {
     return new MyClientHandler<P,S>(my_solver->clone(), my_cache->clone());
 
 }
+
+template<class P, class S>
+P* MyClientHandler<P,S>::buildProblem(list<string> data) {
+    /*TODO pretty sure its incorrect here, but it builds. Sound weird that P is
+     * Searchable<State<Point>> and it also asks Searchable builder to be of that type.
+     * Meaning builder returns Searchable<Searchable....>> */
+    SearchableBuilder<P> builder;
+    return builder.buildMatrix(data);
+}
+
+

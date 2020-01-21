@@ -10,12 +10,12 @@
 #include "State.h"/*list<State<P>>*/
 
 template <class P, class S>
-class BestFirstSearch : public Searcher<Searchable<P> ,S> {
+class BestFirstSearch : public Searcher<P ,S> {
 private:
     int evaluatedNodesCount = 0;
 
 public:
-    S search(P problem) override;
+    S search(Searchable<P> problem) override;
 };
 
 #endif //ALGORITHMICPROGRAMMING2_BESTFIRSTSEARCH_H

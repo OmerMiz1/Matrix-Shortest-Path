@@ -34,9 +34,34 @@ Matrix<T>::~Matrix() {
  * @param y the y coordinate of the cell
  * @return the cell in the (x,y) place in the matrix
  */
-const T *Matrix<T>::getCell(int x, int y)  {
-    return &(this->matrix[x][y]);
+T* Matrix<T>::at(int x, int y)  {
+    try {
+        return this->matrix.at(x).at(y);
+    } catch(const char* e) { /*catches out_of_bounds exceptions*/
+        return nullptr;
+    }
 }
+
+template<typename T>
+T *Matrix<T>::at(Point point) {
+    return at(point.getX(), point.getY());
+}
+
+template<typename T>
+T* Matrix<T>::find(T cell) {
+    if(value_point_map.count(cell)) { /*did the &* cause otherwise the type is map::iterator*/
+        return &(*(value_point_map.find(cell)));
+    }
+    /*for(auto row : matrix) {
+        for(auto element : row) {
+            if((*element) == cell) {
+                return &element;
+            }
+        }
+    }*/
+    return nullptr;
+}
+
 
 /**
  * Returns the number of rows in the matrix
@@ -66,7 +91,10 @@ int Matrix<T>::getColsCount()  {
  */
 template <typename T>
 void Matrix<T>::addRow(vector<T>* new_row) {
-    this->matrix.push_back(*new_row);
+    this->matrix.at(rows_count).push_back(*new_row);
+    /*Save row size, also map each element.*/
+    this->row_size_map[*new_row] = new_row->size();
+    this->addRowToMap(new_row);
     this->rows_count++;
 }
 
@@ -84,4 +112,52 @@ void Matrix<T>::removeRow(int row_num) {
     this->matrix.at(row_num).erase(startIt, endIt);
     this->rows_count--;
 }
+
+/**
+ *
+ * @tparam T
+ * @param new_row
+ */
+template<typename T>
+void Matrix<T>::addRowToMap(vector<T> *new_row) {
+    auto it = new_row->begin();
+    int cur_col;
+    for(cur_col = 0; it !=new_row->end(); ++cur_col, ++it) {
+        value_point_map.insert(it, Point(rows_count, cur_col));
+        ++cur_col;
+    }
+}
+
+template<typename T>
+Point* Matrix<T>::getPoint(T cell) const {
+    if(value_point_map.count(cell)) {
+        return value_point_map.find(cell)->clone();
+    }
+}
+
+template<typename T>
+T *Matrix<T>::getAbove(T cell) {
+    auto p = this->getPoint();
+    return at(p->getX(), (p->getY()-1));
+}
+
+template<typename T>
+T *Matrix<T>::getBelow(T state) {
+    auto p = this->getPoint();
+    return at(p->getX(), (p->getY()+1));
+}
+
+template<typename T>
+T *Matrix<T>::getLeft(T state) {
+    auto p = this->getPoint();
+    return at(p->getX()-1, p->getY());
+}
+
+template<typename T>
+T *Matrix<T>::getRight(T state) {
+    auto p = this->getPoint();
+    return at(p->getX()+1, p->getY());
+}
+
+
 

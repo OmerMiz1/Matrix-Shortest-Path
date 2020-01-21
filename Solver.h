@@ -13,10 +13,6 @@ template <typename P, typename S>
 class Solver : virtual public Cloneable<Solver<P,S>> {
  public:
     virtual S solve(P problem)=0;
-    Solver<P, S>* clone() const=0;
 };
-
-template class Solver<string,string>;
-template class Solver<State<Point>,string>;
 
 #endif //ALGORITHMICPROGRAMMING2__SOLVER_H_
