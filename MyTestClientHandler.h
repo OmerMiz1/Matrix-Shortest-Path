@@ -17,21 +17,18 @@
 
 using namespace std;
 
-/* This class will be used in the future to test the component\fundamental structure
- * TODO: Figure out if this class should be generic with parameter P or P,S */
 template<class P, class S>
 class MyTestClientHandler : public ClientHandler {
  private:
-    Solver<P,S> *solver;
-    CacheManager<P,S> *cache;
+    Solver<P,S> *my_solver;
+    CacheManager<string,string> *my_cache;
     string* readMessageFromClient(int client_socketfd);
 
  public:
-    MyTestClientHandler(Solver<P,S>*, CacheManager<P,S>*);
+    MyTestClientHandler(Solver<P,S>*,CacheManager<string,string>*);
     void handleClient(int client_socketfd) override;
     MyTestClientHandler* clone() const override;
 };
 
 template class MyTestClientHandler<string,string>;
-
 #endif //ALGORITHMICPROGRAMMING2__MYTESTCLIENTHANDLER_H_

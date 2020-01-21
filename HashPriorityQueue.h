@@ -11,6 +11,13 @@
 
 using namespace std;
 
+template <typename E>
+class positionComparator {
+    bool operator()(const E &first, const E &second) {
+        return first.getState() < second.getState();
+    }
+};
+
 /**
  * A priority_queue wrapped by a class for the purpose of including a set
  * that will allow us to check if an element is in the the q in constant complexity.
@@ -21,20 +28,17 @@ using namespace std;
  *      The set is manually set to compare via a position comparator
  */
 template <typename E>
-class HashPriorityQueue : public priority_queue<State<E>> {
+class HashPriorityQueue : public priority_queue<E> {
 private:
-    set<State<E>> mySet;// POSITION_COMPARED
+    set<E, positionComparator<E>> mySet;// POSITION_COMPARED
     int missed_inserts = 0;
 public:
-    HashPriorityQueue<E>() {
-        this->mySet(State<E>(State<E>::positionComparator));
-    }
-    void insert(State<E> element);
-    State<E> topAndPop();
-    bool contains(State<E> element);
-    State<E> find(State<E> element);
-    void remove(State<E> element);
+    void insert(E element);
+    E topAndPop();
+    bool contains(E element);
+    E find(E element);
+    void remove(E element);
 };
 
-
+template class HashPriorityQueue<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2_HASHPRIORITYQUEUE_H

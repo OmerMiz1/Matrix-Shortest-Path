@@ -27,20 +27,10 @@ class SearchableMatrix : public Searchable<P>, public Matrix<State<P>> {
     void setInitialState(Point initial_point);
     void setGoalState(Point goal_point);
 
-    /*    State<P>* getAbove(State<P> state);
-    State<P>* getBelow(State<P> state);
-    State<P>* getLeft(State<P> state);
-    State<P>* getRight(State<P> state);
-
-    void addRow(vector<State<P>>*) override;
-    void removeRow(int) override;
-     bool isValidCellInMatrix(int x, int y);*/
-
  public:
-    State<P> getInitialState() override;
+    P getInitialState() override;
+    P getGoalState() const;
     bool isGoalState(State<P> state) override;
     list<State<P>> getAllPossibleStates(State<P> state) override;
-/*    State<P>* getCell(int, int) override;
-    State<P>* getCell(P*);*/
 };
 #endif //ALGORITHMICPROGRAMMING2_SEARCHABLEMATRIX_H

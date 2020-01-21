@@ -21,6 +21,11 @@ class SearchableBuilder {
     State<P> buildMatrixCell(int x,int y, double cost, State<P>* prev);
 
  public:
-    Searchable<P>* buildMatrix(list<string> data);
+    SearchableMatrix<P>* buildMatrix(list<string> data);
 };
+
+template<class P>
+State<P> SearchableMatrix<P>::getGoalState() const {
+    return goal_state->clone();
+}
 #endif //ALGORITHMICPROGRAMMING2__SEARCHABLEBUILDER_H_

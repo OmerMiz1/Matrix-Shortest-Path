@@ -26,7 +26,6 @@ class Matrix {
     unordered_map<typename vector<T>::iterator, Point> value_point_map;
     unordered_map<vector<T>,size_t> row_size_map; /*row_size = how many columns in that row.*/
 
-    Point* getPoint(T cell) const;
     T* getAbove(T cell); /*TODO: possible bug: output when tracing back the path will be inverted.*/
     T* getBelow(T state); /*TODO*/
     T* getLeft(T state); /*TODO*/
@@ -39,6 +38,7 @@ class Matrix {
     T* at(int x, int y);
     T* at(Point point);
     T* find(T cell);
+    Point* getPoint(T cell) const;
     int getRowsCount();
     int getColsCount();
 };

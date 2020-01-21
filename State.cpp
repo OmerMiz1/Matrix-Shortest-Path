@@ -29,7 +29,7 @@ State<T>::State(T *myState):myState(myState) {
  * @return this states state
  */
 template<typename T>
-T State<T>::getState() {
+T State<T>::getState() const {
     return *(myState->clone());
 }
 
@@ -63,7 +63,7 @@ bool State<T>::is(State<T> other_state) const {
  * @return true - if their's states are equals, false - otherwise
  */
 template<typename T>
-bool State<T>::operator==(State<T> other_state) {
+bool State<T>::operator==(State<T> &other_state) {
     if(ReferenceEquals(this, nullptr) && ReferenceEquals(other_state, nullptr)) {
         return true;
     } else if(ReferenceEquals(this, nullptr) || ReferenceEquals(other_state, nullptr)) {
@@ -78,12 +78,12 @@ bool State<T>::operator==(State<T> other_state) {
  * @return true - if this state's cost is smaller then the other state's cost, false - otherwise
  */
 template<typename T>
-bool State<T>::operator<(State<T> other_state) {
+bool State<T>::operator<(State<T> &other_state) {
     return (this->cost < other_state.getCost());
 }
 
 template<typename T>
-bool State<T>::operator>(State<T> other_state) {
+bool State<T>::operator>(State<T> &other_state) {
     return (this->cost > other_state.getCost());
 }
 
@@ -99,31 +99,20 @@ State<T>* State<T>::clone() const {
 
     path.push_front(cur);
     while(prev != nullptr) {
-        path.push_front(prev);
-        cur = prev;
+        path.push_front(*prev);
+        cur = *prev;
         prev = cur.prev_state;
     }
 
     return new State<T>(myState->clone(), this->cost, this->prev_state->clone());
 }
 
-/*template<class T>
-State<T>* State<T>::backtrace() const {
-
-    *//*Iterates till the end of the path by using prev_state.*//*
-    for(State<T> cur_front = (*this->clone()); !(cur_front == nullptr); cur_front = (*cur_front.prev_state->clone())) {
-        backtrace_path.push_front(cur_front);
+template<class T>
+list<State<T>>* State<T>::backtrace() const {
+    auto backtrace_path = new list<State<T>>;
+    /*Iterates till the end of the path by using prev_state.*/
+    for(auto cur_front = this->clone(); cur_front != nullptr; cur_front = cur_front.prev_state->clone()) {
+        backtrace_path->push_front(*cur_front);
     }
     return backtrace_path;
-}*/
-
-/**
- * Update the route to this states //TODO make sure to update priority queue too!
- * @param cost the new cost to get to this state
- * @param prev_state the new prev_state that we got to this state from
- *//*
-template<typename T>
-void State<T>::updateRoute(double cost, State<T> prev_state) {
-    this->cost = cost;
-    this->prev_state = prev_state;
-}*/
+}

@@ -121,8 +121,8 @@ void MyParallelServer::start(ClientHandler *handler) {
         /*Mainly used for visualizing whats going on*/
         ++accepted_count; /*TODO: debug*/
         cout<<"Server: client #" <<accepted_count<<" accepted..."<<endl;
-        auto cloned = handler->clone();
-        threads.push_back(thread(&ClientHandler::handleClient, cloned, std::ref(client_socket)));
+        ClientHandler *cloned = handler->clone();
+        threads.push_back(thread(&ClientHandler::handleClient, &(*cloned), std::ref(client_socket)));
 
 
     } // End of while, server is done listening.

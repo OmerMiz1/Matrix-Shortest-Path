@@ -8,7 +8,7 @@
 #include "HashPriorityQueue.h"
 
 template <typename E>
-void HashPriorityQueue<E>::insert(State<E> element) {
+void HashPriorityQueue<E>::insert(E element) {
     if(this->mySet.count(element) > 0) {
         this->missed_inserts++;
     }
@@ -17,7 +17,7 @@ void HashPriorityQueue<E>::insert(State<E> element) {
 }
 
 template<typename E>
-State<E> HashPriorityQueue<E>::topAndPop() {
+E HashPriorityQueue<E>::topAndPop() {
     E element = this->top();
     this->pop();
     this->mySet.erase(element);
@@ -25,12 +25,12 @@ State<E> HashPriorityQueue<E>::topAndPop() {
 }
 
 template<typename E>
-bool HashPriorityQueue<E>::contains(State<E> element) {
+bool HashPriorityQueue<E>::contains(E element) {
     return this->mySet.count(element);
 }
 
 template<typename E>
-State<E> HashPriorityQueue<E>::find(State<E> element) {
+E HashPriorityQueue<E>::find(E element) {
     //if doesn't exist
     if (!mySet.count(element)) {
         return nullptr;
@@ -39,7 +39,7 @@ State<E> HashPriorityQueue<E>::find(State<E> element) {
 }
 
 template<typename E>
-void HashPriorityQueue<E>::remove(State<E> element) {
+void HashPriorityQueue<E>::remove(E element) {
     auto it = std::find(this->c.begin(), this->c.end(), element); //TODO imported std::find from algorithm instead of <bits/streambuf_iterator.h>, make sure it's right
     if (it != this->c.end()) {
         this->c.erase(it);

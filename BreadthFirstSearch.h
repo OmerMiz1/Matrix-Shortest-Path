@@ -9,10 +9,12 @@
 #include "Searchable.h"
 #include "State.h"
 
-template <class P, class S>
-class BreadthFirstSearch : public Searcher<P, S> {
+
+template <class P>
+class BreadthFirstSearch : public Searcher<P> {
 public:
-    S search(Searchable<P> problem) override;
+    list<P> search(Searchable<P> *problem) override;
 };
 
+template class BreadthFirstSearch<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2_BREADTHFIRSTSEARCH_H

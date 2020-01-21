@@ -12,7 +12,7 @@ using namespace std;
 template <typename P, typename S>
 class Solver : virtual public Cloneable<Solver<P,S>> {
  public:
-    virtual S solve(P problem)=0;
+    virtual S solve(P *problem)=0;
 };
 
 #endif //ALGORITHMICPROGRAMMING2__SOLVER_H_

@@ -16,9 +16,9 @@ template<typename P, typename S>
 class FileCacheManager : public CacheManager<P,S> {
 
 public:
-    void insert(P problem, S solution);
-    bool contains(P given_problem);
-    S get(P problem);
+    void insert(P problem, S solution) override;
+    bool contains(P given_problem) override;
+    S get(P problem) override;
     FileCacheManager<P,S>* clone() const override;
 
 private:

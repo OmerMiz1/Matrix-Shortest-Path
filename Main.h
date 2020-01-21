@@ -29,17 +29,17 @@ class server_side::boot::Main {
             perror("main");
             exit(EXIT_FAILURE);
         }
+
         int port = stoi(argv[1]);
-        SearchSolver<State<Point>> *solver{};
-        FileCacheManager <State<Point>, list<State<Point>>> *cache{};
-        MyClientHandler<Searchable<State<Point>>, list<State<Point>>>* handler;;
-        MyParallelServer mps;
+        auto solver = new SearchSolver<State<Point>>();
+        auto cache = new FileCacheManager<string,string>();
+        auto handler = new MyClientHandler<Searchable<State<Point>>, list<State<Point>>>(solver,cache);
+        auto mps = new MyParallelServer();
         try {
-            mps.open(port, handler);
+            mps->open(port, handler);
         } catch (const char* e) {
             perror(e);
         }
-
         return 0;
     }
 };
@@ -51,12 +51,18 @@ class server_side::boot::SerialStringTester {
             perror("main");
             exit(EXIT_FAILURE);
         }
+
         int port = stoi(argv[1]);
-        auto solver = new StringReverser<string,string>();
-        auto cache = new FileCacheManager<string,string>(CACHE_CAPACITY);
-        auto handler = new MyTestClientHandler<string,string>(solver, cache);
+        auto solver = new StringReverser<string>();
+        auto cache = new FileCacheManager<string,string>();
+        auto handler = new MyTestClientHandler<string,string>(solver,cache);
         server_side::Server *mss = new MySerialServer();
-        mss->open(port, handler);
+
+        try {
+            mss->open(port, handler);
+        } catch(const char* e) {
+            perror(e);
+        }
         return 0;
     }
 };
@@ -68,16 +74,22 @@ class server_side::boot::ParallelStringTester {
             perror("main");
             exit(EXIT_FAILURE);
         }
+
         int port = stoi(argv[1]);
-        auto solver = new StringReverser<string,string>();
-        auto cache = new FileCacheManager<string,string>(CACHE_CAPACITY);
-        auto handler = new MyTestClientHandler<string,string>(solver, cache);
+        auto solver = new StringReverser<string>();
+        auto cache = new FileCacheManager<string,string>();
+        auto handler = new MyTestClientHandler<string,string>(solver,cache);
         server_side::Server *mps = new MyParallelServer();
-        mps->open(port, handler);
+
+        try {
+            mps->open(port, handler);
+        } catch (const char* e) {
+            perror(e);
+        }
+
         return 0;
     }
 };
-
 class server_side::boot::SerialMatrixTester {
  public:
     int main(int argc, char *argv[]) {
@@ -85,13 +97,14 @@ class server_side::boot::SerialMatrixTester {
             perror("main");
             exit(EXIT_FAILURE);
         }
+
         int port = stoi(argv[1]);
-        SearchSolver<State<Point>> *solver{};
-        FileCacheManager <State<Point>, list<State<Point>>> *cache{};
-        MyClientHandler<Searchable<State<Point>>, list<State<Point>>>* handler;;
-        MySerialServer mss;
+        auto solver = new SearchSolver<State<Point>>();
+        auto cache = new FileCacheManager<string,string>();
+        auto handler = new MyClientHandler<Searchable<State<Point>>, list<State<Point>>>(solver,cache);
+        auto mss = new MySerialServer();
         try {
-            mss.open(port, handler);
+            mss->open(port, handler);
         } catch (const char* e) {
             perror(e);
         }
@@ -108,19 +121,17 @@ class server_side::boot::ParallelMatrixTester {
             exit(EXIT_FAILURE);
         }
         int port = stoi(argv[1]);
-        SearchSolver<State<Point>> *solver{};
-        FileCacheManager <State<Point>, list<State<Point>>> *cache{};
-        MyClientHandler<Searchable<State<Point>>, list<State<Point>>>* handler;;
-        MyParallelServer mps;
+        auto solver = new SearchSolver<State<Point>>();
+        auto cache = new FileCacheManager<string,string>();
+        auto handler = new MyClientHandler<Searchable<State<Point>>, list<State<Point>>>(solver,cache);
+        auto mps = new MyParallelServer();
+
         try {
-            mps.open(port, handler);
+            mps->open(port, handler);
         } catch (const char* e) {
             perror(e);
         }
         return 0;
     }
 };
-
-
-
 #endif //ALGORITHMICPROGRAMMING2__MAIN_H_

@@ -27,6 +27,7 @@ S FileCacheManager<P, S>::get(P problem) {
         return readFromFile(problem);
     } else {
         perror("asked for a solution without validating it's existence"); //TODO remove before submitting
+        return nullptr;
     }
 }
 

@@ -110,7 +110,13 @@ void MySerialServer::start(int port, ClientHandler *handler) {
         cout<<"Server: client #" <<accepted_count<<" accepted..."<<endl;
 
         /*Handle current client*/
-        handler->handleClient(client_socket);
+        try {
+            handler->handleClient(client_socket);
+        } catch (const char* e) {
+            perror(e); /*TODO debug*/
+            exit(EXIT_FAILURE);
+        }
+
         cout<<"Client #"<<accepted_count<<" done..."<<endl;
     }
 

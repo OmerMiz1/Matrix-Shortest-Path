@@ -9,10 +9,10 @@
 #include "Searchable.h"
 #include "State.h"
 
-template <class P, class S>
+template <class P>
 class DepthFirstSearch {
 public:
-    S search(Searchable<P> problem) override;
+    list<P> search(Searchable<P> *problem) override;
 };
 
 #endif //ALGORITHMICPROGRAMMING2_DEPTHFIRSTSEARCH_H

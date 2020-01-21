@@ -3,14 +3,14 @@
 //
 
 #define MAX_CHARS 1024
-#define END_CONNECTION_REQUEST "end"
+#define END_OF_MESSAGE "end"
 
 #include "MyTestClientHandler.h"
 
+
 template<class P, class S>
-MyTestClientHandler<P,S>::MyTestClientHandler(Solver<P, S> *solverObj,
-                                         CacheManager<P, S> *cacheObj)
-    : solver(solverObj), cache(cacheObj) {}
+MyTestClientHandler<P, S>::MyTestClientHandler(Solver<P, S> *solver,
+                                               CacheManager<string, string> * cache): my_solver(solver),my_cache(cache) {}
 
 /**
  *
@@ -29,12 +29,12 @@ void MyTestClientHandler<P,S>::handleClient(int client_socketfd) {
             return;
         }
         /*Client requested to end connection*/
-        else if (!message->compare(END_CONNECTION_REQUEST)) {
+        else if (!message->compare(END_OF_MESSAGE)) {
             break;
         }
 
         /*Solve problem and send to client*/
-        result = this->solver->solve(*message);
+        result = my_solver->solve(message);
         if (send(client_socketfd, result.c_str(), result.size(), 0) == -1) {
             perror("handleClient#2");
             return;
@@ -42,6 +42,7 @@ void MyTestClientHandler<P,S>::handleClient(int client_socketfd) {
     }
     close(client_socketfd);
 }
+
 template<class P, class S>
 string* MyTestClientHandler<P,S>::readMessageFromClient(int client_socketfd) {
     /*Clear to avoid garbage*/
@@ -66,8 +67,10 @@ string* MyTestClientHandler<P,S>::readMessageFromClient(int client_socketfd) {
     perror("readMessageFromClient#2");
     return nullptr;
 }
+
 template<class P, class S>
 MyTestClientHandler<P,S> *MyTestClientHandler<P, S>::clone() const {
-    return new MyTestClientHandler<P,S>(solver->clone(), cache->clone());
+    return new MyTestClientHandler<P,S>(my_solver->clone(),my_cache->clone());
 }
+
 

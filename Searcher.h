@@ -13,10 +13,10 @@
 ;using namespace std;
 
 /*Interface*/
-template<typename P, typename S>
+template<typename P>
 class Searcher {
  public:
-    virtual S search(Searchable<P>)=0;
+    virtual list<P> search(Searchable<P>*)=0;
 };
 
 #endif //ALGORITHMICPROGRAMMING2__SEARCHER_H_

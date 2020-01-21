@@ -5,7 +5,7 @@
 #include "SearchableBuilder.h"
 
 template <class P>
-Searchable<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
+SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
     auto sMatrix = new SearchableMatrix<P>;
     Point *initial, *goal;
     int row_index=0, col_index=0;

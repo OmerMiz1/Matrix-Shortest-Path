@@ -23,14 +23,12 @@ template<class P, class S>
 class MyClientHandler : public ClientHandler {
  private:
     Solver<P,S> *my_solver;
-    CacheManager<P,S> *my_cache;
+    CacheManager<string,string> *my_cache;
     string readMessageFromClient(int client_socketfd);
-    P* buildProblem(list<string> data);
 
  public:
-    MyClientHandler(Solver<P,S> solver, CacheManager<P,S> cache);
+    MyClientHandler(Solver<P,S>*,CacheManager<string,string>*);
     void handleClient(int client_socketfd) override;
     MyClientHandler* clone() const override;
 };
-
 #endif //ALGORITHMICPROGRAMMING2__MYCLIENTHANDLER_H_

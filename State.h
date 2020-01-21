@@ -18,21 +18,21 @@ private:
     State<T> *prev_state; //the state that this state got from, null if this is the first state
 
 public:
-    State() {}; /*TODO: made this because Matrix C'Tor gave error initializing this->matrix[i]*/
+    State()=default;
     State(T *myState);
     State(T *myState, double cost, State<T> *prevState);
 
-    T getState();
+    T getState() const;
     double getCost();
 
-    /*State<T>* backtrace() const;*/
+    list<State<T>>* backtrace() const;
 
     void setPrev(State<T> *prev_state);
 
     bool is(State<T> other_state) const;
-    bool operator==(State<T> other_state);
-    bool operator<(State<T> other_state);
-    bool operator>(State<T> other_state);
+    bool operator==(State<T> &other_state);
+    bool operator<(State<T> &other_state);
+    bool operator>(State<T> &other_state);
 
     class costComparator {
         bool operator()(const State<T> first, const State<T> second) const {
@@ -47,7 +47,5 @@ public:
     State<T>* clone() const override;
 };
 
-
-//template class State<Point>;
-
+template class State<Point>;
 #endif //ALGORITHMICPROGRAMMING2__STATE_H_

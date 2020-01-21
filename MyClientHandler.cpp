@@ -3,21 +3,13 @@
 //
 
 #define MAX_CHARS 1024
-#define END_CONNECTION_REQUEST "end"
+#define END_OF_MESSAGE "end"
 
 #include "MyClientHandler.h"
 
-
-/** C'Tor requires injection of a solver and cache (generics)
- *
- * @tparam P to be wrapped by Searcheable. Our case: Point.
- * @tparam S the type of the requested solution.
- * @param solver
- * @param cache
- */
 template<class P, class S>
-MyClientHandler<P,S>::MyClientHandler(Solver<P, S> solver, CacheManager<P, S> cache):
-        my_solver(solver), my_cache(cache){}
+MyClientHandler<P,S>::MyClientHandler(Solver<P, S> *solver, CacheManager<string, string> *cache)
+    : my_solver(solver), my_cache(cache) {}
 
 /** Returns a list of strings from first line received from client until line
  * says "end". The list DOESNT INCLUDE "end"!
@@ -28,27 +20,30 @@ MyClientHandler<P,S>::MyClientHandler(Solver<P, S> solver, CacheManager<P, S> ca
  */
 template <class P, class S>
 void MyClientHandler<P,S>::handleClient(int client_socketfd) {
-    this_thread::sleep_for(100ms);
     list<string> recieved_data;
     string cur_line,result;
     S solution;
 
+    /*Reads all data from client*/
     while (1) {
         cur_line = readMessageFromClient(client_socketfd);
         if (cur_line.empty()) {
             perror("handleClient#1");
             return;
         }
-        /*Client requested to end connection*/
-        else if (!(cur_line.compare(END_CONNECTION_REQUEST))) {
+
+        /*Reached end of message token*/
+        else if (!(cur_line.compare(END_OF_MESSAGE))) {
             break;
         }
         recieved_data.push_back(cur_line);
     }
 
-    P problem = buildProblem(recieved_data);
-    if(!(my_cache->contains(problem))) {
-        solution = my_solver->solve(problem);
+    SearchableBuilder<P> s_builder;
+    auto problem = s_builder.buildMatrix(recieved_data);
+
+    if(!(my_cache->contains(*problem))) {
+        solution = my_solver->solve(*problem);
         my_cache->insert(problem,solution);
     } else {
         solution = my_cache->get(problem);
@@ -92,17 +87,8 @@ string MyClientHandler<P,S>::readMessageFromClient(int client_socketfd) {
 
 template<class P, class S>
 MyClientHandler<P,S>* MyClientHandler<P, S>::clone() const {
-    return new MyClientHandler<P,S>(my_solver->clone(), my_cache->clone());
-
+    return new MyClientHandler<P,S>(my_solver->clone(),my_cache->clone());
 }
 
-template<class P, class S>
-P* MyClientHandler<P,S>::buildProblem(list<string> data) {
-    /*TODO pretty sure its incorrect here, but it builds. Sound weird that P is
-     * Searchable<State<Point>> and it also asks Searchable builder to be of that type.
-     * Meaning builder returns Searchable<Searchable....>> */
-    SearchableBuilder<P> builder;
-    return builder.buildMatrix(data);
-}
 
 
