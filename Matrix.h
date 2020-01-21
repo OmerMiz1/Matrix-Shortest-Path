@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 
 #include "Point.h"
 #include "State.h"
@@ -15,27 +16,32 @@ using namespace std;
 
 template<typename T>
 class Matrix {
+ private:
+    void addRowToMap(vector<T> *new_row);
 
  protected:
-    friend class SearcableBuilder;
     int rows_count;
-    int columns_count;
+    int columns_count=0;
     vector<vector<T>> matrix;
+    unordered_map<typename vector<T>::iterator, Point> value_point_map;
+    unordered_map<vector<T>,size_t> row_size_map; /*row_size = how many columns in that row.*/
+
+    Point* getPoint(T cell) const;
+    T* getAbove(T cell); /*TODO: possible bug: output when tracing back the path will be inverted.*/
+    T* getBelow(T state); /*TODO*/
+    T* getLeft(T state); /*TODO*/
+    T* getRight(T state); /*TODO*/
 
     virtual void addRow(vector<T>* new_row);
     virtual void removeRow(int row_num); /*Made it for symmetry, currently no use*/
-    /*void addCol(vector<T>);TODO: is it necessary?
-     *void removeCol(int*/
 
  public:
-    /*Matrix(int rows, int columns);*/
-    virtual /*~Matrix();*/
-    const T *getCell(int x, int y);
+    T* at(int x, int y);
+    T* at(Point point);
+    T* find(T cell);
     int getRowsCount();
     int getColsCount();
 };
 
-template
-class Matrix<Vertex>;
-
 #endif //ALGORITHMICPROGRAMMING2_MATRIX_H
+

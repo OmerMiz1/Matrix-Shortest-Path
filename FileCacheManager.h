@@ -4,7 +4,7 @@
 
 #ifndef ALGORITHMICPROGRAMMING2__FILECACHEMANAGER_H_
 #define ALGORITHMICPROGRAMMING2__FILECACHEMANAGER_H_
-//TODO change the class file aren't saved as binery + save only to files, no cache
+//TODO change the class file aren't saved as binery
 #include <utility>
 #include <string>
 #include <list>
@@ -19,6 +19,7 @@ public:
     void insert(P problem, S solution);
     bool contains(P given_problem);
     S get(P problem);
+    FileCacheManager<P,S>* clone() const override;
 
 private:
     void writeToFile(P, S);

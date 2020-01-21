@@ -20,7 +20,7 @@ using namespace std;
 /* This class will be used in the future to test the component\fundamental structure
  * TODO: Figure out if this class should be generic with parameter P or P,S */
 template<class P, class S>
-class MyTestClientHandler : public ClientHandler<P,S> {
+class MyTestClientHandler : public ClientHandler {
  private:
     Solver<P,S> *solver;
     CacheManager<P,S> *cache;
@@ -29,7 +29,9 @@ class MyTestClientHandler : public ClientHandler<P,S> {
  public:
     MyTestClientHandler(Solver<P,S>*, CacheManager<P,S>*);
     void handleClient(int client_socketfd) override;
-    ClientHandler<P,S> clone() const override;
+    MyTestClientHandler* clone() const override;
 };
+
+template class MyTestClientHandler<string,string>;
 
 #endif //ALGORITHMICPROGRAMMING2__MYTESTCLIENTHANDLER_H_

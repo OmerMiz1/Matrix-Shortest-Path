@@ -17,7 +17,9 @@ template<class P, class S>
 class StringReverser : public Solver<P,S> {
  public:
     S solve(P problem) override;
-    Solver<P,S> clone() const override;
+    StringReverser<P,S>* clone() const override;
 };
+
+template class StringReverser<string,string>
 
 #endif //ALGORITHMICPROGRAMMING2__STRINGREVERSER_H_

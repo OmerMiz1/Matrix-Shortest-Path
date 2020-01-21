@@ -65,3 +65,8 @@ S FileCacheManager<P, S>::readFromFile(P problem) {
     inFile.close();
     return solution;
 }
+
+template<typename P, typename S>
+FileCacheManager<P, S>* FileCacheManager<P, S>::clone() const {
+    return new FileCacheManager<P, S>();
+}

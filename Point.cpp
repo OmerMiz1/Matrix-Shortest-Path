@@ -37,9 +37,11 @@ int Point::getY() {
  * @return
  */
 bool Point::operator<(Point *other) {
+    /*TODO: Make sure its !(this==other) and that auto correct didnt change it*/
     return !(this == other);
 }
-Point Point::clone() const {
-    return Point(this->x, this->y);
+
+Point* Point::clone() const {
+    return new Point(*this);
 }
 

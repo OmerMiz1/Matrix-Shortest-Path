@@ -29,7 +29,7 @@ Searchable<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
 
     /*Iterates data list. Each string represents a ROW in the matrix*/
     for(auto row_iter = data.begin(); row_iter != data.end(); ++row_iter, ++row_index, col_index=0) {
-        auto row = new vector<Vertex>;
+        auto row = new vector<State<P>>;
         double cost;
 
         /*Regex iterators to match each integer in parsed string*/
@@ -81,7 +81,7 @@ P* SearchableBuilder<P>::buildMatrixState(string state_str) {
         perror(e);
         return nullptr;
     }
-    return new Point(x,y);
+    return new P(x,y);
 }
 
 /** Cell in our case is a State<P>, a point with cost.
@@ -94,12 +94,12 @@ P* SearchableBuilder<P>::buildMatrixState(string state_str) {
  * @return
  */
 template <class P>
-State<P> SearchableBuilder<P>::buildMatrixCell(int row, int col, double cost, Vertex *prev) {
+State<P> SearchableBuilder<P>::buildMatrixCell(int row, int col, double cost, State<P> *prev) {
     /*TODO next assignments, need to find better solution for this generic type
      * P C'TOR. maybe make sure p has a specific C'TOR, can use strings and builder
      * DP*/
     auto cur_cell = new P(row, col);
-    return Vertex(cur_cell, cost, prev);
+    return State<P>(cur_cell, cost, prev);
 }
 
 

@@ -8,7 +8,7 @@
 template<typename T>
 class Cloneable {
  public:
-    virtual T clone() const = 0;
+    virtual T* clone() const = 0;
 };
 
 #endif //ALGORITHMICPROGRAMMING2__CLONEABLE_H_

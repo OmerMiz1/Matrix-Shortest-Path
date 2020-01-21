@@ -20,16 +20,17 @@
 using namespace std;
 
 template<class P, class S>
-class MyClientHandler : ClientHandler {
+class MyClientHandler : public ClientHandler {
  private:
     Solver<P,S> *my_solver;
     CacheManager<P,S> *my_cache;
     string readMessageFromClient(int client_socketfd);
+    P* buildProblem(list<string> data);
 
  public:
     MyClientHandler(Solver<P,S> solver, CacheManager<P,S> cache);
     void handleClient(int client_socketfd) override;
-    ClientHandler clone() const override;
+    MyClientHandler* clone() const override;
 };
 
 #endif //ALGORITHMICPROGRAMMING2__MYCLIENTHANDLER_H_

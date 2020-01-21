@@ -30,7 +30,7 @@ State<T>::State(T *myState):myState(myState) {
  */
 template<typename T>
 T State<T>::getState() {
-    return dynamic_cast<Cloneable<T>>(myState)->clone();
+    return *(myState->clone());
 }
 
 template <typename T>
@@ -50,9 +50,9 @@ State<T> State<T>::getPrev() {
  * @return
  */
 template <typename T>
-bool State<T>::is(State<T> other_state) {
+bool State<T>::is(State<T> other_state) const {
     return (this->cost == other_state.getCost()
-    && this->myState == other_state.getState());
+    && this->myState == other_state.getState().clone());
     /*TODO: not adding this, might be an expensive recursion*/
 }
 
@@ -88,13 +88,13 @@ bool State<T>::operator>(State<T> other_state) {
 }
 
 template<typename T>
-void State<T>::setPrev(State<T> prev) {
+void State<T>::setPrev(State<T> *prev) {
     this->prev_state = prev;
 }
 
 template<class T>
-State<T> State<T>::clone() const {
-    State<T> cur = *this, prev = this->prev_state; /*TODO: Removed State<T>(T*) CTOR, usages pointed to this line only.*/
+State<T>* State<T>::clone() const {
+    State<T> cur = *this, *prev = this->prev_state; /*TODO: Removed State<T>(T*) CTOR, usages pointed to this line only.*/
     list<State<T>> path;
 
     path.push_front(cur);
@@ -104,19 +104,18 @@ State<T> State<T>::clone() const {
         prev = cur.prev_state;
     }
 
-    return State<T>(dynamic_cast<Cloneable<T>>(myState).clone(), this->cost, this->prev_state->clone());
+    return new State<T>(myState->clone(), this->cost, this->prev_state->clone());
 }
 
-template<class T>
-list<State<T>> State<T>::backtrace() const {
-    list<State<T>> backtrace_path;
+/*template<class T>
+State<T>* State<T>::backtrace() const {
 
-    /*Iterates till the end of the path by using prev_state.*/
-    for(State<T> cur_front = this->clone(); cur_front != nullptr; cur_front = cur_front.prev_state->clone()) {
+    *//*Iterates till the end of the path by using prev_state.*//*
+    for(State<T> cur_front = (*this->clone()); !(cur_front == nullptr); cur_front = (*cur_front.prev_state->clone())) {
         backtrace_path.push_front(cur_front);
     }
     return backtrace_path;
-}
+}*/
 
 /**
  * Update the route to this states //TODO make sure to update priority queue too!
