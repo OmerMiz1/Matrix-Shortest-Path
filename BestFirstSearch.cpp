@@ -5,7 +5,7 @@
 #include <set>
 #include <iostream>
 
-#include "HashPriorityQueue.h"
+#include "HashPriorityQueueBestFirstSearch.h"
 #include "BestFirstSearch.h"
 
 using namespace std;
@@ -19,9 +19,9 @@ using namespace std;
 template <class P>
 list<P> BestFirstSearch<P>::search(Searchable<P> *problem) {
     cout<<"Started BestFirstSearch"<<endl;
-    HashPriorityQueue<P> open;
+    HashPriorityQueueBestFirstSearch<P> open;
     /*TODO: brought "typename" back, not sure if its good.*/
-    set<P, P::positionComparator> closed;
+    set<P, typename P::positionComparator> closed;
     open.insert(problem->getInitialState());
     while (!open.empty()) {
         this->evaluatedNodesCount++;

@@ -13,10 +13,10 @@ using namespace std;
 template <class P>
 list<P> DepthFirstSearch<P>::search(Searchable<P> *problem) {
     cout << "Started DepthFirstSearch" << endl;
-    stack<State<Point>> statesStack;/*TODO wy stack State<Point> and not P? P is State<Point> in our case*/
+    stack<P> statesStack;/*TODO wy stack State<Point> and not P? P is State<Point> in our case*/
     /*TODO: brought "typename" back, not sure if its good.*/
     //the existence of a State in this set indicates he was discovered already
-    set<State<P>, typename State<P>::positionComparator> visitedSet;
+    set<P, typename P::positionComparator> visitedSet;
     P initial = problem->getInitialState();
     statesStack.push(initial);
     while (!statesStack.empty()) {
