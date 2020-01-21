@@ -1,14 +1,11 @@
 //
-// Created by doref on 19/01/2020.
+// Created by Dor Refaeli on 21/01/2020.
 //
 
-#include <stdio.h>
-#include <algorithm>
-
-#include "HashPriorityQueue.h"
+#include "HashPriorityQueueAStar.h"
 
 template <typename E>
-void HashPriorityQueue<E>::insert(E element) {
+void HashPriorityQueueAStar<E>::insert(pair<E,double> element) {
     if(this->mySet.count(element) > 0) {
         this->missed_inserts++;
     }
@@ -17,7 +14,7 @@ void HashPriorityQueue<E>::insert(E element) {
 }
 
 template<typename E>
-E HashPriorityQueue<E>::topAndPop() {
+pair<E,double> HashPriorityQueueAStar<E>::topAndPop() {
     E element = this->top();
     this->pop();
     this->mySet.erase(element);
@@ -25,12 +22,12 @@ E HashPriorityQueue<E>::topAndPop() {
 }
 
 template<typename E>
-bool HashPriorityQueue<E>::contains(E element) {
+bool HashPriorityQueueAStar<E>::contains(pair<E,double> element) {
     return this->mySet.count(element);
 }
 
 template<typename E>
-E HashPriorityQueue<E>::find(E element) {
+pair<E,double> HashPriorityQueueAStar<E>::find(pair<E,double> element) {
     //if doesn't exist
     if (!mySet.count(element)) {
         return nullptr;
@@ -39,14 +36,14 @@ E HashPriorityQueue<E>::find(E element) {
 }
 
 template<typename E>
-void HashPriorityQueue<E>::remove(E element) {
+void HashPriorityQueueAStar<E>::remove(pair<E,double> element) {
     auto it = std::find(this->c.begin(), this->c.end(), element); //TODO imported std::find from algorithm instead of <bits/streambuf_iterator.h>, make sure it's right
     if (it != this->c.end()) {
         this->c.erase(it);
         std::make_heap(this->c.begin(), this->c.end(), this->comp);
     }
     else {
-        perror("Tried to delete an non-existing element from the HashPriorityQueue");
+        perror("Tried to delete an non-existing element from the HashPriorityQueueAStar");
         exit(1);
     }
 }

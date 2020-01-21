@@ -2,8 +2,8 @@
 // Created by doref on 19/01/2020.
 //
 
-#ifndef ALGORITHMICPROGRAMMING2_HASHPRIORITYQUEUE_H
-#define ALGORITHMICPROGRAMMING2_HASHPRIORITYQUEUE_H
+#ifndef ALGORITHMICPROGRAMMING2_HASHPRIORITYQUEUEBESTFIRSTSEARCH_H
+#define ALGORITHMICPROGRAMMING2_HASHPRIORITYQUEUEBESTFIRSTSEARCH_H
 
 #include <queue>
 #include <set>
@@ -24,11 +24,12 @@ class positionComparator {
  * The class inherits priority_queue.
  *
  * Important!!!
- *      The priority_queue comparator is the cost since the overridden operator in state are cost related.
- *      The set is manually set to compare via a position comparator
+ *      The priority_queue comparator is a heuristicDistance comparator,
+ *          since the overridden operators in state are cost related there is no need for defining the comparator.
+ *      The set comparator is a position comparator.
  */
 template <typename E>
-class HashPriorityQueue : public priority_queue<E> {
+class HashPriorityQueueBestFirstSearch : public priority_queue<E> {
 private:
     set<E, positionComparator<E>> mySet;// POSITION_COMPARED
     int missed_inserts = 0;
@@ -40,5 +41,5 @@ public:
     void remove(E element);
 };
 
-template class HashPriorityQueue<State<Point>>;
-#endif //ALGORITHMICPROGRAMMING2_HASHPRIORITYQUEUE_H
+template class HashPriorityQueueBestFirstSearch<State<Point>>;
+#endif //ALGORITHMICPROGRAMMING2_HASHPRIORITYQUEUEBESTFIRSTSEARCH_H
