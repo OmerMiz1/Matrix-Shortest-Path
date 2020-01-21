@@ -2,6 +2,8 @@
 // Created by doref on 18/01/2020.
 //
 
+#include <math.h>
+
 #include "Point.h"
 
 Point::Point(int xVal, int yVal): x(xVal), y(yVal) {}
@@ -31,8 +33,21 @@ int Point::getY() {
     return this->y;
 }
 
-/** Overriden in order to create comparator at State<T>
- *
+/**
+ * Returns the distance between this point and an other point
+ * @param other the other point
+ * @return the distance between the points
+ */
+double Point::distance(Point *other) const {
+    double subX = this->x - other->x;
+    double subY = this->y - other->y;
+    double subXPowerTwo = subX * subX;
+    double subYPowerTwo = subY * subY;
+    return (sqrt(subXPowerTwo+subYPowerTwo));
+}
+
+/**
+ * Overridden in order to create comparator at State<T>
  * @param other
  * @return
  */

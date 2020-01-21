@@ -1,5 +1,5 @@
 //
-// Created by doref on 18/01/2020.
+// Created by Dor Refaeli on 18/01/2020.
 //
 
 #ifndef ALGORITHMICPROGRAMMING2_POINT_H
@@ -16,6 +16,7 @@ public:
     bool operator<(Point* other);
     int getX();
     int getY();
+    double distance(Point *other) const;
     Point* clone() const override;
 };
 
