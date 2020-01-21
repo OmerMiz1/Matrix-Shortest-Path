@@ -38,7 +38,7 @@ list<P> BreadthFirstSearch<P>::search(Searchable<P> *problem) {
         P current = statesQueue.front();
         statesQueue.pop(); //TODO couldn't make sure that front doesn't pop already! make sure
         if (problem->isGoalState(current)) {
-            return current.backtrace();
+            return *current.backtrace();
         }
 
         /*TODO: had this line below, you had a list of S (Solutions), we changed Solution to be

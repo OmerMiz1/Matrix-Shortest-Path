@@ -35,10 +35,10 @@ private:
     int missed_inserts = 0;
 public:
     void insert(E element);
-    E topAndPop();
+    void remove(E element);
     bool contains(E element);
     E find(E element);
-    void remove(E element);
+    E topAndPop();
 };
 
 template class HashPriorityQueueBestFirstSearch<State<Point>>;

@@ -15,7 +15,7 @@
 //#include "SearchableBuilder.h"
 
 template <class P>
-class SearchableMatrix : public Searchable<P>, public Matrix<State<P>> {
+class SearchableMatrix : public Searchable<State<P>>, public Matrix<State<P>> {
  private:
     /*Allows SearchableBuilder::buildMatrix to use setters.*/
     template<typename S>

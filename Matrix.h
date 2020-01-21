@@ -7,7 +7,8 @@
 
 #include <vector>
 #include <algorithm>
-#include <unordered_map>
+#include <map>
+
 
 #include "Point.h"
 #include "State.h"
@@ -16,15 +17,12 @@ using namespace std;
 
 template<typename T>
 class Matrix {
- private:
-    void addRowToMap(vector<T> *new_row);
-
  protected:
     int rows_count;
     int columns_count=0;
     vector<vector<T>> matrix;
-    unordered_map<typename vector<T>::iterator, Point> value_point_map;
-    unordered_map<vector<T>,size_t> row_size_map; /*row_size = how many columns in that row.*/
+    map<T, Point> value_point_map;
+    map<vector<T>,size_t> row_size_map; /*row_size = how many columns in that row.*/
 
     T* getAbove(T cell); /*TODO: possible bug: output when tracing back the path will be inverted.*/
     T* getBelow(T state); /*TODO*/
@@ -43,5 +41,6 @@ class Matrix {
     int getColsCount();
 };
 
+template class Matrix<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2_MATRIX_H
 

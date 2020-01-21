@@ -36,7 +36,7 @@ Matrix<T>::~Matrix() {
  */
 T* Matrix<T>::at(int x, int y)  {
     try {
-        return this->matrix.at(x).at(y);
+        return &this->matrix.at(x).at(y);
     } catch(const char* e) { /*catches out_of_bounds exceptions*/
         return nullptr;
     }
@@ -62,14 +62,13 @@ T* Matrix<T>::find(T cell) {
     return nullptr;
 }
 
-
 /**
  * Returns the number of rows in the matrix
  * @return the number of rows in the matrix
  */
 template<typename T>
 int Matrix<T>::getRowsCount()  {
-    return this->rows_count;
+    return rows_count;
 }
 
 /**
@@ -78,9 +77,8 @@ int Matrix<T>::getRowsCount()  {
  */
 template<typename T>
 int Matrix<T>::getColsCount()  {
-    return this->columns_count;
+    return columns_count;
 }
-
 
 /** Add an entire row to matrix.
  * TODO: PROBLEM: new_row length can be different than cols_count!
@@ -91,10 +89,12 @@ int Matrix<T>::getColsCount()  {
  */
 template <typename T>
 void Matrix<T>::addRow(vector<T>* new_row) {
-    this->matrix.at(rows_count).push_back(*new_row);
-    /*Save row size, also map each element.*/
-    this->row_size_map[*new_row] = new_row->size();
-    this->addRowToMap(new_row);
+    int cur_col = 0;
+    for(auto it = new_row->begin(); it != new_row->end(); ++it,++cur_col) {
+        matrix.at(rows_count).at(cur_col) = *it;
+        value_point_map[*it] = Point(rows_count,cur_col);
+    }
+    row_size_map[matrix.at(rows_count)] = new_row->size();
     this->rows_count++;
 }
 
@@ -108,24 +108,8 @@ template<typename T>
 void Matrix<T>::removeRow(int row_num) {
     auto startIt = this->matrix.at(row_num).begin();
     auto endIt = this->matrix.at(row_num).end();
-
     this->matrix.at(row_num).erase(startIt, endIt);
     this->rows_count--;
-}
-
-/**
- *
- * @tparam T
- * @param new_row
- */
-template<typename T>
-void Matrix<T>::addRowToMap(vector<T> *new_row) {
-    auto it = new_row->begin();
-    int cur_col;
-    for(cur_col = 0; it !=new_row->end(); ++cur_col, ++it) {
-        value_point_map.insert(it, Point(rows_count, cur_col));
-        ++cur_col;
-    }
 }
 
 template<typename T>
@@ -136,26 +120,26 @@ Point* Matrix<T>::getPoint(T cell) const {
 }
 
 template<typename T>
-T *Matrix<T>::getAbove(T cell) {
-    auto p = this->getPoint();
+T *Matrix<T>::getAbove(T state) {
+    auto p = getPoint(state);
     return at(p->getX(), (p->getY()-1));
 }
 
 template<typename T>
 T *Matrix<T>::getBelow(T state) {
-    auto p = this->getPoint();
+    auto p = this->getPoint(state);
     return at(p->getX(), (p->getY()+1));
 }
 
 template<typename T>
 T *Matrix<T>::getLeft(T state) {
-    auto p = this->getPoint();
+    auto p = this->getPoint(state);
     return at(p->getX()-1, p->getY());
 }
 
 template<typename T>
 T *Matrix<T>::getRight(T state) {
-    auto p = this->getPoint();
+    auto p = this->getPoint(state);
     return at(p->getX()+1, p->getY());
 }
 

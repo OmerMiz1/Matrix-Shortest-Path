@@ -64,11 +64,6 @@ bool State<T>::is(State<T> other_state) const {
  */
 template<typename T>
 bool State<T>::operator==(State<T> &other_state) {
-    if(ReferenceEquals(this, nullptr) && ReferenceEquals(other_state, nullptr)) {
-        return true;
-    } else if(ReferenceEquals(this, nullptr) || ReferenceEquals(other_state, nullptr)) {
-        return false;
-    }
     return (this->cost == other_state.getCost());
 }
 
@@ -111,7 +106,7 @@ template<class T>
 list<State<T>>* State<T>::backtrace() const {
     auto backtrace_path = new list<State<T>>;
     /*Iterates till the end of the path by using prev_state.*/
-    for(auto cur_front = this->clone(); cur_front != nullptr; cur_front = cur_front.prev_state->clone()) {
+    for(auto cur_front = this->clone(); cur_front != nullptr; cur_front = cur_front->prev_state->clone()) {
         backtrace_path->push_front(*cur_front);
     }
     return backtrace_path;
