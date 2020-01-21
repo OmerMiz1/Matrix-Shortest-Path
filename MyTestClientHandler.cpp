@@ -40,6 +40,7 @@ void MyTestClientHandler<P,S>::handleClient(int client_socketfd) {
             return;
         }
     }
+    close(client_socketfd);
 }
 template<class P, class S>
 string* MyTestClientHandler<P,S>::readMessageFromClient(int client_socketfd) {

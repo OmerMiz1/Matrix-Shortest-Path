@@ -2,7 +2,7 @@
 // Created by omer on 18/01/2020.
 //
 #define MAX_CLIENTS 10
-#define TIME_OUT_SECONDS 30
+#define TIME_OUT_SECONDS 20
 
 #include "MyParallelServer.h"
 
@@ -121,7 +121,10 @@ void MyParallelServer::start(ClientHandler *handler) {
         /*Mainly used for visualizing whats going on*/
         ++accepted_count; /*TODO: debug*/
         cout<<"Server: client #" <<accepted_count<<" accepted..."<<endl;
-        this->threads.emplace_back(thread(&ClientHandler::handleClient, handler, client_socket));
+        auto cloned = handler->clone();
+        threads.push_back(thread(&ClientHandler::handleClient, cloned, std::ref(client_socket)));
+
+
     } // End of while, server is done listening.
     joinAllThreads();
 

@@ -34,7 +34,6 @@ private:
     void updateFile(P, S);
     bool tryToReadFromFile(P);
     void removeLRU();
-
 };
 
 template class FileCacheManager<string,string>;

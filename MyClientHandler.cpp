@@ -28,6 +28,7 @@ MyClientHandler<P,S>::MyClientHandler(Solver<P, S> solver, CacheManager<P, S> ca
  */
 template <class P, class S>
 void MyClientHandler<P,S>::handleClient(int client_socketfd) {
+    this_thread::sleep_for(100ms);
     list<string> recieved_data;
     string cur_line,result;
     S solution;

@@ -2,7 +2,7 @@
 // Created by omer on 15/01/2020.
 //
 #define MAX_CLIENTS 10
-#define TIME_OUT_SECONDS 120
+#define TIME_OUT_SECONDS 20
 
 
 #include "MySerialServer.h"
@@ -111,6 +111,7 @@ void MySerialServer::start(int port, ClientHandler *handler) {
 
         /*Handle current client*/
         handler->handleClient(client_socket);
+        cout<<"Client #"<<accepted_count<<" done..."<<endl;
     }
 
     /*Case of unsuccessful close*/

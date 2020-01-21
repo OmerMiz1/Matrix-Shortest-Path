@@ -30,18 +30,21 @@ class server_side::boot::Main {
             exit(EXIT_FAILURE);
         }
         int port = stoi(argv[1]);
-        /*Solver<State<Point>, list<State<Point>>>* solver = new SearchSolver<State<Point>>();
-         * MyClientHandler<Searchable<State<Point>>,list<State<Point>>>* handler = new MyClientHandler(solver, cache);*/
-        SearchSolver<State<Point>> *solver;
-        FileCacheManager <State<Point>, list<State<Point>>> *cache;
-        MyClientHandler<Searchable<State<Point>>, list<State<Point>>> *handler;
+        SearchSolver<State<Point>> *solver{};
+        FileCacheManager <State<Point>, list<State<Point>>> *cache{};
+        MyClientHandler<Searchable<State<Point>>, list<State<Point>>>* handler;;
         MyParallelServer mps;
-        mps.open(port, handler);
+        try {
+            mps.open(port, handler);
+        } catch (const char* e) {
+            perror(e);
+        }
+
         return 0;
     }
 };
 
-class server_side::boot::SerialTester {
+class server_side::boot::SerialStringTester {
  public:
     int main(int argc, char *argv[]) {
         if(argc < 2) {
@@ -58,7 +61,7 @@ class server_side::boot::SerialTester {
     }
 };
 
-class server_side::boot::ParallelTester {
+class server_side::boot::ParallelStringTester {
  public:
     int main(int argc, char *argv[]) {
         if(argc < 2) {
@@ -69,8 +72,51 @@ class server_side::boot::ParallelTester {
         auto solver = new StringReverser<string,string>();
         auto cache = new FileCacheManager<string,string>(CACHE_CAPACITY);
         auto handler = new MyTestClientHandler<string,string>(solver, cache);
-        server_side::Server *mss = new MyParallelServer();
-        mss->open(port, handler);
+        server_side::Server *mps = new MyParallelServer();
+        mps->open(port, handler);
+        return 0;
+    }
+};
+
+class server_side::boot::SerialMatrixTester {
+ public:
+    int main(int argc, char *argv[]) {
+        if(argc < 2) {
+            perror("main");
+            exit(EXIT_FAILURE);
+        }
+        int port = stoi(argv[1]);
+        SearchSolver<State<Point>> *solver{};
+        FileCacheManager <State<Point>, list<State<Point>>> *cache{};
+        MyClientHandler<Searchable<State<Point>>, list<State<Point>>>* handler;;
+        MySerialServer mss;
+        try {
+            mss.open(port, handler);
+        } catch (const char* e) {
+            perror(e);
+        }
+
+        return 0;
+    }
+};
+
+class server_side::boot::ParallelMatrixTester {
+ public:
+    int main(int argc, char *argv[]) {
+        if(argc < 2) {
+            perror("main");
+            exit(EXIT_FAILURE);
+        }
+        int port = stoi(argv[1]);
+        SearchSolver<State<Point>> *solver{};
+        FileCacheManager <State<Point>, list<State<Point>>> *cache{};
+        MyClientHandler<Searchable<State<Point>>, list<State<Point>>>* handler;;
+        MyParallelServer mps;
+        try {
+            mps.open(port, handler);
+        } catch (const char* e) {
+            perror(e);
+        }
         return 0;
     }
 };
