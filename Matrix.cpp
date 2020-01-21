@@ -47,20 +47,20 @@ T *Matrix<T>::at(Point point) {
     return at(point.getX(), point.getY());
 }
 
-template<typename T>
+/*template<typename T>
 T* Matrix<T>::find(T cell) {
-    if(value_point_map.count(cell)) { /*did the &* cause otherwise the type is map::iterator*/
-        return &(*(value_point_map.find(cell)));
+    if(value_point_map.count(cell)) {
+        return value_point_map.find(cell);
     }
-    /*for(auto row : matrix) {
+    *//*for(auto row : matrix) {
         for(auto element : row) {
             if((*element) == cell) {
                 return &element;
             }
         }
-    }*/
+    }*//*
     return nullptr;
-}
+}*/
 
 /**
  * Returns the number of rows in the matrix

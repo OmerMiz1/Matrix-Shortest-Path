@@ -24,6 +24,7 @@ public:
 
     T getState() const;
     double getCost();
+    State<T>* getGoalState();
 
     list<State<T>>* backtrace() const;
 

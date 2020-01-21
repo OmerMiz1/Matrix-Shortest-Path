@@ -35,7 +35,7 @@ class Matrix {
  public:
     T* at(int x, int y);
     T* at(Point point);
-    T* find(T cell);
+    /*T* find(T cell);*/
     Point* getPoint(T cell) const;
     int getRowsCount();
     int getColsCount();

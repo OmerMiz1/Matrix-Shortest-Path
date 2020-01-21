@@ -111,3 +111,7 @@ list<State<T>>* State<T>::backtrace() const {
     }
     return backtrace_path;
 }
+template<class T>
+State<T>* State<T>::getGoalState() {
+    return prev_state->clone();
+}
