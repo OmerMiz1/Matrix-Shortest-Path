@@ -35,13 +35,13 @@ public:
     bool operator>(State<T> &other_state);
 
     class costComparator {
-        bool operator()(const State<T> first, const State<T> second) const {
-            return first.cost<second.cost;
+        bool operator()(const State<T> &first, const State<T> &second) const {
+            return first.cost < second.cost;
         }
     }; /*Kinda useless, already overriding operators*/
     class positionComparator {
-        bool operator()(const State<T> first, const State<T> second) const {
-            return first.getState() < &(second.getState());
+        bool operator()(const State<T> &first, const State<T> &second) const {
+            return first.myState < second.myState;
         }
     };
     State<T>* clone() const override;
