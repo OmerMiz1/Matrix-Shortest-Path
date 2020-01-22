@@ -35,22 +35,23 @@ template <class P>
 list<P> SearchableMatrix<P>::getAllPossibleStates(P state) {
     list<P> statesList;
 
-    P* temp = this->getAbove(state);
+    P* temp = Matrix<P>::getAbove(state);
     if ((temp != nullptr) && (temp->getCost() != NOT_A_NODE)) {
         temp->setPrev(state.clone());
         statesList.push_back(*temp);
     }
-    temp = this->getBelow(state);
+
+    temp = Matrix<P>::getBelow(state);
     if ((temp != nullptr) && (temp->getCost() != NOT_A_NODE)) {
         temp->setPrev(state.clone());
         statesList.push_back(*temp);
     }
-    temp = this->getLeft(state);
+    temp = Matrix<P>::getLeft(state);
     if ((temp != nullptr) && (temp->getCost() != NOT_A_NODE)) {
         temp->setPrev(state.clone());
         statesList.push_back(*temp);
     }
-    temp = this->getRight(state);
+    temp = Matrix<P>::getRight(state);
     if ((temp != nullptr) && (temp->getCost() != NOT_A_NODE)) {
         temp->setPrev(state.clone());
         statesList.push_back(*temp);

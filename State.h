@@ -26,16 +26,16 @@ public:
 
     T getState() const;
     double getCost() const;
-
-    list<State<T>>* backtrace() const;
-
     void setPrev(State<T> *prev_state);
 
+    list<State<T>>* backtrace() const;
+    State<T>* clone() const override;
     bool is(State<T> other_state) const;
+    string str() const override;
+
     bool operator==(const State<T> &other_state) const;
     bool operator<(const State<T> &other_state) const;
     bool operator>(const State<T> &other_state) const;
-    string str() const override;
 
     class costComparator {
         bool operator()(const State<T> &first, const State<T> &second) const {
@@ -47,7 +47,6 @@ public:
             return first.my_state < second.my_state;
         }
     };
-    State<T>* clone() const override;
 };
 
 template class State<Point>;

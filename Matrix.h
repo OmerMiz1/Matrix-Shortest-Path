@@ -4,6 +4,7 @@
 
 #ifndef ALGORITHMICPROGRAMMING2_MATRIX_H
 #define ALGORITHMICPROGRAMMING2_MATRIX_H
+#define OUT_OF_BOUNDS nullptr
 
 #include <vector>
 #include <algorithm>

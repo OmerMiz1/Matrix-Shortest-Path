@@ -2,6 +2,7 @@
 // Created by doref on 18/01/2020.
 //
 
+
 #include "Matrix.h"
 
 /**
@@ -38,7 +39,7 @@ T* Matrix<T>::at(int x, int y)  {
     try {
         return &this->matrix.at(x).at(y);
     } catch(const char* e) { /*catches out_of_bounds exceptions*/
-        return nullptr;
+        return OUT_OF_BOUNDS;
     }
 }
 
