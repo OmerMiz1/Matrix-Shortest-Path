@@ -36,7 +36,7 @@ void FileCacheManager<P, S>::insert(P problem, S solution) {
     if (this->contains(problem)) { //TODO for debugging purposes, remove before submitting
         perror("writing a known solution");
     }
-    writeToFile(problem, solution);
+    this->writeToFile(problem, solution);
 }
 
 template<typename P, typename S>

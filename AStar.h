@@ -9,13 +9,14 @@
 #include "Searchable.h"
 #include "State.h"
 
-template <class P, class S>
-class AStar {
-public:
-    S search(Searchable<P> problem) override;
-
+template <class P>
+class AStar : Searcher<P> {
 private:
+    P goal;
     double heuristicDistance(State<P> current, State<P> goal);
+public:
+    AStar(P goal_state):goal(goal_state) {}
+    list<P> search(Searchable<P> problem) override;
 };
 
 
