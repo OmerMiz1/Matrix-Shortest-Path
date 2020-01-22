@@ -15,8 +15,10 @@ private:
     P goal;
     double heuristicDistance(State<P> current, State<P> goal);
 public:
-    AStar(P goal_state):goal(goal_state) {}
+    /*  AStar(P goal_state):goal(goal_state) {}TODO: not in CTOR - should be injected..*/
     list<P> search(Searchable<P> problem) override;
+
+    Searcher<P> *clone() const override;
 };
 
 template class AStar<State<Point>>;

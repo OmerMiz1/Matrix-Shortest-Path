@@ -16,6 +16,7 @@ private:
 
 public:
     list<P> search(Searchable<P> *problem) override;
+    Searcher<P> *clone() const override;
 };
 
 template class BestFirstSearch<State<Point>>;

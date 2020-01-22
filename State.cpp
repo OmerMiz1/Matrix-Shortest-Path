@@ -111,3 +111,8 @@ list<State<T>>* State<T>::backtrace() const {
     }
     return backtrace_path;
 }
+
+template<class T>
+string State<T>::str() {
+    return string();
+}

@@ -58,4 +58,12 @@ list<P> BreadthFirstSearch<P>::search(Searchable<P> *problem) {
             }
         }
     }
+
+    /*TODO: MAKE SURE
+     * Returns an empty list if no path found...*/
+    return list<P>();
+}
+template<class P>
+Searcher<P> *BreadthFirstSearch<P>::clone() const {
+    return new BreadthFirstSearch<P>();
 }

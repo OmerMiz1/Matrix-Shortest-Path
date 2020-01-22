@@ -9,7 +9,7 @@
  * @return the initial state
  */
 template <class P>
-P SearchableMatrix<P>::getInitialState() {
+P SearchableMatrix<P>::getInitialState()const {
     return *initial_state;
 }
 
@@ -22,7 +22,7 @@ P SearchableMatrix<P>::getInitialState() {
  * @return true - if the given state is the goal state, false - otherwises
  */
 template <class P>
-bool SearchableMatrix<P>::isGoalState(P state) {
+bool SearchableMatrix<P>::isGoalState(P state)const {
     return state == (*goal_state);
 }
 
@@ -83,22 +83,19 @@ void  SearchableMatrix<P>::setGoalState(Point goal_point) {
 
 template <class P>
 P SearchableMatrix<P>::getGoalState() const {
-    return *goal_state;
+    return *(goal_state->clone());
 }
 
 template <typename P>
-string SearchableMatrix<P>::toString() {
+string SearchableMatrix<P>::toString() const {
     string result;
     result = typeid(this).name();
-    result.append(to_string(initial_state->getState().getX()));
-    result.append(to_string(initial_state->getState().getY()));
-    result.append(to_string(goal_state->getState().getX()));
-    result.append(to_string(goal_state->getState().getY()));
+    result.append(to_string(initial_state->toString()));
+    result.append(to_string(goal_state->toString()));
 
     for(auto &row : Matrix<P>::matrix) {
         for(auto &cell : row) {
-            result.append(to_string(cell.getState().getX()));
-            result.append(to_string(cell.getState().getY()));
+            result.append(to_string(cell.toString()));
         }
     }
 
@@ -106,6 +103,7 @@ string SearchableMatrix<P>::toString() {
 }
 
 template <typename P>
-void addRow(vector<P> *new_row) {
+void SearchableMatrix<P>::addRow(vector<P> *new_row) {
     Matrix<P>::addRow(new_row);
 }
+

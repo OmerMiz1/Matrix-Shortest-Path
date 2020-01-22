@@ -17,8 +17,10 @@
 /*Object Adapter*/
 template <typename P>
 class SearchSolver : public Solver<Searchable<P>, list<P>> {
+ private:
+    Searcher<P> *my_searcher;
  public:
-    SearchSolver()=default;
+    SearchSolver(Searcher<P> *searcher);
     list<P> solve(Searchable<P> *sMatrix) override;
     SearchSolver<P> *clone() const override;
 };

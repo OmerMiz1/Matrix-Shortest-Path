@@ -6,12 +6,14 @@
 #define ALGORITHMICPROGRAMMING2__STATE_H_
 
 #include "Point.h"
+#include "Stringable.h"
 #include <list>
+#include <string>
 
 using namespace std;
 
 template <class T>
-class State : public Cloneable<State<T>> {
+class State : public Cloneable<State<T>>, Stringable<State<T>> {
 private:
     T *myState; // the state of this state
     double cost; //the cost that it took us to get to this state, 0 if this is the first state
@@ -33,7 +35,9 @@ public:
     bool operator==(State<T> &other_state);
     bool operator<(State<T> &other_state);
     bool operator>(State<T> &other_state);
-
+ private:
+    string str() override;
+ public:
     class costComparator {
         bool operator()(const State<T> &first, const State<T> &second) const {
             return first.cost < second.cost;

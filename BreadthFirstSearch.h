@@ -14,6 +14,7 @@ template <class P>
 class BreadthFirstSearch : public Searcher<P> {
 public:
     list<P> search(Searchable<P> *problem) override;
+    Searcher<P> *clone() const override;
 };
 
 template class BreadthFirstSearch<State<Point>>;

@@ -8,8 +8,17 @@
 #include "MyClientHandler.h"
 
 template<class P>
-MyClientHandler<P>::MyClientHandler(Solver<P,list<P>> *solver, CacheManager<string, string> *cache)
-    : my_solver(solver), my_cache(cache) {}
+MyClientHandler<P>::MyClientHandler(Solver<Searchable<P>,list<P>> *solver, CacheManager<string, string> *cache) {
+    this->my_solver = move(solver);
+    this->my_cache = move(cache);
+}
+
+template<class P>
+MyClientHandler<P>::MyClientHandler(SearchSolver<P> *solver,
+                                    CacheManager<string, string> *cache) {
+    this->my_solver = move(solver);
+    this->my_cache = move(cache);
+}
 
 /** Returns a list of strings from first line received from client until line
  * says "end". The list DOESNT INCLUDE "end"!
@@ -48,9 +57,9 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
 
     if(!(my_cache->contains(problem_key))) {
         solution = my_solver->solve(problem);
-        my_cache->insert(problem,solution);
+        my_cache->insert(problem_key,solution);
     } else {
-        solution = my_cache->get(problem);
+        solution = my_cache->get(problem_key);
     }
 
     /*TODO: print solution (S should be printable)*/
@@ -93,6 +102,8 @@ template<class P>
 MyClientHandler<P>* MyClientHandler<P>::clone() const {
     return new MyClientHandler<P>(my_solver->clone(),my_cache->clone());
 }
+
+
 
 
 

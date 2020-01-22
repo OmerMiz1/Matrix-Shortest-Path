@@ -25,6 +25,10 @@ list<P> AStar<P>::search(Searchable<P> problem) {
     };
 
 }
+template<class P>
+Searcher<P> *AStar<P>::clone() const {
+    return new AStar<P>();
+}
 
 template<class P, class S>
 double AStar<P, S>::heuristicDistance(State<P> current, State<P> goal) {

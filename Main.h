@@ -5,8 +5,6 @@
 #ifndef ALGORITHMICPROGRAMMING2__MAIN_H_
 #define ALGORITHMICPROGRAMMING2__MAIN_H_
 
-#define CACHE_CAPACITY 10
-
 #include <thread>
 #include <list>
 
@@ -31,9 +29,12 @@ class server_side::boot::Main {
         }
 
         int port = stoi(argv[1]);
-        auto solver = new SearchSolver<State<Point>>();
-        auto cache = new FileCacheManager<string,string>();
-        auto handler = new MyClientHandler<State<Point>, list<State<Point>>>(solver,cache);
+        /*Search type*/
+        Searcher<State<Point>> *searcher = new BestFirstSearch<State<Point>>();
+        /*Object Adapter*/
+        SearchSolver<State<Point>> *solver = new SearchSolver<State<Point>>(searcher);
+        CacheManager<string,string> *cache = new FileCacheManager<string,string>();
+        auto handler = new MyClientHandler<State<Point>>(solver,cache);
         auto mps = new MyParallelServer();
         try {
             mps->open(port, handler);
@@ -53,7 +54,7 @@ class server_side::boot::SerialStringTester {
         }
 
         int port = stoi(argv[1]);
-        auto solver = new StringReverser<string>();
+        Solver<string,string> *solver = new StringReverser<string>();
         auto cache = new FileCacheManager<string,string>();
         auto handler = new MyTestClientHandler<string,string>(solver,cache);
         server_side::Server *mss = new MySerialServer();
@@ -76,7 +77,7 @@ class server_side::boot::ParallelStringTester {
         }
 
         int port = stoi(argv[1]);
-        auto solver = new StringReverser<string>();
+        Solver<string,string> *solver = new StringReverser<string>();
         auto cache = new FileCacheManager<string,string>();
         auto handler = new MyTestClientHandler<string,string>(solver,cache);
         server_side::Server *mps = new MyParallelServer();
@@ -99,10 +100,12 @@ class server_side::boot::SerialMatrixTester {
         }
 
         int port = stoi(argv[1]);
-        auto solver = new SearchSolver<State<Point>>();
+        Searcher<State<Point>> *searcher = new BestFirstSearch<State<Point>>();
+        SearchSolver<State<Point>> *solver = new SearchSolver<State<Point>>(searcher);
         auto cache = new FileCacheManager<string,string>();
-        auto handler = new MyClientHandler<Searchable<State<Point>>, list<State<Point>>>(solver,cache);
+        auto handler = new MyClientHandler<State<Point>>(solver,cache);
         auto mss = new MySerialServer();
+
         try {
             mss->open(port, handler);
         } catch (const char* e) {
@@ -121,9 +124,10 @@ class server_side::boot::ParallelMatrixTester {
             exit(EXIT_FAILURE);
         }
         int port = stoi(argv[1]);
-        auto solver = new SearchSolver<State<Point>>();
+        Searcher<State<Point>> *searcher = new BestFirstSearch<State<Point>>();
+        SearchSolver<State<Point>> *solver = new SearchSolver<State<Point>>(searcher);
         auto cache = new FileCacheManager<string,string>();
-        auto handler = new MyClientHandler<Searchable<State<Point>>, list<State<Point>>>(solver,cache);
+        auto handler = new MyClientHandler<State<Point>>(solver,cache);
         auto mps = new MyParallelServer();
 
         try {

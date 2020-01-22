@@ -12,7 +12,6 @@
 #include "Point.h"
 #include "Searchable.h"
 #include "Matrix.h"
-//#include "SearchableBuilder.h"
 
 template <typename P>
 class SearchableMatrix : public Searchable<P>, public Matrix<P> {
@@ -27,14 +26,16 @@ class SearchableMatrix : public Searchable<P>, public Matrix<P> {
     void setInitialState(Point initial_point);
     void setGoalState(Point goal_point);
 
- public:
-    P getInitialState() override;
-    P getGoalState() const;
-    bool isGoalState(P state) override;
-    list<P> getAllPossibleStates(P state) override;
-    string toString() override;
  protected:
     void addRow(vector<P> *new_row) override;
+
+ public:
+    P getInitialState() const override;
+    P getGoalState() const override;
+    bool isGoalState(P state) const override;
+    list<P> getAllPossibleStates(P state) override;
+    string toString() const override;
+
 };
 
 template class SearchableMatrix<State<Point>>;
