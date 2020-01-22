@@ -16,13 +16,13 @@ class positionComparator {
         return first.getState() < second.getState();
     }
 };*/
-
+/*
 template <typename E>
 class positionComparator {
     bool operator()(const E &first, const E &second) {
         return first.getState() < second.getState();
     }
-};
+};*/
 
 template <class P>
 list<P> BreadthFirstSearch<P>::search(Searchable<P> *problem) {
@@ -30,7 +30,7 @@ list<P> BreadthFirstSearch<P>::search(Searchable<P> *problem) {
     queue<P> statesQueue;
     /*TODO: brought "typename" back, not sure if its good.*/
     //the existence of a State in this set indicates he was discovered already
-    set<P, positionComparator<P>> discoveredSet;
+    set<P,typename P::positionComparator> discoveredSet;
     P initial = problem->getInitialState();
     discoveredSet.insert(initial);
     statesQueue.push(initial);

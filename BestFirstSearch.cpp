@@ -70,7 +70,7 @@ list<P> BestFirstSearch<P>::search(Searchable<P> *problem) {
     }
 
     /*TODO: If algorithm didnt reach goal_state?*/
-    return nullptr;
+    return list<P>();
 }
 template<class P>
 Searcher<P> *BestFirstSearch<P>::clone() const {

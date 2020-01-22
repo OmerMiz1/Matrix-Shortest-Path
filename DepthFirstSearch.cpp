@@ -23,7 +23,7 @@ list<P> DepthFirstSearch<P>::search(Searchable<P> *problem) {
         P current = statesStack.top();
         statesStack.pop();
         if (problem->isGoalState(current)) {
-            return current;
+            return *current.backtrace();
         }
         if (!visitedSet.count(current)) {
             visitedSet.insert(current);

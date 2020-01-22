@@ -61,12 +61,11 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         solution_str = solutionDescription(&solution);
         my_cache->insert(problem_key,solution_str);
     } else {
-        solution = my_cache->get(problem_key);
+        solution_str = my_cache->get(problem_key);
     }
 
-    /*TODO: print solution (S should be printable)*/
-
-    if (send(client_socketfd, result.c_str(), result.size(), 0) == -1) {
+    /*TODO: Maybe need to print solution in chunks o 1024 (MAX_SEND_CHARS)?*/
+    if (send(client_socketfd, solution_str.c_str(), result.size(), 0) == -1) {
         perror("handleClient#2");
         return;
     }

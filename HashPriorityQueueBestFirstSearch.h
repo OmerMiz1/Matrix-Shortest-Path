@@ -11,12 +11,12 @@
 
 using namespace std;
 
-template <typename E>
+/*template <typename E>
 class positionComparator {
-    bool operator()(const E &first, const E &second) {
+    bool operator()(const E& first, const E& second) const {
         return first.getState() < second.getState();
     }
-};
+};*/
 
 /**
  * A priority_queue wrapped by a class for the purpose of including a set
@@ -31,8 +31,9 @@ class positionComparator {
 template <typename E>
 class HashPriorityQueueBestFirstSearch : public priority_queue<E> {
 private:
-    set<E, positionComparator<E>> mySet;// POSITION_COMPARED
+    set<E, typename E::positionComparator> mySet;// POSITION_COMPARED
     int missed_inserts = 0;
+
 public:
     void insert(E element);
     void remove(E element);
