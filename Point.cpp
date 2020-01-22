@@ -8,20 +8,22 @@
 
 Point::Point(int xVal, int yVal): x(xVal), y(yVal) {}
 
+Point::Point(Point const &other) : x(other.x), y(other.y) {}
+
 /**
  * Checks equality between this point and another one
  * @param other the other point we want to check
  * @return true - if the points are equal, false - otherwise
  */
-bool Point::operator==(Point *other) {
-    return (this->x == other->x) && (this->y == other->y);
+bool Point::operator==(const Point &other) const{
+    return (this->x == other.x) && (this->y == other.y);
 }
 
 /**
  * Returns the x value of the point
  * @return the x value of the point
  */
-int Point::getX() {
+int Point::getX() const{
     return this->x;
 }
 
@@ -29,7 +31,7 @@ int Point::getX() {
  * Returns the y value of the point
  * @return the y value of the point
  */
-int Point::getY() {
+int Point::getY() const{
     return this->y;
 }
 
@@ -51,12 +53,11 @@ double Point::distance(Point *other) const {
  * @param other
  * @return
  */
-bool Point::operator<(Point *other) {
+bool Point::operator<(const Point &other) const{
     /*TODO: Make sure its !(this==other) and that auto correct didnt change it*/
-    return !(this == other);
+    return !(*this == other);
 }
 
 Point* Point::clone() const {
     return new Point(*this);
 }
-

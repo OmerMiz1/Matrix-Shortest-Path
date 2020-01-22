@@ -34,7 +34,7 @@ T State<T>::getState() const {
 }
 
 template <typename T>
-double State<T>::getCost() {
+double State<T>::getCost() const{
     return this->cost;
 }
 
@@ -63,7 +63,7 @@ bool State<T>::is(State<T> other_state) const {
  * @return true - if their's states are equals, false - otherwise
  */
 template<typename T>
-bool State<T>::operator==(State<T> &other_state) {
+bool State<T>::operator==(const State<T> &other_state) const{
     return (this->cost == other_state.getCost());
 }
 
@@ -73,13 +73,13 @@ bool State<T>::operator==(State<T> &other_state) {
  * @return true - if this state's cost is smaller then the other state's cost, false - otherwise
  */
 template<typename T>
-bool State<T>::operator<(State<T> &other_state) {
-    return (this->cost < other_state.getCost());
+bool State<T>::operator<(const State<T> &other_state) const{
+    return (this->cost < other_state.cost);
 }
 
 template<typename T>
-bool State<T>::operator>(State<T> &other_state) {
-    return (this->cost > other_state.getCost());
+bool State<T>::operator>(const State<T> &other_state) const{
+    return (this->cost > other_state.cost);
 }
 
 template<typename T>

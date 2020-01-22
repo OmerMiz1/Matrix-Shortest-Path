@@ -13,10 +13,11 @@ class Point : Cloneable<Point> {
 public:
     Point()=default;
     Point(int, int);
-    bool operator==(Point* other);
-    bool operator<(Point* other);
-    int getX();
-    int getY();
+    explicit Point(Point const &other);
+    bool operator==(const Point &other) const;
+    bool operator<(const Point &other) const;
+    int getX() const;
+    int getY() const;
     double distance(Point *other) const;
     Point* clone() const override;
 };

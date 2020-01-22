@@ -25,19 +25,20 @@ public:
     State(T *myState, double cost, State<T> *prevState);
 
     T getState() const;
-    double getCost();
+    double getCost() const;
 
     list<State<T>>* backtrace() const;
 
     void setPrev(State<T> *prev_state);
 
     bool is(State<T> other_state) const;
-    bool operator==(State<T> &other_state);
-    bool operator<(State<T> &other_state);
-    bool operator>(State<T> &other_state);
- private:
+    bool operator==(const State<T> &other_state) const;
+    bool operator<(const State<T> &other_state) const;
+    bool operator>(const State<T> &other_state) const;
+
+private:
     string str() override;
- public:
+public:
     class costComparator {
         bool operator()(const State<T> &first, const State<T> &second) const {
             return first.cost < second.cost;

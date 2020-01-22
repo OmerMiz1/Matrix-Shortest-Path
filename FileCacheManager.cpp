@@ -33,10 +33,10 @@ S FileCacheManager<P, S>::get(P problem) {
 
 template<typename P, typename S>
 void FileCacheManager<P, S>::insert(P problem, S solution) {
-    if (this->contains(problem)) { //TODO for debugging purposes, remove before submitting
+    if (contains(problem)) { //TODO for debugging purposes, remove before submitting
         perror("writing a known solution");
     }
-    this->writeToFile(problem, solution);
+    writeToFile(problem, solution);
 }
 
 template<typename P, typename S>

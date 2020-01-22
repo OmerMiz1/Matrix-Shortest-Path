@@ -24,7 +24,7 @@ list<P> BestFirstSearch<P>::search(Searchable<P> *problem) {
     set<P, typename P::positionComparator> closed;
     open.insert(problem->getInitialState());
     while (!open.empty()) {
-        this->evaluatedNodesCount++;
+        this->evaluatedNodesCount++; //TODO: remove?
         // n <- dequeue open
         P n = open.topAndPop();
         cout<<"Before: "<<closed.count(n)<<endl;
@@ -55,7 +55,7 @@ list<P> BestFirstSearch<P>::search(Searchable<P> *problem) {
                     before = *(closed.find(s));
                 }
                 // if better then the previous
-                if (before < s) {
+                if (s < before) {
                     //if s not in open add it
                     if (!open.contains(s)) {
                         open.insert(s);

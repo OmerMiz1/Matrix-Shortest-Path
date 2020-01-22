@@ -10,7 +10,7 @@
 #include "State.h"
 
 template <class P>
-class DepthFirstSearch : Searcher<P> {
+class DepthFirstSearch : public Searcher<P> {
 public:
     list<P> search(Searchable<P> *problem) override;
 };
