@@ -5,36 +5,13 @@
 
 #include "Matrix.h"
 
-/**
- * A constructor to Matrix
- * @param rows the number of rows in the matrix
- * @param columns the number columns in the matrix
- */
-template <typename T>
-/*Matrix<T>::Matrix(int rows, int columns): rows_count(rows), columns_count(columns) {
-    this->matrix = new T*[rows_count];
-    for(int i = 0; i < rows_count; ++i) {
-        this->matrix[i] = new T[columns_count];
-    }
-}*/
-
-/**
- * A d'tor for Matrix
- */
-/*template<typename T>
-Matrix<T>::~Matrix() {
-    for(int i = 0; i < rows_count; ++i) {
-        delete(this->matrix[i]);
-    }
-    delete(this->matrix);
-}*/
-
 /** Might throw exception?
  * Returns a certain cell of the matrix
  * @param x the x coordinate of the cell
  * @param y the y coordinate of the cell
  * @return the cell in the (x,y) place in the matrix
  */
+template <typename T>
 T* Matrix<T>::at(int x, int y)  {
     try {
         return &this->matrix.at(x).at(y);
@@ -47,21 +24,6 @@ template<typename T>
 T *Matrix<T>::at(Point point) {
     return at(point.getX(), point.getY());
 }
-
-/*template<typename T>
-T* Matrix<T>::find(T cell) {
-    if(value_point_map.count(cell)) {
-        return value_point_map.find(cell);
-    }
-    *//*for(auto row : matrix) {
-        for(auto element : row) {
-            if((*element) == cell) {
-                return &element;
-            }
-        }
-    }*//*
-    return nullptr;
-}*/
 
 /**
  * Returns the number of rows in the matrix
@@ -91,10 +53,15 @@ int Matrix<T>::getColsCount()  {
 template <typename T>
 void Matrix<T>::addRow(vector<T>* new_row) {
     int cur_col = 0;
+    cout<<"HI"<<endl;
+    matrix.emplace_back(vector<T>(new_row->size(),0));
+    cout<<"BYE"<<endl;
+    cout<<matrix.front().size()<<endl;
     for(auto it = new_row->begin(); it != new_row->end(); ++it,++cur_col) {
-        matrix.at(rows_count).at(cur_col) = *it;
+        matrix.at(rows_count).emplace_back(*it);
         value_point_map[*it] = Point(rows_count,cur_col);
     }
+    cout<<"#4"<<endl;
     row_size_map[matrix.at(rows_count)] = new_row->size();
     this->rows_count++;
 }

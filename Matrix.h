@@ -9,7 +9,7 @@
 #include <vector>
 #include <algorithm>
 #include <map>
-
+#include <iostream>
 
 #include "Point.h"
 #include "State.h"
@@ -34,6 +34,8 @@ class Matrix {
     virtual void removeRow(int row_num); /*Made it for symmetry, currently no use*/
 
  public:
+//    Matrix();
+//    ~Matrix();
     T* at(int x, int y);
     T* at(Point point);
     /*T* find(T cell);*/

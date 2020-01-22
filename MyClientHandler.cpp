@@ -32,14 +32,14 @@ template <class P>
 void MyClientHandler<P>::handleClient(int client_socketfd) {
     SearchableBuilder<P> s_builder;
     Searchable<P> *problem;
-    list<string> recieved_data;
+    list<string> recieved_data, tmp;
     list<P> solution;
     string cur_line, result, solution_str, problem_key;
 
     /*Reads all data from client*/
     while (1) {
-        cur_line = readMessageFromClient(client_socketfd);
-        if (cur_line.empty()) {
+        tmp = readMessageFromClient(client_socketfd);
+        if (tmp.empty()) {
             perror("handleClient#1");
             return;
         }
@@ -48,7 +48,9 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         else if (!(cur_line.compare(END_OF_MESSAGE))) {
             break;
         }
-        recieved_data.push_back(cur_line);
+        for(auto msg : tmp) {
+            recieved_data.push_back(msg);
+        }
     }
 
     /*Generate problem object and hash it for cache*/
@@ -76,11 +78,15 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
 }
 
 template <class P>
-string MyClientHandler<P>::readMessageFromClient(int client_socketfd) {
+list<string> MyClientHandler<P>::readMessageFromClient(int client_socketfd) {
     /*TODO: bug- doesnt stop at the right place. I think im supposed to read 1
      * time and count on them not to bring longer strings than expected.
      * If doesnt work, consider using the same "buffering" method used in EX3
      * at OpenServerCommand::startListening*/
+    list<string> result;
+    regex lineRx("(.*)\\n");
+    sregex_iterator start, end = sregex_iterator();
+    string buf_str;
 
     /*Clear to avoid garbage*/
     int bytes_read = 0;
@@ -90,17 +96,22 @@ string MyClientHandler<P>::readMessageFromClient(int client_socketfd) {
     /*Print error, return empty list*/
     if (bytes_read == -1) {
         perror("readMessageFromClient#1");
-        return "";
+        return list<string>();
         /*TODO remove below condition before submitting.*/
     } else if (0 < bytes_read /*&& bytes_read < MAX_CHARS*/) {
-        return string(buffer);
+        buf_str.append(buffer);
+
+        for(start = sregex_iterator(buf_str.begin(),buf_str.end(),lineRx); start != end; ++start ) {
+            result.push_back(start->str());
+        }
+        return result;
     }
 
     //cout<<buffer<<endl; /*TODO: for debugging.*/
 
     /*Also error, shouldnt get here.*/
     perror("readMessageFromClient#2");
-    return "";
+    return list<string>();
 }
 
 template<class P>

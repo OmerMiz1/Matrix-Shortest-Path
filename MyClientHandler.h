@@ -27,7 +27,7 @@ class MyClientHandler : public ClientHandler {
  private:
     Solver<Searchable<P>,list<P>> *my_solver;
     CacheManager<string,string> *my_cache;
-    string readMessageFromClient(int client_socketfd);
+    list<string> readMessageFromClient(int client_socketfd);
     string hashProblem(Searchable<P> *problem) const;
     string solutionDescription(list<P> *solution);
 
