@@ -8,7 +8,7 @@
 
 Point::Point(int xVal, int yVal): x(xVal), y(yVal) {}
 
-Point::Point(Point const &other) : x(other.x), y(other.y) {}
+Point::Point(const Point &other) : x(other.x), y(other.y) {}
 
 /**
  * Checks equality between this point and another one

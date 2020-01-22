@@ -14,13 +14,13 @@ class Point : Cloneable<Point>, Stringable<Point> {
 public:
     Point()=default;
     Point(int, int);
+    explicit Point(const Point &other);
     enum Direction {Up, Down, Left, Right, Same};
     Direction getDirectionTo(const Point &other) const;
     string getDirectionToStr(Direction direction) const;
     int getX() const;
     int getY() const;
     double distance(Point *other) const;
-    explicit Point(Point const &other);
     bool operator==(const Point &other) const;
     bool operator<(const Point &other) const;
 

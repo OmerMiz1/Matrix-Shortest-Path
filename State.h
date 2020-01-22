@@ -18,7 +18,6 @@ private:
     T *my_state; // the state of this state
     double cost; //the cost that it took us to get to this state, 0 if this is the first state
     State<T> *prev_state; //the state that this state got from, null if this is the first state
-    volatile const string direction;
 
 public:
     State()=default;
