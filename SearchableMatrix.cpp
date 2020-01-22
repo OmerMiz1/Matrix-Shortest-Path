@@ -1,5 +1,5 @@
 //
-// Created by doref on 18/01/2020.
+// Created by Dor Refaeli on 18/01/2020.
 //
 #define NOT_A_NODE -1
 #include "SearchableMatrix.h"

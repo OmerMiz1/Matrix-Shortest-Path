@@ -10,6 +10,12 @@
 
 using namespace std;
 
+/**
+ * searches for a solution by using the depth first search algorithm
+ * @tparam P the nodes that represents the Searchable (State<Point> in our case)
+ * @param problem an object of type searchable (SearchableMatrix in our case)
+ * @return list of nodes of type P describing the route to the solution
+ */
 template <class P>
 list<P> DepthFirstSearch<P>::search(Searchable<P> *problem) {
     cout << "Started DepthFirstSearch" << endl;

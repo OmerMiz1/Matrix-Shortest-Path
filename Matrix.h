@@ -1,5 +1,5 @@
 //
-// Created by doref on 18/01/2020.
+// Created by Dor Refaeli on 18/01/2020.
 //
 
 #ifndef ALGORITHMICPROGRAMMING2_MATRIX_H
