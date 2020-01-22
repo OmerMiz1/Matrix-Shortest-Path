@@ -113,34 +113,43 @@ void Matrix<T>::removeRow(int row_num) {
 }
 
 template<typename T>
-Point* Matrix<T>::getPoint(T cell) const {
-    if(value_point_map.count(cell)) {
-        return value_point_map.find(cell)->clone();
+Point Matrix<T>::getPoint(T cell) const {
+    int row_num=0, col_num=0;
+
+    for(auto row : matrix) {
+        for(auto element : row) {
+            if(cell == element) {
+                return Point(row_num,col_num);
+            }
+            ++col_num;
+        }
+        col_num = 0;
+        ++row_num;
     }
 }
 
 template<typename T>
 T *Matrix<T>::getAbove(T state) {
     auto p = getPoint(state);
-    return at(p->getX(), (p->getY()-1));
+    return at(p.getX(), (p.getY()-1));
 }
 
 template<typename T>
 T *Matrix<T>::getBelow(T state) {
-    auto p = this->getPoint(state);
-    return at(p->getX(), (p->getY()+1));
+    auto p = getPoint(state);
+    return at(p.getX(), (p.getY()+1));
 }
 
 template<typename T>
 T *Matrix<T>::getLeft(T state) {
-    auto p = this->getPoint(state);
-    return at(p->getX()-1, p->getY());
+    auto p = getPoint(state);
+    return at(p.getX()-1, p.getY());
 }
 
 template<typename T>
 T *Matrix<T>::getRight(T state) {
-    auto p = this->getPoint(state);
-    return at(p->getX()+1, p->getY());
+    auto p = getPoint(state);
+    return at(p.getX()+1, p.getY());
 }
 
 

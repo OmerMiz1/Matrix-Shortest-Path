@@ -19,5 +19,5 @@ public:
     list<P> search(Searchable<P> problem) override;
 };
 
-
+template class AStar<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2_ASTAR_H

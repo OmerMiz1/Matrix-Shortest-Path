@@ -48,5 +48,4 @@ public:
 };
 
 template class HashPriorityQueueAStar<State<Point>>;
-
 #endif //ALGORITHMICPROGRAMMING2_HASHPRIORITYQUEUEASTAR_H

@@ -22,5 +22,6 @@ class SearchSolver : public Solver<Searchable<P>, list<P>> {
     list<P> solve(Searchable<P> *sMatrix) override;
     SearchSolver<P> *clone() const override;
 };
+
 template class SearchSolver<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2__SEARCHSOLVER_H_

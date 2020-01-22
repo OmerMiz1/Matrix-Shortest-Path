@@ -19,4 +19,5 @@ class Searcher {
     virtual list<P> search(Searchable<P>*)=0;
 };
 
+template class Searcher<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2__SEARCHER_H_

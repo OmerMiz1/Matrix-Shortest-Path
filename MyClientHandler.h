@@ -31,4 +31,6 @@ class MyClientHandler : public ClientHandler {
     void handleClient(int client_socketfd) override;
     MyClientHandler* clone() const override;
 };
+
+template class MyClientHandler<Searchable<State<Point>>,list<State<Point>>>;
 #endif //ALGORITHMICPROGRAMMING2__MYCLIENTHANDLER_H_

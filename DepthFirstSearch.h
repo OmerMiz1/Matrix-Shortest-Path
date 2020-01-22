@@ -14,5 +14,5 @@ class DepthFirstSearch : Searcher<P> {
 public:
     list<P> search(Searchable<P> *problem) override;
 };
-
+template class DepthFirstSearch<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2_DEPTHFIRSTSEARCH_H

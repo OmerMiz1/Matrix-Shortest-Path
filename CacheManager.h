@@ -22,8 +22,5 @@ class CacheManager : Cloneable<CacheManager<P,S>> {
     virtual CacheManager<P, S>* clone() const=0;
 };
 
-/*TODO: if doesnt work without declaration of CacheManager<Searchable<P>, list<State<P>>
- * just add explicit declaration*/
-
-
+template class CacheManager<string,string>;
 #endif //ALGORITHMICPROGRAMMING2__CACHEMANAGER_H_

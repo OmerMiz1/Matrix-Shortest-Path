@@ -32,5 +32,4 @@ class MyParallelServer : public server_side::Server{
     int open(int port, ClientHandler *handler) override;
     void stop() override;
 };
-
 #endif //ALGORITHMICPROGRAMMING2__MYPARALLELSERVER_H_

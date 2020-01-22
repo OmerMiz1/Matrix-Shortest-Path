@@ -33,4 +33,6 @@ class SearchableMatrix : public Searchable<State<P>>, public Matrix<State<P>> {
     bool isGoalState(State<P> state) override;
     list<State<P>> getAllPossibleStates(State<P> state) override;
 };
+
+template class SearchableMatrix<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2_SEARCHABLEMATRIX_H

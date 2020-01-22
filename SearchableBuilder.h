@@ -23,4 +23,5 @@ class SearchableBuilder {
  public:
     SearchableMatrix<P>* buildMatrix(list<string> data);
 };
+template class SearchableBuilder<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2__SEARCHABLEBUILDER_H_
