@@ -37,22 +37,21 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
     string cur_line, result, solution_str, problem_key;
 
     /*Reads all data from client*/
-    while (1) {
+    while (!reached_end) {
         tmp = readMessageFromClient(client_socketfd);
-        if (tmp.empty()) {
+        if (tmp.empty() && !reached_end) {
             perror("handleClient#1");
             return;
         }
 
-        /*Reached end of message token*/
-        else if (!(cur_line.compare(END_OF_MESSAGE))) {
-            break;
-        }
         for(auto msg : tmp) {
+            if(!(msg.compare(END_OF_MESSAGE))) {
+                break;
+            }
             recieved_data.push_back(msg);
         }
+        tmp.clear();
     }
-
     /*Generate problem object and hash it for cache*/
     problem = s_builder.buildMatrix(recieved_data);
     if(problem == nullptr) {
@@ -93,6 +92,10 @@ list<string> MyClientHandler<P>::readMessageFromClient(int client_socketfd) {
     char buffer[MAX_CHARS] = {'\0'};
     bytes_read = read(client_socketfd, buffer, MAX_CHARS);
 
+    if(strstr(buffer,"end")) {
+        reached_end = true;
+    }
+
     /*Print error, return empty list*/
     if (bytes_read == -1) {
         perror("readMessageFromClient#1");
@@ -100,14 +103,12 @@ list<string> MyClientHandler<P>::readMessageFromClient(int client_socketfd) {
         /*TODO remove below condition before submitting.*/
     } else if (0 < bytes_read /*&& bytes_read < MAX_CHARS*/) {
         buf_str.append(buffer);
-
         for(start = sregex_iterator(buf_str.begin(),buf_str.end(),lineRx); start != end; ++start ) {
+            cout<<start->str()<<endl;
             result.push_back(start->str());
         }
         return result;
     }
-
-    //cout<<buffer<<endl; /*TODO: for debugging.*/
 
     /*Also error, shouldnt get here.*/
     perror("readMessageFromClient#2");

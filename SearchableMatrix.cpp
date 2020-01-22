@@ -108,14 +108,12 @@ template<typename P>
 string SearchableMatrix<P>::str() const {
     string result;
     /*Add typename, initial state and goal state*/
-
     result = typeid(this).name();
     result.append("\n initial: ");
     result.append(initial_state->str());
     result.append("\n goal: ");
     result.append(goal_state->str());
     result.append("\n");
-
     /*Also add each cell*/
     for(auto &row : Matrix<P>::matrix) {
         for(auto &cell : row) {

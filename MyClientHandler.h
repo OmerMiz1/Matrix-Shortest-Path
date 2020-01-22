@@ -30,6 +30,7 @@ class MyClientHandler : public ClientHandler {
     list<string> readMessageFromClient(int client_socketfd);
     string hashProblem(Searchable<P> *problem) const;
     string solutionDescription(list<P> *solution);
+    bool reached_end = false;
 
  public:
     MyClientHandler(Solver<Searchable<P>,list<P>> *solver,CacheManager<string,string> *cache);
