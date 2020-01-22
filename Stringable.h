@@ -9,6 +9,7 @@ using namespace std;
 
 template <class T>
 class Stringable {
-    virtual string str() =0;
+ public:
+    virtual string str() const=0;
 };
 #endif //ALGORITHMICPROGRAMMING2__STRINGABLE_H_

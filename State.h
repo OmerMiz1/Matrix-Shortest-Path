@@ -13,9 +13,9 @@
 using namespace std;
 
 template <class T>
-class State : public Cloneable<State<T>>, Stringable<State<T>> {
+class State : public Cloneable<State<T>>, public Stringable<T>, public Stringable<State<T>> {
 private:
-    T *myState; // the state of this state
+    T *my_state; // the state of this state
     double cost; //the cost that it took us to get to this state, 0 if this is the first state
     State<T> *prev_state; //the state that this state got from, null if this is the first state
 
@@ -32,13 +32,11 @@ public:
     void setPrev(State<T> *prev_state);
 
     bool is(State<T> other_state) const;
-    bool operator==(const State<T> &other_state) const;
-    bool operator<(const State<T> &other_state) const;
-    bool operator>(const State<T> &other_state) const;
+    bool operator==(State<T> &other_state);
+    bool operator<(State<T> &other_state);
+    bool operator>(State<T> &other_state);
+    string str() const override;
 
-private:
-    string str() override;
-public:
     class costComparator {
         bool operator()(const State<T> &first, const State<T> &second) const {
             return first.cost < second.cost;
@@ -46,7 +44,7 @@ public:
     }; /*Kinda useless, already overriding operators*/
     class positionComparator {
         bool operator()(const State<T> &first, const State<T> &second) const {
-            return first.myState < second.myState;
+            return first.my_state < second.my_state;
         }
     };
     State<T>* clone() const override;

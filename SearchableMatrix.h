@@ -10,8 +10,8 @@
 
 #include "State.h"
 #include "Point.h"
-#include "Searchable.h"
 #include "Matrix.h"
+#include "Searchable.h"
 
 template <typename P>
 class SearchableMatrix : public Searchable<P>, public Matrix<P> {
@@ -28,13 +28,14 @@ class SearchableMatrix : public Searchable<P>, public Matrix<P> {
 
  protected:
     void addRow(vector<P> *new_row) override;
+    void removeRow(int row_num) override;
 
  public:
     P getInitialState() const override;
     P getGoalState() const override;
     bool isGoalState(P state) const override;
     list<P> getAllPossibleStates(P state) override;
-    string toString() const override;
+    string str() const override;
 
 };
 

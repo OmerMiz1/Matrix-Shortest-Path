@@ -48,6 +48,10 @@ double Point::distance(Point *other) const {
     return (sqrt(subXPowerTwo+subYPowerTwo));
 }
 
+bool Point::operator!=(Point *other) {
+    return this == other;
+}
+
 /**
  * Overridden in order to create comparator at State<T>
  * @param other
@@ -61,3 +65,11 @@ bool Point::operator<(const Point &other) const{
 Point* Point::clone() const {
     return new Point(*this);
 }
+
+string Point::str() const {
+    /*TODO possible issues with parallel server?*/
+    return "(" + to_string(x) + "," + to_string(y) + ")";
+}
+
+
+

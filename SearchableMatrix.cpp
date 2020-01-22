@@ -87,23 +87,41 @@ P SearchableMatrix<P>::getGoalState() const {
 }
 
 template <typename P>
-string SearchableMatrix<P>::toString() const {
-    string result;
-    result = typeid(this).name();
-    result.append(to_string(initial_state->toString()));
-    result.append(to_string(goal_state->toString()));
-
-    for(auto &row : Matrix<P>::matrix) {
-        for(auto &cell : row) {
-            result.append(to_string(cell.toString()));
-        }
-    }
-
-    return result;
-}
-
-template <typename P>
 void SearchableMatrix<P>::addRow(vector<P> *new_row) {
     Matrix<P>::addRow(new_row);
+}
+
+template<typename P>
+void SearchableMatrix<P>::removeRow(int row_num) {
+    Matrix<P>::removeRow(row_num);
+}
+
+/** Returns a string description of the matrix.
+ *
+ * @tparam P
+ * @return
+ */
+template<typename P>
+string SearchableMatrix<P>::str() const {
+    string result;
+    /*Add typename, initial state and goal state*/
+
+    result = typeid(this).name();
+    result.append("\n initial: ");
+    result.append(initial_state->str());
+    result.append("\n goal: ");
+    result.append(goal_state->str());
+    result.append("\n");
+
+    /*Also add each cell*/
+    for(auto &row : Matrix<P>::matrix) {
+        for(auto &cell : row) {
+            result.append(cell.str());
+            result.append(" ");
+        }
+        /*End of row*/
+        result.append("\n");
+    }
+    return result;
 }
 

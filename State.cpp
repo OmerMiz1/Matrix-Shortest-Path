@@ -11,15 +11,15 @@
  * @param prevState the state that this state got from
  */
 template<typename T>
-State<T>::State(T *myState, double cost, State<T> *prevState):myState(myState), cost(cost),
-                                                                   prev_state(prevState) {}
+State<T>::State(T *myState, double cost, State<T> *prevState):my_state(myState), cost(cost),
+                                                              prev_state(prevState) {}
 
 /**
  * An alternative constructor that gets only the state itself, for use when this state is the first one
  * @param myState the current state
  */
 template<typename T>
-State<T>::State(T *myState):myState(myState) {
+State<T>::State(T *myState):my_state(myState) {
     this->cost = 0;
     this->prev_state = nullptr;
 }
@@ -30,7 +30,7 @@ State<T>::State(T *myState):myState(myState) {
  */
 template<typename T>
 T State<T>::getState() const {
-    return *(myState->clone());
+    return *(my_state->clone());
 }
 
 template <typename T>
@@ -52,7 +52,7 @@ State<T> State<T>::getPrev() {
 template <typename T>
 bool State<T>::is(State<T> other_state) const {
     return (this->cost == other_state.getCost()
-    && this->myState == other_state.getState().clone());
+    && this->my_state == other_state.getState().clone());
     /*TODO: not adding this, might be an expensive recursion*/
 }
 
@@ -89,7 +89,13 @@ void State<T>::setPrev(State<T> *prev) {
 
 template<class T>
 State<T>* State<T>::clone() const {
-    State<T> cur = *this, *prev = this->prev_state; /*TODO: Removed State<T>(T*) CTOR, usages pointed to this line only.*/
+    /*Case prev-state is nullptr*/
+    if(prev_state == nullptr) {
+        return new State<T>(my_state->clone(), this->cost, nullptr);
+    }
+    /*O.W*/
+
+    /*State<T> cur = *this, *prev = this->prev_state; *//*TODO: Removed State<T>(T*) CTOR, usages pointed to this line only.*//*
     list<State<T>> path;
 
     path.push_front(cur);
@@ -97,22 +103,29 @@ State<T>* State<T>::clone() const {
         path.push_front(*prev);
         cur = *prev;
         prev = cur.prev_state;
-    }
-
-    return new State<T>(myState->clone(), this->cost, this->prev_state->clone());
+    }*/
+    return new State<T>(my_state->clone(), this->cost, this->prev_state->clone());
 }
 
+/*TODO: should be in Searcher!*/
+/** Method used when searcher reaches goal state.
+ *
+ * @tparam T
+ * @return
+ */
 template<class T>
 list<State<T>>* State<T>::backtrace() const {
     auto backtrace_path = new list<State<T>>;
+
     /*Iterates till the end of the path by using prev_state.*/
     for(auto cur_front = this->clone(); cur_front != nullptr; cur_front = cur_front->prev_state->clone()) {
         backtrace_path->push_front(*cur_front);
     }
+
     return backtrace_path;
 }
 
 template<class T>
-string State<T>::str() {
-    return string();
+string State<T>::str() const {
+    return my_state->str();
 }
