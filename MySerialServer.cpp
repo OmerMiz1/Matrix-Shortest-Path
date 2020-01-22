@@ -30,6 +30,13 @@ int MySerialServer::open(int port, ClientHandler *handler) {
         exit(EXIT_FAILURE);
     }
 
+    // Forcefully attaching socket to the port 8080 /*TODO remove !*/
+    int opt = 1;
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,&opt, sizeof(opt))) {
+        perror("setsockopt");
+        exit(EXIT_FAILURE);
+    }
+
     FD_ZERO(&fdset);
     FD_SET(sockfd, &fdset);
 

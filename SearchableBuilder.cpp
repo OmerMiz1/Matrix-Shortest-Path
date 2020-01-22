@@ -29,7 +29,7 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
 
     /*Iterates data list. Each string represents a ROW in the matrix*/
     for(auto row_iter = data.begin(); row_iter != data.end(); ++row_iter, ++row_index, col_index=0) {
-        auto row = new vector<P>;
+        auto row = new vector<P*>;
         double cost;
 
         /*Regex iterators to match each integer in parsed string*/
@@ -50,13 +50,18 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
             }
             /*Build cell (State<Point>) and push to the end of current row*/
             auto cur_cell = buildMatrixCell(row_index, col_index, cost, nullptr);
+
+            if(cur_cell.getState() == initial.getState()) {
+                sMatrix->setInitialState(cur_cell);
+            }
+            if(cur_cell.getState() == goal.getState()) {
+                sMatrix->setGoalState(goal);
+            }
+
             row->push_back(cur_cell);
         }
         sMatrix->addRow(row);
     }
-
-    sMatrix->setInitialState(initial);
-    sMatrix->setGoalState(goal);
     return sMatrix;
 }
 
@@ -67,7 +72,7 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
  * @return
  */
 template <class P>
-P SearchableBuilder<P>::buildMatrixState(string state_str) {
+P* SearchableBuilder<P>::buildMatrixState(string state_str) {
     regex intRx("(-?\\d+)");
     smatch match;
     int x, y;
@@ -83,7 +88,7 @@ P SearchableBuilder<P>::buildMatrixState(string state_str) {
         exit(EXIT_FAILURE);
     }
     /*TODO made it -1 for debuging, if its -1 and the real value isnt - bug!*/
-    return buildMatrixCell(x,y, -1, nullptr);
+    return buildMatrixCell(x,y, 0, nullptr);
 }
 
 /** Cell in our case is a State<P>, a point with cost.
@@ -96,11 +101,11 @@ P SearchableBuilder<P>::buildMatrixState(string state_str) {
  * @return
  */
 template <class P>
-P SearchableBuilder<P>::buildMatrixCell(int row, int col, double cost, P *prev) {
+P* SearchableBuilder<P>::buildMatrixCell(int row, int col, double cost, P *prev) {
     /*TODO next assignments, need to find better solution for this generic type
      * P C'TOR. maybe make sure p has a specific C'TOR, can use strings and builder
      * DP*/
-    return P(row, col, cost, prev);
+    return new P(row, col, cost, prev);
 }
 
 

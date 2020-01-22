@@ -66,10 +66,7 @@ list<P> SearchableMatrix<P>::getAllPossibleStates(P state) {
  */
 template <class P>
 void SearchableMatrix<P>::setInitialState(P initial_point_state) {
-    /*We made nullptr to flag as "edited already" and avoid overriding*/
-    if(this->initial_state != nullptr) {
-        this->initial_state = Matrix<P>::at(initial_point_state.getState());
-    }
+    initial_state = initial_point_state.clone();
 }
 
 /** Sets the goal state of the searchable matrix.
@@ -78,10 +75,8 @@ void SearchableMatrix<P>::setInitialState(P initial_point_state) {
  */
 template <class P>
 void SearchableMatrix<P>::setGoalState(P goal_point_state) {
-    /*We made nullptr to flag as "edited already" and avoid overriding*/
-    if(this->goal_state != nullptr) {
-        this->goal_state = Matrix<P>::at(goal_point_state.getState());
-    }
+    goal_state = goal_point_state.clone();
+
 }
 
 template <class P>
@@ -114,6 +109,7 @@ string SearchableMatrix<P>::str() const {
     result.append("\n goal: ");
     result.append(goal_state->str());
     result.append("\n");
+
     /*Also add each cell*/
     for(auto &row : Matrix<P>::matrix) {
         for(auto &cell : row) {
