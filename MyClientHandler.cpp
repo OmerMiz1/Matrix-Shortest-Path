@@ -4,6 +4,7 @@
 
 #define MAX_CHARS 1024
 #define END_OF_MESSAGE "end"
+#define NO_SOLUTION "No path (-1)"
 
 #include "MyClientHandler.h"
 
@@ -32,7 +33,7 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
     list<string> recieved_data;
     list<P> solution;
     string cur_line,result;
-
+    string solution_str;
 
     /*Reads all data from client*/
     while (1) {
@@ -51,13 +52,14 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
 
     SearchableBuilder<P> s_builder;
     auto problem = s_builder.buildMatrix(recieved_data);
-    hash<string> hasher;
-    auto hashed_problem = hasher(problem->toString());
-    string problem_key = to_string(hashed_problem);
+    string problem_key = hashProblem(problem);
+
+
 
     if(!(my_cache->contains(problem_key))) {
         solution = my_solver->solve(problem);
-        my_cache->insert(problem_key,solution);
+        solution_str = solutionDescription(&solution);
+        my_cache->insert(problem_key,solution_str);
     } else {
         solution = my_cache->get(problem_key);
     }
@@ -101,6 +103,47 @@ string MyClientHandler<P>::readMessageFromClient(int client_socketfd) {
 template<class P>
 MyClientHandler<P>* MyClientHandler<P>::clone() const {
     return new MyClientHandler<P>(my_solver->clone(),my_cache->clone());
+}
+
+template<class P>
+string MyClientHandler<P>::hashProblem(Searchable<P> *problem) const {
+    hash<string> hasher;
+    size_t hashed_problem = hasher(problem->str());
+    return to_string(hashed_problem);
+}
+
+
+template<class P>
+string MyClientHandler<P>::solutionDescription(list<P> *solution) {
+    string result, cur_direction, cur_cost;
+
+    if(solution->empty()) {
+        return NO_SOLUTION;
+    }
+
+    auto cur_element = solution->begin();
+    auto next_element = solution->begin();
+    ++next_element;
+
+    for(; next_element != solution->end(); ++cur_element, ++next_element) {
+        /*Get direction from cur to next.*/
+        cur_direction = cur_element->getState().getDirectionTo(next_element->getState());
+        /*Error*/
+        if(cur_direction.compare("Same") or cur_direction.compare("ERROR")) {
+            perror("solutionDescription");
+            exit(EXIT_FAILURE); /*TODO debug*/
+        }
+        /*Parse next element's cost to string*/
+        try {
+            cur_cost = to_string(next_element->getCost());
+        } catch (const char* e) {
+            perror("SolutionDescription#2");
+            perror(e);
+            exit(EXIT_FAILURE); /*TODO debug*/
+        }
+        /*Add all up to the end of result so far*/
+        result.append(cur_direction + " (" + cur_cost +"), " );
+    }
 }
 
 

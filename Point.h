@@ -16,6 +16,7 @@ public:
     Point(int, int);
     enum Direction {Up, Down, Left, Right, Same};
     Direction getDirectionTo(const Point &other) const;
+    string getDirectionToStr(Direction direction) const;
     int getX() const;
     int getY() const;
     double distance(Point *other) const;

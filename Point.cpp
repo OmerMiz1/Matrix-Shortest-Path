@@ -81,5 +81,29 @@ Point::Direction Point::getDirectionTo(const Point &other) const {
     }
 }
 
+string Point::getDirectionToStr(Direction direction) const {
+    switch(direction) {
+        case Up: {
+            return "Up";
+        }
+        case Down: {
+            return "Down";
+        }
+        case Left: {
+            return "Left";
+        }
+        case Right: {
+            return "Right";
+        }
+        case Same: {
+            return "Same";
+        }
+        default: {
+            return "ERROR";
+        }
+    }
+}
+
+
 
 

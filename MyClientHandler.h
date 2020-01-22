@@ -28,16 +28,19 @@ class MyClientHandler : public ClientHandler {
     Solver<Searchable<P>,list<P>> *my_solver;
     CacheManager<string,string> *my_cache;
     string readMessageFromClient(int client_socketfd);
+    string hashProblem(Searchable<P> *problem) const;
+    string solutionDescription(list<P> *solution);
 
  public:
     MyClientHandler(Solver<Searchable<P>,list<P>> *solver,CacheManager<string,string> *cache);
     MyClientHandler(SearchSolver<P> *solver,CacheManager<string,string> *cache);
     void handleClient(int client_socketfd) override;
+
     MyClientHandler* clone() const override;
 };
 
 /*TODO: NO IDEA WHY IT IS SO IMPORTANT DECLARATION IS IN THIS ORDER*/
 template class MyClientHandler<State<Point>>;
-template class MyClientHandler<SearchSolver<State<Point>>>;
-template class MyClientHandler<Searchable<State<Point>>>;
+//template class MyClientHandler<SearchSolver<State<Point>>>;
+//template class MyClientHandler<Searchable<State<Point>>>;
 #endif //ALGORITHMICPROGRAMMING2__MYCLIENTHANDLER_H_
