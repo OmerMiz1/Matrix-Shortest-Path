@@ -7,7 +7,7 @@
 template <class P>
 SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
     auto sMatrix = new SearchableMatrix<P>;
-    Point *initial, *goal;
+    Point initial, goal;
     int row_index=0, col_index=0;
     regex intRx("(-?\\d+)");
 
@@ -67,21 +67,23 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
  * @return
  */
 template <class P>
-P* SearchableBuilder<P>::buildMatrixState(string state_str) {
+P SearchableBuilder<P>::buildMatrixState(string state_str) {
     regex intRx("(-?\\d+)");
-    smatch matches;
+    smatch match;
     int x, y;
 
-    regex_search(state_str, matches, intRx);
+    auto it = sregex_iterator(state_str.begin(), state_str.end(), intRx);
     try {
-        x = stoi(matches[1]);
-        y = stoi(matches[2]);
+        x = stoi(it->str());
+        ++it;
+        y = stoi(it->str());
     } catch (const char* e) {
-        perror("buildMatrixState");
+        perror("buildMatrixState"); /*TODO debug*/
         perror(e);
-        return nullptr;
+        exit(EXIT_FAILURE);
     }
-    return new P(x,y);
+    return P(x,y);
+
 }
 
 /** Cell in our case is a State<P>, a point with cost.

@@ -14,10 +14,10 @@
 
 using namespace std;
 
-template <class P>
+template <typename P>
 class SearchableBuilder {
  private:
-    P* buildMatrixState(string state_str);
+    P buildMatrixState(string state_str);
     State<P> buildMatrixCell(int x,int y, double cost, State<P>* prev);
 
  public:

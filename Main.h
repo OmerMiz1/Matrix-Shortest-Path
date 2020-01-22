@@ -33,7 +33,7 @@ class server_side::boot::Main {
         int port = stoi(argv[1]);
         auto solver = new SearchSolver<State<Point>>();
         auto cache = new FileCacheManager<string,string>();
-        auto handler = new MyClientHandler<Searchable<State<Point>>, list<State<Point>>>(solver,cache);
+        auto handler = new MyClientHandler<State<Point>, list<State<Point>>>(solver,cache);
         auto mps = new MyParallelServer();
         try {
             mps->open(port, handler);

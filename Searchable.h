@@ -15,6 +15,7 @@ public:
     virtual P getInitialState() = 0;
     virtual bool isGoalState(P) = 0;
     virtual list<P> getAllPossibleStates(P) = 0;
+    virtual string toString() = 0;
 };
 
 template class Searchable<State<Point>>;

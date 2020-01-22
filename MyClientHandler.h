@@ -19,18 +19,17 @@
 
 using namespace std;
 
-template<class P, class S>
+template<class P>
 class MyClientHandler : public ClientHandler {
  private:
-    Solver<P,S> *my_solver;
+    Solver<P,list<P>> *my_solver;
     CacheManager<string,string> *my_cache;
     string readMessageFromClient(int client_socketfd);
 
  public:
-    MyClientHandler(Solver<P,S>*,CacheManager<string,string>*);
+    MyClientHandler(Solver<P,list<P>>*,CacheManager<string,string>*);
     void handleClient(int client_socketfd) override;
     MyClientHandler* clone() const override;
 };
-
-template class MyClientHandler<Searchable<State<Point>>,list<State<Point>>>;
+template class MyClientHandler<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2__MYCLIENTHANDLER_H_

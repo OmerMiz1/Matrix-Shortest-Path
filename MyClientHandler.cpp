@@ -7,8 +7,8 @@
 
 #include "MyClientHandler.h"
 
-template<class P, class S>
-MyClientHandler<P,S>::MyClientHandler(Solver<P, S> *solver, CacheManager<string, string> *cache)
+template<class P>
+MyClientHandler<P>::MyClientHandler(Solver<P,list<P>> *solver, CacheManager<string, string> *cache)
     : my_solver(solver), my_cache(cache) {}
 
 /** Returns a list of strings from first line received from client until line
@@ -18,11 +18,12 @@ MyClientHandler<P,S>::MyClientHandler(Solver<P, S> *solver, CacheManager<string,
  * @tparam S
  * @param client_socketfd
  */
-template <class P, class S>
-void MyClientHandler<P,S>::handleClient(int client_socketfd) {
+template <class P>
+void MyClientHandler<P>::handleClient(int client_socketfd) {
     list<string> recieved_data;
+    list<P> solution;
     string cur_line,result;
-    S solution;
+
 
     /*Reads all data from client*/
     while (1) {
@@ -41,9 +42,12 @@ void MyClientHandler<P,S>::handleClient(int client_socketfd) {
 
     SearchableBuilder<P> s_builder;
     auto problem = s_builder.buildMatrix(recieved_data);
+    hash<string> hasher;
+    auto hashed_problem = hasher(problem->toString());
+    string problem_key = to_string(hashed_problem);
 
-    if(!(my_cache->contains(*problem))) {
-        solution = my_solver->solve(*problem);
+    if(!(my_cache->contains(problem_key))) {
+        solution = my_solver->solve(problem);
         my_cache->insert(problem,solution);
     } else {
         solution = my_cache->get(problem);
@@ -57,8 +61,8 @@ void MyClientHandler<P,S>::handleClient(int client_socketfd) {
     }
 }
 
-template <class P, class S>
-string MyClientHandler<P,S>::readMessageFromClient(int client_socketfd) {
+template <class P>
+string MyClientHandler<P>::readMessageFromClient(int client_socketfd) {
     /*TODO: bug- doesnt stop at the right place. I think im supposed to read 1
      * time and count on them not to bring longer strings than expected.
      * If doesnt work, consider using the same "buffering" method used in EX3
@@ -85,9 +89,9 @@ string MyClientHandler<P,S>::readMessageFromClient(int client_socketfd) {
     return "";
 }
 
-template<class P, class S>
-MyClientHandler<P,S>* MyClientHandler<P, S>::clone() const {
-    return new MyClientHandler<P,S>(my_solver->clone(),my_cache->clone());
+template<class P>
+MyClientHandler<P>* MyClientHandler<P>::clone() const {
+    return new MyClientHandler<P>(my_solver->clone(),my_cache->clone());
 }
 
 

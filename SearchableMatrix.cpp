@@ -85,3 +85,27 @@ template <class P>
 P SearchableMatrix<P>::getGoalState() const {
     return *goal_state;
 }
+
+template <typename P>
+string SearchableMatrix<P>::toString() {
+    string result;
+    result = typeid(this).name();
+    result.append(to_string(initial_state->getState().getX()));
+    result.append(to_string(initial_state->getState().getY()));
+    result.append(to_string(goal_state->getState().getX()));
+    result.append(to_string(goal_state->getState().getY()));
+
+    for(auto &row : Matrix<P>::matrix) {
+        for(auto &cell : row) {
+            result.append(to_string(cell.getState().getX()));
+            result.append(to_string(cell.getState().getY()));
+        }
+    }
+
+    return result;
+}
+
+template <typename P>
+void addRow(vector<P> *new_row) {
+    Matrix<P>::addRow(new_row);
+}

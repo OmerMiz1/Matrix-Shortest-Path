@@ -14,11 +14,11 @@
 #include "Matrix.h"
 //#include "SearchableBuilder.h"
 
-template <class P>
+template <typename P>
 class SearchableMatrix : public Searchable<P>, public Matrix<P> {
  private:
     /*Allows SearchableBuilder::buildMatrix to use setters.*/
-    template<typename S>
+    template <typename S>
     friend class SearchableBuilder;
 
     P *initial_state = nullptr;
@@ -32,6 +32,9 @@ class SearchableMatrix : public Searchable<P>, public Matrix<P> {
     P getGoalState() const;
     bool isGoalState(P state) override;
     list<P> getAllPossibleStates(P state) override;
+    string toString() override;
+ protected:
+    void addRow(vector<P> *new_row) override;
 };
 
 template class SearchableMatrix<State<Point>>;

@@ -11,6 +11,7 @@ class Point : Cloneable<Point> {
     int x;
     int y;
 public:
+    Point()=default;
     Point(int, int);
     bool operator==(Point* other);
     bool operator<(Point* other);
