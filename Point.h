@@ -14,7 +14,7 @@ class Point : Cloneable<Point>, Stringable<Point> {
 public:
     Point()=default;
     Point(int, int);
-    explicit Point(const Point &other);
+    Point(const Point &other);
     enum Direction {Up, Down, Left, Right, Same};
     Direction getDirectionTo(const Point &other) const;
     string getDirectionToStr(Direction direction) const;

@@ -30,10 +30,11 @@ MyClientHandler<P>::MyClientHandler(SearchSolver<P> *solver,
  */
 template <class P>
 void MyClientHandler<P>::handleClient(int client_socketfd) {
+    SearchableBuilder<P> s_builder;
     list<string> recieved_data;
     list<P> solution;
-    string cur_line,result;
-    string solution_str;
+    string cur_line, result, solution_str, problem_key;
+    Searchable<P> *problem;
 
     /*Reads all data from client*/
     while (1) {
@@ -50,11 +51,8 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         recieved_data.push_back(cur_line);
     }
 
-    SearchableBuilder<P> s_builder;
-    auto problem = s_builder.buildMatrix(recieved_data);
-    string problem_key = hashProblem(problem);
-
-
+    problem = s_builder.buildMatrix(recieved_data);
+    problem_key = hashProblem(problem);
 
     if(!(my_cache->contains(problem_key))) {
         solution = my_solver->solve(problem);
@@ -129,7 +127,7 @@ string MyClientHandler<P>::solutionDescription(list<P> *solution) {
         cur_direction = cur_element->getState().getDirectionTo(next_element->getState());
         /*Error*/
         if(cur_direction.compare("Same") or cur_direction.compare("ERROR")) {
-            perror("solutionDescription");
+            perror("solutionDescription#1");
             exit(EXIT_FAILURE); /*TODO debug*/
         }
         /*Parse next element's cost to string*/
