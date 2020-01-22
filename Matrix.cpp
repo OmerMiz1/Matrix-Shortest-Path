@@ -119,7 +119,7 @@ Point Matrix<T>::getPoint(T cell) const {
     for(auto row : matrix) {
         for(auto element : row) {
             if(cell == element) {
-                return Point(row_num,col_num);
+                return cell.getState();
             }
             ++col_num;
         }

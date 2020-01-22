@@ -48,10 +48,6 @@ double Point::distance(Point *other) const {
     return (sqrt(subXPowerTwo+subYPowerTwo));
 }
 
-bool Point::operator!=(Point *other) {
-    return this == other;
-}
-
 /**
  * Overridden in order to create comparator at State<T>
  * @param other

@@ -32,9 +32,9 @@ public:
     void setPrev(State<T> *prev_state);
 
     bool is(State<T> other_state) const;
-    bool operator==(State<T> &other_state);
-    bool operator<(State<T> &other_state);
-    bool operator>(State<T> &other_state);
+    bool operator==(const State<T> &other_state) const;
+    bool operator<(const State<T> &other_state) const;
+    bool operator>(const State<T> &other_state) const;
     string str() const override;
 
     class costComparator {
