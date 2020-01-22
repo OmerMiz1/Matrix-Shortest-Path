@@ -14,7 +14,7 @@ using namespace std;
 template <typename P>
 class HeuristicDistanceComparator {
  public:
-    bool operator()(const pair<P,double> &lhs, const pair<P,double> &rhs) const {
+    bool operator()(const P &lhs, const P &rhs) const {
         return lhs.second < rhs.second;
     }
 };
@@ -22,7 +22,7 @@ class HeuristicDistanceComparator {
 template <typename P>
 class PairPositionComparator {
  public:
-    bool operator()(const pair<P,double> &lhs, const pair<P,double> &rhs) const {
+    bool operator()(const P &lhs, const P &rhs) const {
         return lhs.first.getState() < rhs.first.getState();
     }
 };
@@ -49,7 +49,7 @@ public:
     pair<P,double> find(pair<P,double> element);
 };
 
-template class HeuristicDistanceComparator<State<Point>>;
-template class PairPositionComparator<State<Point>>;
+template class HeuristicDistanceComparator<pair<State<Point>,double>>;
+template class PairPositionComparator<pair<State<Point>,double>>;
 template class HashPriorityQueueAStar<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2_HASHPRIORITYQUEUEASTAR_H
