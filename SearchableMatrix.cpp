@@ -14,15 +14,15 @@ P SearchableMatrix<P>::getInitialState() {
 }
 
 /**template<class P>
-State<P> SearchableMatrix<P>::getInitialState() {
-    return State<P>();
+P SearchableMatrix<P>::getInitialState() {
+    return P();
 }
  * Check if a certain state is the goal state
  * @param state the state we want to check
  * @return true - if the given state is the goal state, false - otherwises
  */
 template <class P>
-bool SearchableMatrix<P>::isGoalState(State<P> state) {
+bool SearchableMatrix<P>::isGoalState(P state) {
     return state == (*goal_state);
 }
 
@@ -32,10 +32,10 @@ bool SearchableMatrix<P>::isGoalState(State<P> state) {
   * @return a list of all of the the given state neighbors
   */
 template <class P>
-list<State<P>> SearchableMatrix<P>::getAllPossibleStates(State<P> state) {
-    list<State<P>> statesList;
+list<P> SearchableMatrix<P>::getAllPossibleStates(P state) {
+    list<P> statesList;
 
-    State<P>* temp = this->getAbove(state);
+    P* temp = this->getAbove(state);
     if ((temp != nullptr) && (temp->getCost() != NOT_A_NODE)) {
         temp->setPrev(state.clone());
         statesList.push_back(*temp);

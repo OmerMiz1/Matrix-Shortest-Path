@@ -15,14 +15,14 @@
 //#include "SearchableBuilder.h"
 
 template <class P>
-class SearchableMatrix : public Searchable<State<P>>, public Matrix<State<P>> {
+class SearchableMatrix : public Searchable<P>, public Matrix<P> {
  private:
     /*Allows SearchableBuilder::buildMatrix to use setters.*/
     template<typename S>
     friend class SearchableBuilder;
 
-    State<P> *initial_state = nullptr;
-    State<P> *goal_state = nullptr;
+    P *initial_state = nullptr;
+    P *goal_state = nullptr;
 
     void setInitialState(Point initial_point);
     void setGoalState(Point goal_point);
@@ -30,8 +30,8 @@ class SearchableMatrix : public Searchable<State<P>>, public Matrix<State<P>> {
  public:
     P getInitialState() override;
     P getGoalState() const;
-    bool isGoalState(State<P> state) override;
-    list<State<P>> getAllPossibleStates(State<P> state) override;
+    bool isGoalState(P state) override;
+    list<P> getAllPossibleStates(P state) override;
 };
 
 template class SearchableMatrix<State<Point>>;
