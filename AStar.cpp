@@ -3,7 +3,6 @@
 //
 
 #include <iostream>
-#include <map>
 
 #include "AStar.h"
 #include "HashPriorityQueueAStar.h"
@@ -35,7 +34,8 @@ list<P> AStar<P>::search(Searchable<P> *problem) {
     }
 
     /*Push INITIAL state to OPEN list, first 'f' is set to 0 */
-    open.push(make_pair(initial, 0));
+    auto init_pair = make_pair(initial, static_cast<double>(0));
+    open.insert(init_pair);
 
     /*If open is empty then it means no path. Loop may also break if reached solution.*/
     while (!open.empty()) {

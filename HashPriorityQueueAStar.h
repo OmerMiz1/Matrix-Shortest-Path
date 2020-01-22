@@ -7,6 +7,7 @@
 
 #include <queue>
 #include <set>
+
 #include "State.h"
 
 using namespace std;
@@ -41,11 +42,11 @@ class HashPriorityQueueAStar : public priority_queue<pair<P,double>, vector<pair
 private:
     set<pair<P,double>, PairPositionComparator<pair<P, double>>> my_set;// POSITION_COMPARED
     unsigned int evaluated_nodes =0;
-    int missed_inserts = 0;
+
 public:
     void insert(pair<P,double> element);
-    pair<P,double> topAndPop();
     bool contains(pair<P,double> element);
+    pair<P,double> topAndPop();
     pair<P,double> find(pair<P,double> element);
 };
 
