@@ -16,7 +16,7 @@ list<P> AStar<P>::search(Searchable<P> *problem) {
     /*Init open list and closed list*/
     list<P> result;
     HashPriorityQueueAStar<P> open;
-    set<pair<P, double>, PairPositionComparator<P>> closed;
+    set<pair<P, double>, PairPositionComparator<pair<P,double>>> closed;
 
     /*current is poped from open list.
      *current_g is q.g.*/

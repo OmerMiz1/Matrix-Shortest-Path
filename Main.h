@@ -91,6 +91,7 @@ class server_side::boot::ParallelStringTester {
         return 0;
     }
 };
+
 class server_side::boot::SerialMatrixTester {
  public:
     int main(int argc, char *argv[]) {

@@ -7,13 +7,13 @@ int main(int argc, char *argv[]) {
     auto sMatrix = boot::SerialMatrixTester();
     auto pMatrix = boot::ParallelMatrixTester();
 
-    cout<<"SerialStringServer start..."<<endl;
+    /*cout<<"SerialStringServer start..."<<endl;
     sString.main(argc,argv);
     cout<<"SerialStringServer end..."<<endl;
 
     cout<<"ParallelStringTester start..."<<endl;
     pString.main(argc,argv);
-    cout<<"ParallelStringTester end..."<<endl;
+    cout<<"ParallelStringTester end..."<<endl;*/
 
     cout<<"SerialMatrixTester start..."<<endl;
     sMatrix.main(argc,argv);
