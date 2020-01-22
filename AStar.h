@@ -10,7 +10,7 @@
 #include "State.h"
 
 template <class P>
-class AStar : Searcher<P> {
+class AStar : public Searcher<P> {
 private:
     P goal;
     double heuristicDistance(State<P> current, State<P> goal);
