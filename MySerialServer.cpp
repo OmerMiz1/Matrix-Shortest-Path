@@ -60,7 +60,7 @@ int MySerialServer::open(int port, ClientHandler *handler) {
     }
 
     /*Start infinite loop that handles clients.*/
-    start(port, handler);
+    start(handler);
     return 0;
 }
 
@@ -70,14 +70,14 @@ int MySerialServer::open(int port, ClientHandler *handler) {
  * @param handler ClientHandler object
  * @param tv time value struct used for managing timeouts.
  */
-void MySerialServer::start(int port, ClientHandler *handler) {
+void MySerialServer::start(ClientHandler *handler) {
     int accepted_count = 0;
     socklen_t addr_len;
 
     /*Accepts clients one-by-one until done*/
     while(!done) {
         /*Reset values every iteration*/
-        int exit_status = 0, client_socket = 0;
+        int client_socket = 0;
         struct timeval tv{};
         fd_set fdset;
         FD_ZERO(&fdset);

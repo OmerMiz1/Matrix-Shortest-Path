@@ -23,9 +23,11 @@ public:
     State()=default;
     State(T *myState);
     State(T *myState, double cost, State<T> *prevState);
+    State(int x, int y, double cost, State<T> *prevState); /*TODO for T = Point*/
 
     T getState() const;
     double getCost() const;
+    double getPrevCost() const;
     void setPrev(State<T> *prev_state);
 
     list<State<T>>* backtrace() const;

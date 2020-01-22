@@ -4,47 +4,33 @@
 
 #include "HashPriorityQueueAStar.h"
 
-template <typename E>
-void HashPriorityQueueAStar<E>::insert(pair<E,double> element) {
-    if(this->mySet.count(element) > 0) {
-        this->missed_inserts++;
+template <typename P>
+void HashPriorityQueueAStar<P>::insert(pair<P,double> element) {
+    /*If exists already, must be removed first.
+     *NOTE: if gets here, its derived from AStar's logic!*/
+    if(my_set.count(element)) {
+        my_set.erase(my_set.find(element));
     }
-    this->mySet.insert(element);
+    this->my_set.insert(element);
     this->push(element);
 }
 
-template<typename E>
-pair<E,double> HashPriorityQueueAStar<E>::topAndPop() {
-    E element = this->top();
+template<typename P>
+pair<P,double> HashPriorityQueueAStar<P>::topAndPop() {
+    auto element = this->top();
     this->pop();
-    this->mySet.erase(element);
+    this->my_set.erase(element);
+    ++evaluated_nodes;
     return element;
 }
 
-template<typename E>
-bool HashPriorityQueueAStar<E>::contains(pair<E,double> element) {
-    return this->mySet.count(element);
+template<typename P>
+bool HashPriorityQueueAStar<P>::contains(pair<P,double> element) {
+    return this->my_set.count(element);
 }
 
-template<typename E>
-pair<E,double> HashPriorityQueueAStar<E>::find(pair<E,double> element) {
-    //if doesn't exist
-    if (!mySet.count(element)) {
-        return nullptr;
-    }
-    return *(this->mySet.find(element));
-}
-
-template<typename E>
-void HashPriorityQueueAStar<E>::remove(pair<E,double> element) {
-    auto it = std::find(this->c.begin(), this->c.end(), element); //TODO imported std::find from algorithm instead of <bits/streambuf_iterator.h>, make sure it's right
-    if (it != this->c.end()) {
-        this->c.erase(it);
-        std::make_heap(this->c.begin(), this->c.end(), this->comp);
-    }
-    else {
-        perror("Tried to delete an non-existing element from the HashPriorityQueueAStar");
-        exit(1);
-    }
+template<typename P>
+pair<P,double> HashPriorityQueueAStar<P>::find(pair<P,double> element) {
+    return *(this->my_set.find(element));
 }
 

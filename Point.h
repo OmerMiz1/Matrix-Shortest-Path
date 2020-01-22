@@ -20,7 +20,7 @@ public:
     string getDirectionToStr(Direction direction) const;
     int getX() const;
     int getY() const;
-    double distance(Point *other) const;
+    double manhattanHeuristicDistance(Point *other) const;
     bool operator==(const Point &other) const;
     bool operator<(const Point &other) const;
 

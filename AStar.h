@@ -12,12 +12,12 @@
 template <class P>
 class AStar : public Searcher<P> {
 private:
+    P initial;
     P goal;
-    double heuristicDistance(State<P> current, State<P> goal);
+    double heuristicDistance(P current);
 public:
     /*  AStar(P goal_state):goal(goal_state) {}TODO: not in CTOR - should be injected..*/
-    list<P> search(Searchable<P> problem) override;
-
+    list<P> search(Searchable<P> *problem) override;
     Searcher<P> *clone() const override;
 };
 

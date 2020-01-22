@@ -23,8 +23,8 @@ class SearchableMatrix : public Searchable<P>, public Matrix<P> {
     P *initial_state = nullptr;
     P *goal_state = nullptr;
 
-    void setInitialState(Point initial_point);
-    void setGoalState(Point goal_point);
+    void setInitialState(P initial_point_state);
+    void setGoalState(P goal_point_state);
 
  protected:
     void addRow(vector<P> *new_row) override;

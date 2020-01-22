@@ -17,7 +17,7 @@ public:
     virtual bool isGoalState(P) const = 0;
     virtual list<P> getAllPossibleStates(P) = 0;
     virtual P getGoalState() const =0;
-    virtual string str() const =0;
+    virtual string str() const=0;
 };
 
 template class Searchable<State<Point>>;

@@ -31,10 +31,10 @@ MyClientHandler<P>::MyClientHandler(SearchSolver<P> *solver,
 template <class P>
 void MyClientHandler<P>::handleClient(int client_socketfd) {
     SearchableBuilder<P> s_builder;
+    Searchable<P> *problem;
     list<string> recieved_data;
     list<P> solution;
     string cur_line, result, solution_str, problem_key;
-    Searchable<P> *problem;
 
     /*Reads all data from client*/
     while (1) {
@@ -51,20 +51,26 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         recieved_data.push_back(cur_line);
     }
 
+    /*Generate problem object and hash it for cache*/
     problem = s_builder.buildMatrix(recieved_data);
+    if(problem == nullptr) {
+        perror("handleClient#2");
+        exit(EXIT_FAILURE); /*TODO debug*/
+    }
     problem_key = hashProblem(problem);
 
+    /*Solution NOT found in cache*/
     if(!(my_cache->contains(problem_key))) {
         solution = my_solver->solve(problem);
         solution_str = solutionDescription(&solution);
         my_cache->insert(problem_key,solution_str);
-    } else {
+    } else { /*Solution found in cache*/
         solution_str = my_cache->get(problem_key);
     }
 
     /*TODO: Maybe need to print solution in chunks o 1024 (MAX_SEND_CHARS)?*/
     if (send(client_socketfd, solution_str.c_str(), result.size(), 0) == -1) {
-        perror("handleClient#2");
+        perror("handleClient#3");
         return;
     }
 }

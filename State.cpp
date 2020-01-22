@@ -14,15 +14,23 @@ template<typename T>
 State<T>::State(T *myState, double cost, State<T> *prevState):my_state(myState), cost(cost),
                                                               prev_state(prevState) {}
 
-/**
+/** Calls above C'TOR
  * An alternative constructor that gets only the state itself, for use when this state is the first one
  * @param myState the current state
  */
 template<typename T>
-State<T>::State(T *myState):my_state(myState) {
-    this->cost = 0;
-    this->prev_state = nullptr;
-}
+State<T>::State(T *myState): State<T>(myState, -1, nullptr) {}
+
+/** Explicit for State<Point>?
+ *
+ * @tparam T
+ * @param x
+ * @param y
+ * @param cost
+ * @param prevState
+ */
+template<class T>
+State<T>::State(int x, int y, double cost, State<T> *prevState):State<T>(new T(x,y), cost, prevState)  {}
 
 /**
  * Returns this states state
@@ -36,6 +44,14 @@ T State<T>::getState() const {
 template <typename T>
 double State<T>::getCost() const{
     return this->cost;
+}
+
+template<class T>
+double State<T>::getPrevCost() const {
+    if(prev_state == nullptr) {
+        return 0;
+    }
+    return prev_state->getCost();
 }
 
 /*template <typename T>
@@ -129,3 +145,4 @@ template<class T>
 string State<T>::str() const {
     return my_state->str();
 }
+

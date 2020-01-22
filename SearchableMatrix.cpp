@@ -62,23 +62,25 @@ list<P> SearchableMatrix<P>::getAllPossibleStates(P state) {
 /** Sets the initial state of the searchable matrix.
  * TODO: Potential bug: initial_state was deleted and then its possible to set it.
  *
- * @param initial_point
+ * @param initial_point_state
  */
 template <class P>
-void SearchableMatrix<P>::setInitialState(Point initial_point) {
+void SearchableMatrix<P>::setInitialState(P initial_point_state) {
+    /*We made nullptr to flag as "edited already" and avoid overriding*/
     if(this->initial_state != nullptr) {
-        this->initial_state = Matrix<P>::at(initial_point);
+        this->initial_state = Matrix<P>::at(initial_point_state.getState());
     }
 }
 
 /** Sets the goal state of the searchable matrix.
  * TODO: Potential bug: initial_state was deleted and then its possible to set it.
- * @param goal_point
+ * @param goal_point_state
  */
 template <class P>
-void  SearchableMatrix<P>::setGoalState(Point goal_point) {
+void SearchableMatrix<P>::setGoalState(P goal_point_state) {
+    /*We made nullptr to flag as "edited already" and avoid overriding*/
     if(this->goal_state != nullptr) {
-        this->goal_state = Matrix<P>::at(goal_point);
+        this->goal_state = Matrix<P>::at(goal_point_state.getState());
     }
 }
 

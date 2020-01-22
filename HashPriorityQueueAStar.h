@@ -11,16 +11,18 @@
 
 using namespace std;
 
-template <typename E>
-class heuristicDistanceComparator {
-    bool operator()(const E &lhs, const E &rhs) const {
+template <typename P>
+class HeuristicDistanceComparator {
+ public:
+    bool operator()(const pair<P,double> &lhs, const pair<P,double> &rhs) const {
         return lhs.second < rhs.second;
     }
 };
 
-template <typename E>
-class pairPositionComparator {
-    bool operator()(const E &lhs, const E &rhs) const {
+template <typename P>
+class PairPositionComparator {
+ public:
+    bool operator()(const pair<P,double> &lhs, const pair<P,double> &rhs) const {
         return lhs.first.getState() < rhs.first.getState();
     }
 };
@@ -34,18 +36,20 @@ class pairPositionComparator {
  *      The priority_queue comparator is a heuristicDistance comparator.
  *      The set comparator is a position comparator.
  */
-template <typename E>
-class HashPriorityQueueAStar : public priority_queue<pair<E,double>, vector<pair<E,double>>, heuristicDistanceComparator<E>> {
+template <typename P>
+class HashPriorityQueueAStar : public priority_queue<pair<P,double>, vector<pair<P,double>>, HeuristicDistanceComparator<pair<P, double>>> {
 private:
-    set<pair<E,double>, pairPositionComparator<E>> mySet;// POSITION_COMPARED
+    set<pair<P,double>, PairPositionComparator<pair<P, double>>> my_set;// POSITION_COMPARED
+    unsigned int evaluated_nodes =0;
     int missed_inserts = 0;
 public:
-    void insert(pair<E,double> element);
-    pair<E,double> topAndPop();
-    bool contains(pair<E,double> element);
-    pair<E,double> find(pair<E,double> element);
-    void remove(pair<E,double> element);
+    void insert(pair<P,double> element);
+    pair<P,double> topAndPop();
+    bool contains(pair<P,double> element);
+    pair<P,double> find(pair<P,double> element);
 };
 
+template class HeuristicDistanceComparator<State<Point>>;
+template class PairPositionComparator<State<Point>>;
 template class HashPriorityQueueAStar<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2_HASHPRIORITYQUEUEASTAR_H

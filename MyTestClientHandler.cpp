@@ -20,7 +20,6 @@ MyTestClientHandler<P, S>::MyTestClientHandler(Solver<P, S> *solver,
 template<class P, class S>
 void MyTestClientHandler<P,S>::handleClient(int client_socketfd) {
     string *message, result;
-    auto s = new SearchableBuilder<P>();
     /*Assuming client send 1 message, read it until the end and then handle*/
     while (1) {
         message = readMessageFromClient(client_socketfd);

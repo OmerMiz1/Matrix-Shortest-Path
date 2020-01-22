@@ -25,7 +25,7 @@ using namespace server_side;
     /* NOTE: This class must be generic for all kinds of servers (protocols and such). */
     int open(int, ClientHandler *) override;
     void stop() override;
-    void start(int port, ClientHandler *handler);
+    void start(ClientHandler *handler);
 };
 
 #endif //ALGORITHMICPROGRAMMING2__MYSERIALSERVER_H_

@@ -40,12 +40,10 @@ int Point::getY() const{
  * @param other the other point
  * @return the distance between the points
  */
-double Point::distance(Point *other) const {
-    double subX = this->x - other->x;
-    double subY = this->y - other->y;
-    double subXPowerTwo = subX * subX;
-    double subYPowerTwo = subY * subY;
-    return (sqrt(subXPowerTwo+subYPowerTwo));
+double Point::manhattanHeuristicDistance(Point *other) const {
+    double subX = abs(this->x - other->x);
+    double subY = abs(this->y - other->y);
+    return (subX + subY);
 }
 
 /**

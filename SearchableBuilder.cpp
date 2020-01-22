@@ -7,7 +7,7 @@
 template <class P>
 SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
     auto sMatrix = new SearchableMatrix<P>;
-    Point initial, goal;
+    P initial, goal;
     int row_index=0, col_index=0;
     regex intRx("(-?\\d+)");
 
@@ -29,7 +29,7 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
 
     /*Iterates data list. Each string represents a ROW in the matrix*/
     for(auto row_iter = data.begin(); row_iter != data.end(); ++row_iter, ++row_index, col_index=0) {
-        auto row = new vector<State<P>>;
+        auto row = new vector<P>;
         double cost;
 
         /*Regex iterators to match each integer in parsed string*/
@@ -42,13 +42,13 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
             try {
                 cost = stol(cost_str);
             } catch (const char* e) {
-                perror("buildMatrix");
+                perror("buildMatrix"); /*TODO: debug*/
                 perror(e);
-                /*TODO: debug*/
                 clog<<"row_index: "<<row_index<<"col_index: "<<col_index<<endl;
                 delete sMatrix;
                 return nullptr;
             }
+            /*Build cell (State<Point>) and push to the end of current row*/
             auto cur_cell = buildMatrixCell(row_index, col_index, cost, nullptr);
             row->push_back(cur_cell);
         }
@@ -82,8 +82,8 @@ P SearchableBuilder<P>::buildMatrixState(string state_str) {
         perror(e);
         exit(EXIT_FAILURE);
     }
-    return P(x,y);
-
+    /*TODO made it -1 for debuging, if its -1 and the real value isnt - bug!*/
+    return buildMatrixCell(x,y, -1, nullptr);
 }
 
 /** Cell in our case is a State<P>, a point with cost.
@@ -96,12 +96,11 @@ P SearchableBuilder<P>::buildMatrixState(string state_str) {
  * @return
  */
 template <class P>
-State<P> SearchableBuilder<P>::buildMatrixCell(int row, int col, double cost, State<P> *prev) {
+P SearchableBuilder<P>::buildMatrixCell(int row, int col, double cost, P *prev) {
     /*TODO next assignments, need to find better solution for this generic type
      * P C'TOR. maybe make sure p has a specific C'TOR, can use strings and builder
      * DP*/
-    auto cur_cell = new P(row, col);
-    return State<P>(cur_cell, cost, prev);
+    return P(row, col, cost, prev);
 }
 
 
