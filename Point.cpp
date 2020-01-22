@@ -67,5 +67,19 @@ string Point::str() const {
     return "(" + to_string(x) + "," + to_string(y) + ")";
 }
 
+Point::Direction Point::getDirectionTo(const Point &other) const {
+    if (this->x < other.x) {
+        return Right;
+    } else if (this->x > other.x) {
+        return Left;
+    } else if (this->y < other.y) {
+        return Down;
+    } else if (this->y > other.y) {
+        return Up;
+    } else {
+        return Same;
+    }
+}
+
 
 

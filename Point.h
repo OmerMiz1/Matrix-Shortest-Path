@@ -14,11 +14,11 @@ class Point : Cloneable<Point>, Stringable<Point> {
 public:
     Point()=default;
     Point(int, int);
-
+    enum Direction {Up, Down, Left, Right, Same};
+    Direction getDirectionTo(const Point &other) const;
     int getX() const;
     int getY() const;
     double distance(Point *other) const;
-
     explicit Point(Point const &other);
     bool operator==(const Point &other) const;
     bool operator<(const Point &other) const;
@@ -26,6 +26,5 @@ public:
     string str() const override;
     Point* clone() const override;
 };
-
 
 #endif //ALGORITHMICPROGRAMMING2_POINT_H
