@@ -67,6 +67,7 @@ list<P>* DFS<P>::search(Searchable<P> *problem) {
     cout << "End DFS" << endl; /*TODO debug*/
     return special_case_result;
 }
+
 template<class P>
 Searcher<P> *DFS<P>::clone() const {
     return new DFS<P>();
