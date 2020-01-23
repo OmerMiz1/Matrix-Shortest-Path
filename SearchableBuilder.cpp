@@ -18,13 +18,13 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
         data.pop_back();
     }
 
-    /*Initial state*/
-    initial = buildMatrixState(*it);
+    /*Goal state*/
+    goal = buildMatrixState(*it);
     ++it;
     data.pop_back();
 
-    /*Goal state*/
-    goal = buildMatrixState(*it);
+    /*Initial state*/
+    initial = buildMatrixState(*it);
     data.pop_back();
 
     /*Iterates data list. Each string represents a ROW in the matrix*/

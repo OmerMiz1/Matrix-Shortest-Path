@@ -13,18 +13,19 @@
  */
 template <typename T>
 T* Matrix<T>::at(int x, int y)  {
-    try {
-        if(x < rows_count && matrix.at(x)->size() < y) {
-            return matrix.at(x)->at(y);
-        }
-    } catch(const char* e) { /*catches out_of_bounds exceptions*/
-        return OUT_OF_BOUNDS;
+    if(x < rows_count && matrix.at(x)->size() < y) {
+        return matrix.at(x)->at(y);
     }
-    return nullptr;
+    return OUT_OF_BOUNDS;
 }
 
 template<typename T>
 T *Matrix<T>::at(Point point) {
+    int x = point.getX();
+    int y = point.getY();
+    if (x < 0 || x > (this->columns_count-1) || y < 0 || y > (this->rows_count-1)) {
+        return OUT_OF_BOUNDS;
+    }
     return at(point.getX(), point.getY());
 }
 
