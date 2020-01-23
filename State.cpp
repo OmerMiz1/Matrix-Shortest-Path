@@ -54,11 +54,6 @@ int State<T>::getPrevCost() const {
     return prev_state->getCost();
 }
 
-/*template <typename T>
-State<T> State<T>::getPrev() {
-    return this->prev_state;
-}*/
-
 /** Returns true if its the same object.
  *
  * @tparam T

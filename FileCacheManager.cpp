@@ -19,7 +19,7 @@ bool FileCacheManager::contains(string problem) {
 string FileCacheManager::get(string problem) {
     //if known problem read it from file and return it
     if (contains(problem)) {
-        return readFromFile(addTxt(problem));
+        return readFromFile(problem);
     } else {
         perror("asked for a solution without validating it's existence"); //TODO remove before submitting
         return nullptr;
