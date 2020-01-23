@@ -23,7 +23,7 @@ class Searcher : public virtual Cloneable<Searcher<P>> {
         return ((initial_cost == NOT_A_NODE) or (goal_cost == NOT_A_NODE));
     }
  public:
-    virtual list<P> search(Searchable<P>*)=0;
+    virtual list<P>* search(Searchable<P>*)=0;
     virtual Searcher<P> *clone() const =0;
 };
 

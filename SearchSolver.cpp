@@ -8,7 +8,7 @@ template<typename P>
 SearchSolver<P>::SearchSolver(Searcher<P> *searcher): my_searcher(searcher) {}
 
 template<typename P>
-list<P> SearchSolver<P>::solve(Searchable<P> *sMatrix) {
+list<P>* SearchSolver<P>::solve(Searchable<P> *sMatrix) {
     return my_searcher->search(sMatrix);
 }
 

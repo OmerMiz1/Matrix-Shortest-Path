@@ -9,7 +9,7 @@
 #include "MyClientHandler.h"
 
 template<class P>
-MyClientHandler<P>::MyClientHandler(Solver<Searchable<P>,list<P>> *solver, CacheManager<string, string> *cache) {
+MyClientHandler<P>::MyClientHandler(Solver<Searchable<P>,list<P>*> *solver, CacheManager<string, string> *cache) {
     this->my_solver = move(solver);
     this->my_cache = move(cache);
 }
@@ -33,7 +33,7 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
     SearchableBuilder<P> s_builder;
     Searchable<P> *problem;
     list<string> recieved_data, tmp;
-    list<P> solution;
+    list<P>* solution;
     string cur_line, result, solution_str, problem_key;
 
     /*Reads all data from client*/
@@ -62,7 +62,7 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
     /*Solution NOT found in cache*/
     if(!(my_cache->contains(problem_key))) {
         solution = my_solver->solve(problem);
-        solution_str = solutionDescription(&solution);
+        solution_str = solutionDescription(solution);
         my_cache->insert(problem_key,solution_str);
     } else { /*Solution found in cache*/
         /*TODO Error cannot access memory at ...

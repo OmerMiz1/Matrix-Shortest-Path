@@ -31,7 +31,7 @@ class positionComparator {
  * @return list of nodes of type P describing the route to the solution
  */
 template <class P>
-list<P> BreadthFirstSearch<P>::search(Searchable<P> *problem) {
+list<P>* BreadthFirstSearch<P>::search(Searchable<P> *problem) {
     cout << "Started BreadthFirstSearch" << endl;
     queue<P> statesQueue;
     /*TODO: brought "typename" back, not sure if its good.*/
@@ -44,7 +44,7 @@ list<P> BreadthFirstSearch<P>::search(Searchable<P> *problem) {
         P current = statesQueue.front();
         statesQueue.pop(); //TODO couldn't make sure that front doesn't pop already! make sure
         if (problem->isGoalState(current)) {
-            return *current.backtrace();
+            return current.backtrace();
         }
 
         /*TODO: had this line below, you had a list of S (Solutions), we changed Solution to be
@@ -67,7 +67,7 @@ list<P> BreadthFirstSearch<P>::search(Searchable<P> *problem) {
 
     /*TODO: MAKE SURE
      * Returns an empty list if no path found...*/
-    return list<P>();
+    return new list<P>();
 }
 template<class P>
 Searcher<P> *BreadthFirstSearch<P>::clone() const {

@@ -25,7 +25,7 @@ using namespace std;
 template<class P>
 class MyClientHandler : public ClientHandler {
  private:
-    Solver<Searchable<P>,list<P>> *my_solver;
+    Solver<Searchable<P>,list<P>*> *my_solver;
     CacheManager<string,string> *my_cache;
     list<string> readMessageFromClient(int client_socketfd);
     string hashProblem(Searchable<P> *problem) const;
@@ -33,7 +33,7 @@ class MyClientHandler : public ClientHandler {
     bool reached_end = false;
 
  public:
-    MyClientHandler(Solver<Searchable<P>,list<P>> *solver,CacheManager<string,string> *cache);
+    MyClientHandler(Solver<Searchable<P>,list<P>*> *solver,CacheManager<string,string> *cache);
     MyClientHandler(SearchSolver<P> *solver,CacheManager<string,string> *cache);
     void handleClient(int client_socketfd) override;
 

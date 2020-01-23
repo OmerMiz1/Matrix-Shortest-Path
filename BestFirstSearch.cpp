@@ -17,13 +17,12 @@ using namespace std;
  * @return list of nodes of type P describing the route to the solution
  */
 template <class P>
-list<P> BestFirstSearch<P>::search(Searchable<P> *problem) {
+list<P>* BestFirstSearch<P>::search(Searchable<P> *problem) {
     cout<<"Started BestFirstSearch"<<endl; /*TODO debug*/
-    //the priority queue of nodes to be checked
+    /*Initialize open/closed*/
     HashPriorityQueueBestFirstSearch<P> open;
-    //the set of "closed"\already-visited nodes
-    /*TODO: brought "typename" back, not sure if its good.*/
     set<P, typename P::positionComparator> closed;
+
     //add the initial state to the queue
     open.insert(problem->getInitialState());
     //while the queue isn't empty
@@ -31,15 +30,16 @@ list<P> BestFirstSearch<P>::search(Searchable<P> *problem) {
         this->evaluatedNodesCount++; //TODO: remove?
         // n <- dequeue open
         P n = open.topAndPop();
-//        cout<<"Before: "<<closed.count(n)<<endl; //TODO remove before submitting
+
         // add n to the the set of "closed"\already-visited nodes
         closed.insert(n);
-//        cout<<"After: "<<closed.count(n)<<endl; //TODO remove before submitting
+
         // if n is the goal state
         if (problem->isGoalState(n)) {
-            cout<<"Found the goal state"<<endl;
+            cout<<"Ended BestFirstSearch"<<endl; /*TODO debug*/
+            cout<<"Found the goal state"<<endl; /*TODO debug*/
             //backtrace the route that got you to n and return it as list
-            return *(n.backtrace());
+            return n.backtrace();
         }
         // creates n's successors
         auto successors = problem->getAllPossibleStates(n);
@@ -72,9 +72,9 @@ list<P> BestFirstSearch<P>::search(Searchable<P> *problem) {
             }
         }
     }
-    //return an empty list if the queue is empty and didn't got to goal state
-    /*TODO: If algorithm didnt reach goal_state?*/
-    return list<P>();
+    /*Return empty list no path found*/
+    cout<<"Ended BestFirstSearch"<<endl; /*TODO debug*/
+    return new list<P>();
 }
 template<class P>
 Searcher<P> *BestFirstSearch<P>::clone() const {

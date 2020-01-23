@@ -10,11 +10,10 @@
 using namespace std;
 
 template <class P>
-list<P> AStar<P>::search(Searchable<P> *problem) {
+list<P>* AStar<P>::search(Searchable<P> *problem) {
     cout << "Started A-Star" << endl; /*TODO debug*/
 
     /*Init open list and closed list*/
-    list<P> result;
     HashPriorityQueueAStar<P> open;
     set<pair<P, double>, PairPositionComparator<pair<P,double>>> closed;
 
@@ -29,7 +28,10 @@ list<P> AStar<P>::search(Searchable<P> *problem) {
 
     /*Case initial is goal*/
     if(problem->isGoalState(initial)) {
-        result.push_back(initial);
+        auto result = new list<P>();
+        result->push_back(initial);
+        cout << "Goal is initial state" << endl; /*TODO debug*/
+        cout << "Ended A-Star" << endl; /*TODO debug*/
         return result;
     }
 
@@ -45,8 +47,9 @@ list<P> AStar<P>::search(Searchable<P> *problem) {
         for (auto s : problem->getAllPossibleStates(current.first)) {
             /*Goal found (succsessor is goal state )*/
             if (problem->isGoalState(s)) {
-                cout << "Found the goal state" << endl;
-                return *(current.first.backtrace());
+                cout << "Ended A-Star" << endl; /*TODO debug*/
+                cout << "Found the goal state" << endl; /*TODO debug*/
+                return current.first.backtrace();
             }
 
             /*Init successor with heu distance*/
@@ -71,7 +74,8 @@ list<P> AStar<P>::search(Searchable<P> *problem) {
                 cur_pos_best_f = closed.find(succsessor)->second;
                 if(cur_pos_best_f < succsessor_f) {
                     continue;
-                }}
+                }
+            }
 
             /*O.W.*/
             open.insert(succsessor);
@@ -81,7 +85,8 @@ list<P> AStar<P>::search(Searchable<P> *problem) {
     }// End while (Open is not empty)
 
     /*No path found - returns an empty list.*/
-    return list<P>();
+    cout << "Ended A-Star" << endl; /*TODO debug*/
+    return new list<P>();
 }
 template<class P>
 Searcher<P> *AStar<P>::clone() const {

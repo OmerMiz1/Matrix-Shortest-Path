@@ -17,8 +17,8 @@ using namespace std;
  * @return list of nodes of type P describing the route to the solution
  */
 template <class P>
-list<P> DepthFirstSearch<P>::search(Searchable<P> *problem) {
-    cout << "Started DepthFirstSearch" << endl;
+list<P>* DepthFirstSearch<P>::search(Searchable<P> *problem) {
+    cout << "Started DepthFirstSearch" << endl;/*TODO debug*/
     stack<P> statesStack;/*TODO wy stack State<Point> and not P? P is State<Point> in our case*/
     /*TODO: brought "typename" back, not sure if its good.*/
     //the existence of a State in this set indicates he was discovered already
@@ -29,7 +29,8 @@ list<P> DepthFirstSearch<P>::search(Searchable<P> *problem) {
         P current = statesStack.top();
         statesStack.pop();
         if (problem->isGoalState(current)) {
-            return *current.backtrace();
+            cout << "End DepthFirstSearch" << endl; /*TODO debug*/
+            return current.backtrace();
         }
         if (!visitedSet.count(current)) {
             visitedSet.insert(current);
@@ -46,4 +47,7 @@ list<P> DepthFirstSearch<P>::search(Searchable<P> *problem) {
             }
         }
     }
+
+    /*Return empty list if no path found*/
+    return new list<P>();
 }

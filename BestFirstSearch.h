@@ -15,7 +15,7 @@ private:
     int evaluatedNodesCount = 0;
 
 public:
-    list<P> search(Searchable<P> *problem) override;
+    list<P>* search(Searchable<P> *problem) override;
     Searcher<P> *clone() const override;
 };
 

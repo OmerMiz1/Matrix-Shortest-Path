@@ -14,7 +14,7 @@
 template <typename T>
 T* Matrix<T>::at(int x, int y)  {
     try {
-        if(x < rows_count && row_size_map[matrix.at(x)] < y) {
+        if(x < rows_count && matrix.at(x)->size() < y) {
             return matrix.at(x)->at(y);
         }
     } catch(const char* e) { /*catches out_of_bounds exceptions*/
@@ -64,7 +64,6 @@ void Matrix<T>::addRow(vector<T>* new_row) {
         matrix.at(rows_count)->push_back(cell);
         value_point_map[&temp] = Point(rows_count,cur_col);
     }
-    row_size_map[matrix.at(rows_count)] = new_row->size();
     this->rows_count++;
 }
 
