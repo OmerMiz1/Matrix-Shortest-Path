@@ -31,19 +31,19 @@ list<P>* AStar<P>::search(Searchable<P> *problem) {
 
     /*Init open list and closed list*/
     HashPriorityQueueAStar<P> open;
-    set<pair<P, double>, PairPositionComparator<pair<P,double>>> closed;
+    set<pair<P, int>, PairPositionComparator<pair<P,int>>> closed;
 
     /*current is poped from open list.
      *current_g is q.g.*/
-    pair<P,double> current, cur_pos_best_f_node;
-    double succsessor_g, succsessor_h, succsessor_f, current_g, cur_pos_best_f;
+    pair<P,int> current, cur_pos_best_f_node;
+    int succsessor_g, succsessor_h, succsessor_f, current_g, cur_pos_best_f;
 
     /*Extract initial and goal states from problem (Matrix)*/
     initial = problem->getInitialState();
     goal = problem->getGoalState();
 
     /*Push INITIAL state to OPEN list, first 'f' is set to 0 */
-    auto init_pair = make_pair(initial, static_cast<double>(0));
+    auto init_pair = make_pair(initial, static_cast<int>(0));
     open.insert(init_pair);
 
     /*If open is empty then it means no path. Loop may also break if reached solution.*/
@@ -60,7 +60,7 @@ list<P>* AStar<P>::search(Searchable<P> *problem) {
             }
 
             /*Init successor with heu distance*/
-            double s_heu = heuristicDistance(s);
+            int s_heu = heuristicDistance(s);
             auto succsessor = make_pair(s, s_heu);
 
             succsessor_g = (current.first.getCost() + current_g);
@@ -102,7 +102,7 @@ Searcher<P> *AStar<P>::clone() const {
 }
 
 template<class P>
-double AStar<P>::heuristicDistance(P current) {
+int AStar<P>::heuristicDistance(P current) {
     Point currentPoint = current.getState();
     Point goalPoint = goal.getState();
     return currentPoint.manhattanHeuristicDistance(&goalPoint);

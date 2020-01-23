@@ -40,9 +40,9 @@ int Point::getY() const{
  * @param other the other point
  * @return the distance between the points
  */
-double Point::manhattanHeuristicDistance(Point *other) const {
-    double subX = abs(this->x - other->x);
-    double subY = abs(this->y - other->y);
+int Point::manhattanHeuristicDistance(Point *other) const {
+    int subX = abs(this->x - other->x);
+    int subY = abs(this->y - other->y);
     return (subX + subY);
 }
 

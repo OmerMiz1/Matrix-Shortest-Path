@@ -11,7 +11,7 @@
  * @param prevState the state that this state got from
  */
 template<typename T>
-State<T>::State(T *myState, double cost, State<T> *prevState):my_state(myState), cost(cost),
+State<T>::State(T *myState, int cost, State<T> *prevState):my_state(myState), cost(cost),
                                                               prev_state(prevState) {}
 
 /** Calls above C'TOR
@@ -30,7 +30,7 @@ State<T>::State(T *myState): State<T>(myState, -1, nullptr) {}
  * @param prevState
  */
 template<class T>
-State<T>::State(int x, int y, double cost, State<T> *prevState):State<T>(new T(x,y), cost, prevState)  {}
+State<T>::State(int x, int y, int cost, State<T> *prevState):State<T>(new T(x,y), cost, prevState)  {}
 
 /**
  * Returns this states state
@@ -42,12 +42,12 @@ T State<T>::getState() const {
 }
 
 template <typename T>
-double State<T>::getCost() const{
+int State<T>::getCost() const{
     return this->cost;
 }
 
 template<class T>
-double State<T>::getPrevCost() const {
+int State<T>::getPrevCost() const {
     if(prev_state == nullptr) {
         return 0;
     }

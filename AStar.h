@@ -14,7 +14,7 @@ class AStar : public Searcher<P> {
 private:
     P initial;
     P goal;
-    double heuristicDistance(P current);
+    int heuristicDistance(P current);
 public:
     /*  AStar(P goal_state):goal(goal_state) {}TODO: not in CTOR - should be injected..*/
     list<P>* search(Searchable<P> *problem) override;

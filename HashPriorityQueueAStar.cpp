@@ -5,7 +5,7 @@
 #include "HashPriorityQueueAStar.h"
 
 template <typename P>
-void HashPriorityQueueAStar<P>::insert(pair<P,double> element) {
+void HashPriorityQueueAStar<P>::insert(pair<P,int> element) {
     /*If exists already, must be removed first.
      *NOTE: if gets here, its derived from AStar's logic!*/
     if(my_set.count(element)) {
@@ -16,7 +16,7 @@ void HashPriorityQueueAStar<P>::insert(pair<P,double> element) {
 }
 
 template<typename P>
-pair<P,double> HashPriorityQueueAStar<P>::topAndPop() {
+pair<P,int> HashPriorityQueueAStar<P>::topAndPop() {
     auto element = this->top();
     this->pop();
     this->my_set.erase(element);
@@ -25,12 +25,12 @@ pair<P,double> HashPriorityQueueAStar<P>::topAndPop() {
 }
 
 template<typename P>
-bool HashPriorityQueueAStar<P>::contains(pair<P,double> element) {
+bool HashPriorityQueueAStar<P>::contains(pair<P,int> element) {
     return this->my_set.count(element);
 }
 
 template<typename P>
-pair<P,double> HashPriorityQueueAStar<P>::find(pair<P,double> element) {
+pair<P,int> HashPriorityQueueAStar<P>::find(pair<P,int> element) {
     return *(this->my_set.find(element));
 }
 

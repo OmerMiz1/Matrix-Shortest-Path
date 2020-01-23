@@ -18,8 +18,8 @@ template<typename P>
 class Searcher : public virtual Cloneable<Searcher<P>> {
  protected:
     virtual bool isValid(Searchable<P> *problem) {
-        double initial_cost = problem->getInitialState().getCost();
-        double goal_cost = problem->getGoalState().getCost();
+        int initial_cost = problem->getInitialState().getCost();
+        int goal_cost = problem->getGoalState().getCost();
         return ((initial_cost == NOT_A_NODE) or (goal_cost == NOT_A_NODE));
     }
  public:

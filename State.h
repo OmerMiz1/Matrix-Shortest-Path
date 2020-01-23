@@ -16,18 +16,18 @@ template <class T>
 class State : public Cloneable<State<T>>, public Stringable<T>, public Stringable<State<T>> {
 private:
     T *my_state; // the state of this state
-    double cost; //the cost that it took us to get to this state, 0 if this is the first state
+    int cost; //the cost that it took us to get to this state, 0 if this is the first state
     State<T> *prev_state; //the state that this state got from, null if this is the first state
 
 public:
     State()=default;
     State(T *myState);
-    State(T *myState, double cost, State<T> *prevState);
-    State(int x, int y, double cost, State<T> *prevState); /*TODO for T = Point*/
+    State(T *myState, int cost, State<T> *prevState);
+    State(int x, int y, int cost, State<T> *prevState); /*TODO for T = Point*/
 
     T getState() const;
-    double getCost() const;
-    double getPrevCost() const;
+    int getCost() const;
+    int getPrevCost() const;
     void setPrev(State<T> *prev_state);
 
     list<State<T>>* backtrace() const;

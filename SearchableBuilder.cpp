@@ -28,7 +28,7 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
     /*Iterates data list. Each string represents a ROW in the matrix*/
     for(auto row_iter = data.begin(); row_iter != data.end(); ++row_iter, ++row_index, col_index=0) {
         auto row = new vector<P>;
-        double cost;
+        int cost;
 
         /*Regex iterators to match each integer in parsed string*/
         auto start = sregex_iterator(row_iter->begin(), row_iter->end(), intRx);
@@ -99,7 +99,7 @@ P* SearchableBuilder<P>::buildMatrixState(string state_str) {
  * @return
  */
 template <class P>
-P* SearchableBuilder<P>::buildMatrixCell(int row, int col, double cost, P *prev) {
+P* SearchableBuilder<P>::buildMatrixCell(int row, int col, int cost, P *prev) {
     /*TODO next assignments, need to find better solution for this generic type
      * P C'TOR. maybe make sure p has a specific C'TOR, can use strings and builder
      * DP*/

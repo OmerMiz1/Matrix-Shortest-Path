@@ -38,19 +38,19 @@ class PairPositionComparator {
  *      The set comparator is a position comparator.
  */
 template <typename P>
-class HashPriorityQueueAStar : public priority_queue<pair<P,double>, vector<pair<P,double>>, HeuristicDistanceComparator<pair<P, double>>> {
+class HashPriorityQueueAStar : public priority_queue<pair<P,int>, vector<pair<P,int>>, HeuristicDistanceComparator<pair<P, int>>> {
 private:
-    set<pair<P,double>, PairPositionComparator<pair<P, double>>> my_set;// POSITION_COMPARED
+    set<pair<P,int>, PairPositionComparator<pair<P, int>>> my_set;// POSITION_COMPARED
     unsigned int evaluated_nodes =0;
 
 public:
-    void insert(pair<P,double> element);
-    bool contains(pair<P,double> element);
-    pair<P,double> topAndPop();
-    pair<P,double> find(pair<P,double> element);
+    void insert(pair<P,int> element);
+    bool contains(pair<P,int> element);
+    pair<P,int> topAndPop();
+    pair<P,int> find(pair<P,int> element);
 };
 
-template class HeuristicDistanceComparator<pair<State<Point>,double>>;
-template class PairPositionComparator<pair<State<Point>,double>>;
+template class HeuristicDistanceComparator<pair<State<Point>,int>>;
+template class PairPositionComparator<pair<State<Point>,int>>;
 template class HashPriorityQueueAStar<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2_HASHPRIORITYQUEUEASTAR_H
