@@ -36,6 +36,14 @@ list<P> *BestFS<P>::search(Searchable<P> *problem) {
         return special_case_result;
     }
 
+    //TODO remove!!!
+    char x = problem->getInitialState().getState().getX() + 'A';
+    int y = problem->getInitialState().getState().getY()+1;
+    clog << "Initial state is: " << x << "," << y << endl;
+    x = problem->getGoalState().getState().getX() + 'A';
+    y = problem->getGoalState().getState().getY()+1;
+    clog << "Goal state state is: " << x << "," << y << endl;
+
     /*Initialize open/closed*/
     HashPriorityQueueBestFirstSearch<P> open;
     set<P, typename P::positionComparator> closed;
@@ -52,8 +60,7 @@ list<P> *BestFS<P>::search(Searchable<P> *problem) {
         char x = n.getState().getX() + 'A';
         int y = n.getState().getY()+1;
         int cost = n.getCost();
-
-        cout << "lowest cost in queue is: " << x << "," << y << " - with cost: " << cost << endl;
+        clog << "lowest cost in queue is: " << x << "," << y << " - with cost: " << cost << endl;
         // add n to the the set of "closed"\already-visited nodes
         closed.insert(n);
 
