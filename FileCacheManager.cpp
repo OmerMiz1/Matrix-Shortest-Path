@@ -30,37 +30,39 @@ S FileCacheManager<P, S>::get(P problem) {
 
 template<typename P, typename S>
 void FileCacheManager<P, S>::insert(P problem, S solution) {
-    if (contains(problem)) {
-        perror("writing a known solution"); /*TODO*/
-    }
     writeToFile(problem, solution);
 }
 
 template<typename P, typename S>
 void FileCacheManager<P, S>::writeToFile(P problem, S solution) {
-    ofstream outFile;
-
+    ofstream outFile(toFileName(problem));
     cout<<toFileName(problem)<<endl; /*TODO debug*/
-    outFile.open(toFileName(problem) + "_" + problem + ".txt");
+
     if (!outFile.is_open()) {
         throw "Failed to create a file";
     }
-
+    outFile.clear();
     /*Assuming S is a string here !!!*/
-    outFile.write(solution.c_str(), sizeof(S));
+    outFile << solution << endl;
+//    outFile.write(solution.c_str(), sizeof(solution));
     outFile.close();
 }
 
 template<typename P, typename S>
 S FileCacheManager<P, S>::readFromFile(P problem) {
+    /*TODO test this function !!!*/
+
+    ifstream inFile(toFileName(problem));
     char buffer[MAX_CHARS];
-    fstream inFile(toFileName(problem));
     S solution;
+
     if (!inFile.is_open()) {
         throw "Failed to read from an existing file";
     }
+
     inFile.read(buffer, sizeof(solution));
     inFile.close();
+
     solution = buffer;
     return solution;
 }
