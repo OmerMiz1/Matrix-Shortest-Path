@@ -101,11 +101,11 @@ public:
         }
 
         int port = stoi(argv[1]);
-        Searcher<State<Point>> *searcher = new BestFS<State<Point>>();
-        SearchSolver<State<Point>> *solver = new SearchSolver<State<Point>>(searcher);
-        auto cache = new FileCacheManager<string, string>();
-        auto handler = new MyClientHandler<State<Point>>(solver, cache);
-        auto mss = new MySerialServer();
+        auto *searcher = new BestFS<State<Point>>();
+        auto *solver =   new SearchSolver<State<Point>>(searcher);
+        auto cache =     new FileCacheManager<string, string>();
+        auto handler =   new MyClientHandler<State<Point>>(solver, cache);
+        auto mss =       new MySerialServer();
 
         try {
             mss->open(port, handler);

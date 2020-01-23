@@ -66,7 +66,7 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
     if(!(my_cache->contains(problem_key))) {
         solution = my_solver->solve(problem);
         solution_str = solutionDescription(solution);
-        my_cache->insert(problem_key,solution_str);
+        my_cache->insert(problem_key, solution_str);
     } else { /*Solution IS IN cache*/
         /*TODO Error cannot access memory at ...
          * i read the file it has no path message in it*/
@@ -164,6 +164,7 @@ string MyClientHandler<P>::solutionDescription(list<P> *solution) {
         /*Add all up to the end of result so far*/
         result.append(cur_direction + " (" + cur_cost +"), " );
     }
+    return result;
 }
 
 
