@@ -33,7 +33,7 @@ public:
         Searcher<State<Point>> *searcher = new BestFS<State<Point>>();
         /*Object Adapter*/
         SearchSolver<State<Point>> *solver = new SearchSolver<State<Point>>(searcher);
-        CacheManager<string, string> *cache = new FileCacheManager<string, string>();
+        CacheManager<string, string> *cache = new FileCacheManager();
         auto handler = new MyClientHandler<State<Point>>(solver, cache);
         auto mps = new MyParallelServer();
         try {
@@ -55,7 +55,7 @@ public:
 
         int port = stoi(argv[1]);
         Solver<string, string> *solver = new StringReverser<string>();
-        auto cache = new FileCacheManager<string, string>();
+        auto cache = new FileCacheManager();
         auto handler = new MyTestClientHandler<string, string>(solver, cache);
         server_side::Server *mss = new MySerialServer();
 
@@ -78,7 +78,7 @@ public:
 
         int port = stoi(argv[1]);
         Solver<string, string> *solver = new StringReverser<string>();
-        auto cache = new FileCacheManager<string, string>();
+        auto cache = new FileCacheManager();
         auto handler = new MyTestClientHandler<string, string>(solver, cache);
         server_side::Server *mps = new MyParallelServer();
 
@@ -101,9 +101,9 @@ public:
         }
 
         int port = stoi(argv[1]);
-        auto *searcher = new BestFS<State<Point>>();
+        auto *searcher = new AStar<State<Point>>();
         auto *solver =   new SearchSolver<State<Point>>(searcher);
-        auto cache =     new FileCacheManager<string, string>();
+        auto cache =     new FileCacheManager();
         auto handler =   new MyClientHandler<State<Point>>(solver, cache);
         auto mss =       new MySerialServer();
 
@@ -127,7 +127,7 @@ public:
         int port = stoi(argv[1]);
         Searcher<State<Point>> *searcher = new BestFS<State<Point>>();
         SearchSolver<State<Point>> *solver = new SearchSolver<State<Point>>(searcher);
-        auto cache = new FileCacheManager<string, string>();
+        auto cache = new FileCacheManager();
         auto handler = new MyClientHandler<State<Point>>(solver, cache);
         auto mps = new MyParallelServer();
 

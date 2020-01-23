@@ -60,7 +60,9 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         perror("handleClient#2");
         exit(EXIT_FAILURE); /*TODO debug*/
     }
-    problem_key = hashProblem(problem);
+    problem_key = typeid(problem).name();
+    problem_key.append("_");
+    problem_key.append(hashProblem(problem));
 
     /*Case solution NOT IN cache*/
     if(!(my_cache->contains(problem_key))) {

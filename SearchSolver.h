@@ -10,6 +10,9 @@
 #include "Point.h"
 #include "Searchable.h"
 #include "BestFS.h"
+#include "AStar.h"
+#include "BFS.h"
+#include "DFS.h"
 
 #include <list>
 #include <climits>

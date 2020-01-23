@@ -6,9 +6,8 @@
 #include <iostream>
 #include "FileCacheManager.h"
 
-template<typename P, typename S>
-bool FileCacheManager<P, S>::contains(P problem) {
-    string file_name = toFileName(problem);
+bool FileCacheManager::contains(string problem) {
+    string file_name = addTxt(problem);
     ifstream ifile(file_name);
     bool exists = ifile.good();
     if(ifile.is_open()) {
@@ -17,44 +16,39 @@ bool FileCacheManager<P, S>::contains(P problem) {
     return exists;
 }
 
-template<typename P, typename S>
-S FileCacheManager<P, S>::get(P problem) {
+string FileCacheManager::get(string problem) {
     //if known problem read it from file and return it
     if (contains(problem)) {
-        return readFromFile(toFileName(problem));
+        return readFromFile(addTxt(problem));
     } else {
         perror("asked for a solution without validating it's existence"); //TODO remove before submitting
         return nullptr;
     }
 }
 
-template<typename P, typename S>
-void FileCacheManager<P, S>::insert(P problem, S solution) {
+void FileCacheManager::insert(string problem, string solution) {
     writeToFile(problem, solution);
 }
 
-template<typename P, typename S>
-void FileCacheManager<P, S>::writeToFile(P problem, S solution) {
-    ofstream outFile(toFileName(problem));
-    cout<<toFileName(problem)<<endl; /*TODO debug*/
+void FileCacheManager::writeToFile(string problem, string solution) {
+    ofstream outFile(addTxt(problem));
+    cout<<addTxt(problem)<<endl; /*TODO debug*/
 
     if (!outFile.is_open()) {
         throw "Failed to create a file";
     }
+    /*Assuming string is a string here !!!*/
     outFile.clear();
-    /*Assuming S is a string here !!!*/
     outFile << solution << endl;
-//    outFile.write(solution.c_str(), sizeof(solution));
     outFile.close();
 }
 
-template<typename P, typename S>
-S FileCacheManager<P, S>::readFromFile(P problem) {
-    /*TODO test this function !!!*/
+string FileCacheManager::readFromFile(string problem) {
+    ifstream inFile(addTxt(problem));
+    cout<<addTxt(problem)<<endl; /*TODO debug*/
 
-    ifstream inFile(toFileName(problem));
     char buffer[MAX_CHARS];
-    S solution;
+    string solution;
 
     if (!inFile.is_open()) {
         throw "Failed to read from an existing file";
@@ -67,13 +61,11 @@ S FileCacheManager<P, S>::readFromFile(P problem) {
     return solution;
 }
 
-template<typename P, typename S>
-string FileCacheManager<P,S>::toFileName(P problem) {
+string FileCacheManager::addTxt(string problem_key) {
     /*Assuming problem is the problem represented as string*/
-    return string (problem + ".txt");
+    return string (problem_key + ".txt");
 }
 
-template<typename P, typename S>
-FileCacheManager<P, S>* FileCacheManager<P, S>::clone() const {
-    return new FileCacheManager<P, S>();
+FileCacheManager* FileCacheManager::clone() const {
+    return new FileCacheManager();
 }

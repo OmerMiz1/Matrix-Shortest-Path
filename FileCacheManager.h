@@ -14,20 +14,18 @@
 
 #include "CacheManager.h"
 
-template<typename P, typename S>
-class FileCacheManager : public CacheManager<P,S> {
 
+class FileCacheManager : public CacheManager<string,string> {
 public:
-    void insert(P problem, S solution) override;
-    bool contains(P given_problem) override;
-    S get(P problem) override;
-    FileCacheManager<P,S>* clone() const override;
+    void insert(string problem_key, string content) override;
+    bool contains(string problem_key) override;
+    string get(string problem_key) override;
+    FileCacheManager* clone() const override;
 
 private:
-    void writeToFile(P, S);
-    S readFromFile(P);
-    string toFileName(P problem);
+    void writeToFile(string file_name, string content);
+    string readFromFile(string problem_key);
+    string addTxt(string problem);
 };
 
-template class FileCacheManager<string,string>;
 #endif //ALGORITHMICPROGRAMMING2__FILECACHEMANAGER_H_
