@@ -15,13 +15,13 @@ int main(int argc, char *argv[]) {
     pString.main(argc,argv);
     cout<<"ParallelStringTester end..."<<endl;*/
 
-    cout<<"SerialMatrixTester start..."<<endl;
+    /*cout<<"SerialMatrixTester start..."<<endl;
     sMatrix.main(argc,argv);
-    cout<<"SerialMatrixTester end..."<<endl;
+    cout<<"SerialMatrixTester end..."<<endl;*/
 
-    /*cout<<"ParallelMatrixTester start..."<<endl;
+    cout<<"ParallelMatrixTester start..."<<endl;
     pMatrix.main(argc,argv);
-    cout<<"ParallelMatrixTester end..."<<endl;*/
+    cout<<"ParallelMatrixTester end..."<<endl;
 
     return 0;
 }

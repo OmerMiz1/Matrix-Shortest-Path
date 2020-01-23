@@ -114,6 +114,8 @@ string SearchableMatrix<P>::str() const {
     /*Also add each state (cell)*/
     for(auto &row : Matrix<P>::matrix) {
         for(auto &cell : *row) {
+            result.append(to_string(cell->getCost()));
+            result.append(",");
             result.append(cell->str());
             result.append(" ");
         }

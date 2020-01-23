@@ -101,7 +101,8 @@ void MyParallelServer::start(ClientHandler *handler) {
 
         /*SELECT FROM QUEUE*/
         int select_status = select(this->sockfd+1, &fdset, nullptr, nullptr, &tv);
-        if (select_status <= 0) {
+        cout<<"threads in list: "<<this->threads.size()<<endl;
+        if (select_status <= 0 && !this->threads.size()) {
             cout<<("Server timed-out...")<<endl;
             this->done = true;
             break;
@@ -116,15 +117,13 @@ void MyParallelServer::start(ClientHandler *handler) {
                 perror("parallel_start#2");
                 return;
             }
+            /*Mainly used for visualizing whats going on*/
+            ++accepted_count; /*TODO: debug*/
+            cout<<"Server: client #" <<accepted_count<<" accepted..."<<endl;
+            ClientHandler *cloned = handler->clone();
+            handlers.push_back(cloned);
+            threads.push_back(thread(&ClientHandler::handleClient, &(*cloned), std::ref(client_socket)));
         }
-
-        /*Mainly used for visualizing whats going on*/
-        ++accepted_count; /*TODO: debug*/
-        cout<<"Server: client #" <<accepted_count<<" accepted..."<<endl;
-        ClientHandler *cloned = handler->clone();
-        threads.push_back(thread(&ClientHandler::handleClient, &(*cloned), std::ref(client_socket)));
-
-
     } // End of while, server is done listening.
     joinAllThreads();
 

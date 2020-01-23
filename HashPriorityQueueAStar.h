@@ -24,7 +24,7 @@ template <typename P>
 class PairPositionComparator {
  public:
     bool operator()(const P &lhs, const P &rhs) const {
-        return lhs.first.getState() < rhs.first.getState();
+        return lhs.first.getState().uniq() < rhs.first.getState().uniq();
     }
 };
 

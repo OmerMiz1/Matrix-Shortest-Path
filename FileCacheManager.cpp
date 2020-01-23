@@ -27,7 +27,7 @@ string FileCacheManager::get(string problem) {
 }
 
 void FileCacheManager::insert(string problem, string solution) {
-    writeToFile(problem, solution);
+//    writeToFile(problem, solution); /*TODO debug*/
 }
 
 void FileCacheManager::writeToFile(string problem, string solution) {
@@ -45,7 +45,6 @@ void FileCacheManager::writeToFile(string problem, string solution) {
 
 string FileCacheManager::readFromFile(string problem) {
     ifstream inFile(addTxt(problem));
-    cout<<addTxt(problem)<<endl; /*TODO debug*/
 
     char buffer[MAX_CHARS];
     string solution;
@@ -54,10 +53,12 @@ string FileCacheManager::readFromFile(string problem) {
         throw "Failed to read from an existing file";
     }
 
-    inFile.read(buffer, sizeof(solution));
-    inFile.close();
+    while(!inFile.eof()) {
+        inFile.read(buffer, sizeof(solution));
+        solution.append(buffer);
+    }
 
-    solution = buffer;
+    inFile.close();
     return solution;
 }
 

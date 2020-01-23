@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <utility>
+#include <mutex>
 
 #include "CacheManager.h"
 #include "FileCacheManager.h"
@@ -26,12 +27,14 @@ using namespace std;
 template<class P>
 class MyClientHandler : public ClientHandler {
  private:
+    mutex getSolMtx, setSolMtx, toChunksMtx, sendMsgMtx, solDescMtx, probBuildMtx, keyGenMtx;
     Solver<Searchable<P>,list<P>*> *my_solver;
     CacheManager<string,string> *my_cache;
     list<string> readMessageFromClient(int client_socketfd);
     string hashProblem(Searchable<P> *problem) const;
     string solutionDescription(list<P> *solution);
-    bool reached_end = false;
+    bool message_end = false;
+    bool running = true;
 
  public:
     MyClientHandler(Solver<Searchable<P>,list<P>*> *solver,CacheManager<string,string> *cache);
@@ -39,6 +42,7 @@ class MyClientHandler : public ClientHandler {
     void handleClient(int client_socketfd) override;
 
     MyClientHandler* clone() const override;
+    list<string> toChunks(string basic_string);
 };
 
 /*TODO: NO IDEA WHY IT IS SO IMPORTANT DECLARATION IS IN THIS ORDER*/
