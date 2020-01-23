@@ -19,8 +19,8 @@ using namespace std;
 template<typename T>
 class Matrix {
  protected:
-    int rows_count;
-    int columns_count=0;
+    int rows_count=1;
+    int columns_count=1;
     vector<vector<T*>*> matrix;
     map<T*, Point> value_point_map;
     map<vector<T*>*,size_t> row_size_map; /*row_size = how many columns in that row.*/

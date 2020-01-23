@@ -59,13 +59,14 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         exit(EXIT_FAILURE); /*TODO debug*/
     }
     problem_key = hashProblem(problem);
-
     /*Solution NOT found in cache*/
     if(!(my_cache->contains(problem_key))) {
         solution = my_solver->solve(problem);
         solution_str = solutionDescription(&solution);
         my_cache->insert(problem_key,solution_str);
     } else { /*Solution found in cache*/
+        /*TODO Error cannot access memory at ...
+         * i read the file it has no path message in it*/
         solution_str = my_cache->get(problem_key);
     }
 
@@ -103,8 +104,9 @@ list<string> MyClientHandler<P>::readMessageFromClient(int client_socketfd) {
         /*TODO remove below condition before submitting.*/
     } else if (0 < bytes_read /*&& bytes_read < MAX_CHARS*/) {
         buf_str.append(buffer);
+        /*Insert each line (seperated by \n) to messages list*/
         for(start = sregex_iterator(buf_str.begin(),buf_str.end(),lineRx); start != end; ++start ) {
-            cout<<start->str()<<endl;
+//            cout<<start->str()<<endl; /*TODO debug*/
             result.push_back(start->str());
         }
         return result;

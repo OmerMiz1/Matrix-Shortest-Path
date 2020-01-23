@@ -23,7 +23,7 @@ P SearchableMatrix<P>::getInitialState() {
  */
 template <class P>
 bool SearchableMatrix<P>::isGoalState(P state)const {
-    return state == (*goal_state);
+    return state.getState() == goal_state->getState();
 }
 
 /**

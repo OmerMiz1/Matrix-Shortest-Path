@@ -14,10 +14,13 @@
 template <typename T>
 T* Matrix<T>::at(int x, int y)  {
     try {
-        return this->matrix.at(x)->at(y);
+        if(x < rows_count && row_size_map[matrix.at(x)] < y) {
+            return matrix.at(x)->at(y);
+        }
     } catch(const char* e) { /*catches out_of_bounds exceptions*/
         return OUT_OF_BOUNDS;
     }
+    return nullptr;
 }
 
 template<typename T>
@@ -52,19 +55,15 @@ int Matrix<T>::getColsCount()  {
  */
 template <typename T>
 void Matrix<T>::addRow(vector<T>* new_row) {
-    int cur_col = 0;
-    cout<<"HI"<<endl;
+    int cur_col = 1;
     auto tempRow = new vector<T*>();
     matrix.push_back(tempRow);
-    cout<<"BYE"<<endl;
-    cout<<matrix.front()->size()<<endl;
     for(auto it = new_row->begin(); it != new_row->end(); ++it,++cur_col) {
         T temp = *it;
         T *cell = new T(temp);
         matrix.at(rows_count)->push_back(cell);
         value_point_map[&temp] = Point(rows_count,cur_col);
     }
-    cout<<"#4"<<endl;
     row_size_map[matrix.at(rows_count)] = new_row->size();
     this->rows_count++;
 }

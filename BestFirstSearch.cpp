@@ -18,7 +18,7 @@ using namespace std;
  */
 template <class P>
 list<P> BestFirstSearch<P>::search(Searchable<P> *problem) {
-    cout<<"Started BestFirstSearch"<<endl;
+    cout<<"Started BestFirstSearch"<<endl; /*TODO debug*/
     //the priority queue of nodes to be checked
     HashPriorityQueueBestFirstSearch<P> open;
     //the set of "closed"\already-visited nodes
@@ -31,10 +31,10 @@ list<P> BestFirstSearch<P>::search(Searchable<P> *problem) {
         this->evaluatedNodesCount++; //TODO: remove?
         // n <- dequeue open
         P n = open.topAndPop();
-        cout<<"Before: "<<closed.count(n)<<endl; //TODO remove before submitting
+//        cout<<"Before: "<<closed.count(n)<<endl; //TODO remove before submitting
         // add n to the the set of "closed"\already-visited nodes
         closed.insert(n);
-        cout<<"After: "<<closed.count(n)<<endl; //TODO remove before submitting
+//        cout<<"After: "<<closed.count(n)<<endl; //TODO remove before submitting
         // if n is the goal state
         if (problem->isGoalState(n)) {
             cout<<"Found the goal state"<<endl;
