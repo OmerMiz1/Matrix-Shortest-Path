@@ -17,7 +17,7 @@ public:
     Point(const Point &other);
     enum Direction {Up, Down, Left, Right, Same};
     Direction getDirectionTo(const Point &other) const;
-    string getDirectionToStr(Direction direction) const;
+    string getDirectionToStr(const Point &other) const;
     int getX() const;
     int getY() const;
     double manhattanHeuristicDistance(Point *other) const;

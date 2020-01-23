@@ -79,7 +79,8 @@ Point::Direction Point::getDirectionTo(const Point &other) const {
     }
 }
 
-string Point::getDirectionToStr(Direction direction) const {
+string Point::getDirectionToStr(const Point &other) const {
+    auto direction = this->getDirectionTo(other);
     switch(direction) {
         case Up: {
             return "Up";

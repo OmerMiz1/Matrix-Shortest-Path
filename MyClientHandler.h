@@ -15,6 +15,7 @@
 #include "CacheManager.h"
 #include "FileCacheManager.h"
 #include "ClientHandler.h"
+#include "Point.h"
 #include "Solver.h"
 #include "Searchable.h"
 #include "SearchableBuilder.h"

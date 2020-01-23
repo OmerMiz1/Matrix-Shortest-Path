@@ -109,7 +109,6 @@ list<string> MyClientHandler<P>::readMessageFromClient(int client_socketfd) {
         buf_str.append(buffer);
         /*Insert each line (seperated by \n) to messages list*/
         for(start = sregex_iterator(buf_str.begin(),buf_str.end(),lineRx); start != end; ++start ) {
-//            cout<<start->str()<<endl; /*TODO debug*/
             result.push_back(start->str());
         }
         return result;
@@ -147,9 +146,10 @@ string MyClientHandler<P>::solutionDescription(list<P> *solution) {
 
     for(; next_element != solution->end(); ++cur_element, ++next_element) {
         /*Get direction from cur to next.*/
-        cur_direction = cur_element->getState().getDirectionTo(next_element->getState());
+        cur_direction = cur_element->getState().getDirectionToStr(next_element->getState());
+
         /*Error*/
-        if(cur_direction.compare("Same") or cur_direction.compare("ERROR")) {
+        if(!cur_direction.compare("Same") || !cur_direction.compare("ERROR")) {
             perror("solutionDescription#1");
             exit(EXIT_FAILURE); /*TODO debug*/
         }
