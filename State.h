@@ -12,6 +12,24 @@
 
 using namespace std;
 
+/*Kinda useless, already overriding operators*/
+template <class T>
+class costComparator {
+public:
+    bool operator()(const T &first, const T &second) const {
+        return first.getCost() > second.getCost();
+    }
+};
+
+
+template <class T>
+class positionComparator {
+public:
+    bool operator()(const T &first, const T &second) const {
+        return first.getState() < second.getState();
+    }
+};
+
 template <class T>
 class State : public Cloneable<State<T>>, public Stringable<T>, public Stringable<State<T>> {
 private:
@@ -39,19 +57,10 @@ public:
     bool operator<(const State<T> &other_state) const;
     bool operator>(const State<T> &other_state) const;
 
-    class costComparator {
-    public:
-        bool operator()(const State<T> &first, const State<T> &second) const {
-            return first.cost < second.cost;
-        }
-    }; /*Kinda useless, already overriding operators*/
-    class positionComparator {
-    public:
-        bool operator()(const State<T> &first, const State<T> &second) const {
-            return first.my_state < second.my_state;
-        }
-    };
+
 };
 
+template class costComparator<State<Point>>;
+template class positionComparator<State<Point>>;
 template class State<Point>;
 #endif //ALGORITHMICPROGRAMMING2__STATE_H_

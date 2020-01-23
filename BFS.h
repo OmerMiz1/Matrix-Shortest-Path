@@ -9,7 +9,6 @@
 #include "Searchable.h"
 #include "State.h"
 
-
 template <class P>
 class BFS : public Searcher<P> {
 public:

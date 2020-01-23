@@ -28,18 +28,18 @@ class positionComparator {
  *          since the overridden operators in state are cost related there is no need for defining the comparator.
  *      The set comparator is a position comparator.
  */
-template <typename E>
-class HashPriorityQueueBestFirstSearch : public priority_queue<E> {
+template <typename P>
+class HashPriorityQueueBestFirstSearch : public priority_queue<P, vector<P>, costComparator<P>> {
 private:
-    set<E, typename E::positionComparator> mySet;// POSITION_COMPARED
+    set<P, positionComparator<P>> mySet;// POSITION_COMPARPE
     int missed_inserts = 0;
 
 public:
-    void insert(E element);
-    void remove(E element);
-    bool contains(E element);
-    E find(E element);
-    E topAndPop();
+    void insert(P element);
+    void remove(P element);
+    bool contains(P element);
+    P find(P element);
+    P topAndPop();
 };
 
 template class HashPriorityQueueBestFirstSearch<State<Point>>;

@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <algorithm>
+#include <iostream>
 
 #include "HashPriorityQueueBestFirstSearch.h"
 
@@ -14,6 +15,9 @@ void HashPriorityQueueBestFirstSearch<E>::insert(E element) {
     }
     this->mySet.insert(element);
     this->push(element);
+    if(this->size() != this->mySet.size()) {
+        clog << "Error! priority queue and his set aren't the size!" << endl;
+    }
 }
 
 template<typename E>
@@ -40,12 +44,12 @@ E HashPriorityQueueBestFirstSearch<E>::find(E element) {
 
 template<typename E>
 void HashPriorityQueueBestFirstSearch<E>::remove(E element) {
-    auto it = std::find(this->c.begin(), this->c.end(), element); //TODO imported std::find from algorithm instead of <bits/streambuf_iterator.h>, make sure it's right
+    auto it = std::find(this->c.begin(), this->c.end(), element);
     if (it != this->c.end()) {
         this->c.erase(it);
         std::make_heap(this->c.begin(), this->c.end(), this->comp);
-    }
-    else {
+        this->mySet.erase(this->mySet.find(element));
+    } else {
         perror("Tried to delete an non-existing element from the HashPriorityQueueBestFirstSearch");
         exit(1);
     }

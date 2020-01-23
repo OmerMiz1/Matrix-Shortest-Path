@@ -53,7 +53,7 @@ list<P>* BFS<P>::search(Searchable<P> *problem) {
     queue<P> statesQueue;
     /*TODO: brought "typename" back, not sure if its good.*/
     //the existence of a State in this set indicates he was discovered already
-    set<P,typename P::positionComparator> discoveredSet;
+    set<P, positionComparator<P>> discoveredSet;
     P initial = problem->getInitialState();
     discoveredSet.insert(initial);
     statesQueue.push(initial);

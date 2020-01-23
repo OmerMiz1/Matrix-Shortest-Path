@@ -39,7 +39,7 @@ list<P>* DFS<P>::search(Searchable<P> *problem) {
     stack<P> statesStack;/*TODO wy stack State<Point> and not P? P is State<Point> in our case*/
     /*TODO: brought "typename" back, not sure if its good.*/
     //the existence of a State in this set indicates he was discovered already
-    set<P, typename P::positionComparator> visitedSet;
+    set<P, positionComparator<P>> visitedSet;
     P initial = problem->getInitialState();
     statesStack.push(initial);
     while (!statesStack.empty()) {
@@ -70,4 +70,8 @@ list<P>* DFS<P>::search(Searchable<P> *problem) {
     cout << "No path found" << endl; /*TODO debug*/
     cout << "End DFS" << endl; /*TODO debug*/
     return special_case_result;
+}
+template<class P>
+Searcher<P> *DFS<P>::clone() const {
+    return new DFS<P>();
 }

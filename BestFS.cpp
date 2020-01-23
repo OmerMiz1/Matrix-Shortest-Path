@@ -46,7 +46,7 @@ list<P> *BestFS<P>::search(Searchable<P> *problem) {
 
     /*Initialize open/closed*/
     HashPriorityQueueBestFirstSearch<P> open;
-    set<P, typename P::positionComparator> closed;
+    set<P, positionComparator<P>> closed;
 
     //add the initial state to the queue
     open.insert(problem->getInitialState());

@@ -13,6 +13,7 @@ template <class P>
 class DFS : public Searcher<P> {
 public:
     list<P>* search(Searchable<P> *problem) override;
+    Searcher<P> *clone() const override;
 };
 template class DFS<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2_DEPTHFIRSTSEARCH_H

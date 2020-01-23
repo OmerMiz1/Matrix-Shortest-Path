@@ -43,7 +43,7 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         tmp = readMessageFromClient(client_socketfd);
         if (tmp.empty() && !reached_end) {
             perror("handleClient#1");
-            return;
+            exit(EXIT_FAILURE);
         }
 
         for(auto msg : tmp) {
@@ -107,6 +107,7 @@ list<string> MyClientHandler<P>::readMessageFromClient(int client_socketfd) {
         /*TODO remove below condition before submitting.*/
     } else if (0 < bytes_read /*&& bytes_read < MAX_CHARS*/) {
         buf_str.append(buffer);
+
         /*Insert each line (seperated by \n) to messages list*/
         for(start = sregex_iterator(buf_str.begin(),buf_str.end(),lineRx); start != end; ++start ) {
             result.push_back(start->str());
