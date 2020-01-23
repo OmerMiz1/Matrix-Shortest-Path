@@ -68,16 +68,14 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         solution_str = solutionDescription(solution);
         my_cache->insert(problem_key, solution_str);
     } else { /*Solution IS IN cache*/
-        /*TODO Error cannot access memory at ...
-         * i read the file it has no path message in it*/
         solution_str = my_cache->get(problem_key);
     }
 
-    /*TODO: Maybe need to print solution in chunks o 1024 (MAX_SEND_CHARS)?*/
     if (send(client_socketfd, solution_str.c_str(), result.size(), 0) == -1) {
         perror("handleClient#3");
         return;
     }
+    cout<<"client done"<<endl;/*TODO debug*/
 }
 
 template <class P>
