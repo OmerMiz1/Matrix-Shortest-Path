@@ -50,13 +50,9 @@ list<P>* DFS<P>::search(Searchable<P> *problem) {
             cout << "End DFS" << endl; /*TODO debug*/
             return current.backtrace();
         }
+        //if not in visited Set
         if (!visitedSet.count(current)) {
             visitedSet.insert(current);
-            /*TODO: had this line below, you had a list of S (Solutions), we changed Solution to be
-             * list<P>.
-             * Was is wrong (the S in adjacents) or not?
-             * If not than we need to change list<P> to list<list<P>>.
-             *list<S> adjacents = problem->getAllPossibleStates(current);*/
             list<P> adjacents = problem->getAllPossibleStates(current);
             for (auto adjacent : adjacents) {
                 if (!visitedSet.count(adjacent)) {

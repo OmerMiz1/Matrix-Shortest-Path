@@ -26,7 +26,7 @@ template <class T>
 class positionComparator {
 public:
     bool operator()(const T &first, const T &second) const {
-        return first.getState() < second.getState();
+        return !(first.getState() == second.getState());
     }
 };
 

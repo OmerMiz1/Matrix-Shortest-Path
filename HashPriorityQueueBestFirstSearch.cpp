@@ -15,9 +15,6 @@ void HashPriorityQueueBestFirstSearch<E>::insert(E element) {
     }
     this->mySet.insert(element);
     this->push(element);
-    if(this->size() != this->mySet.size()) {
-        clog << "Error! priority queue and his set aren't the size!" << endl;
-    }
 }
 
 template<typename E>
