@@ -30,6 +30,8 @@ MyClientHandler<P>::MyClientHandler(SearchSolver<P> *solver,
  */
 template <class P>
 void MyClientHandler<P>::handleClient(int client_socketfd) {
+    /*TODO dont forget to delete the backtrace*/
+
     SearchableBuilder<P> s_builder;
     Searchable<P> *problem;
     list<string> recieved_data, tmp;
@@ -59,12 +61,13 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         exit(EXIT_FAILURE); /*TODO debug*/
     }
     problem_key = hashProblem(problem);
-    /*Solution NOT found in cache*/
+
+    /*Case solution NOT IN cache*/
     if(!(my_cache->contains(problem_key))) {
         solution = my_solver->solve(problem);
         solution_str = solutionDescription(solution);
         my_cache->insert(problem_key,solution_str);
-    } else { /*Solution found in cache*/
+    } else { /*Solution IS IN cache*/
         /*TODO Error cannot access memory at ...
          * i read the file it has no path message in it*/
         solution_str = my_cache->get(problem_key);

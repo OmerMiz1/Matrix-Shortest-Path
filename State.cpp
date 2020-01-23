@@ -110,17 +110,8 @@ State<T>* State<T>::clone() const {
     if(prev_state == nullptr) {
         return new State<T>(my_state->clone(), this->cost, nullptr);
     }
+
     /*O.W*/
-
-    /*State<T> cur = *this, *prev = this->prev_state; *//*TODO: Removed State<T>(T*) CTOR, usages pointed to this line only.*//*
-    list<State<T>> path;
-
-    path.push_front(cur);
-    while(prev != nullptr) {
-        path.push_front(*prev);
-        cur = *prev;
-        prev = cur.prev_state;
-    }*/
     return new State<T>(my_state->clone(), this->cost, this->prev_state->clone());
 }
 
@@ -132,13 +123,18 @@ State<T>* State<T>::clone() const {
  */
 template<class T>
 list<State<T>>* State<T>::backtrace() const {
-    auto backtrace_path = new list<State<T>>;
+    auto cloned = this->clone();
 
-    /*Iterates till the end of the path by using prev_state.*/
-    for(auto cur_front = this->clone(); cur_front != nullptr; cur_front = cur_front->prev_state->clone()) {
-        backtrace_path->push_front(*cur_front);
+    /*First node in path*/
+    if(prev_state == nullptr) {
+        auto backtrace_path = new list<State<T>>;
+        backtrace_path->push_back(*cloned);
+        return backtrace_path;
     }
 
+    /*O.W call recursively and add self*/
+    auto backtrace_path = prev_state->backtrace();
+    backtrace_path->push_back(*cloned);
     return backtrace_path;
 }
 

@@ -10,21 +10,19 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
     P *initial, *goal;
     int row_index=0, col_index=0;
     regex intRx("(-?\\d+)");
+    string special_state;
 
-    auto it = data.rbegin();
     /*Double check "end" didnt sneak in*/
-    if(!it->compare("end")) {
-        ++it;
+    if(strstr(data.rbegin()->c_str(), "end")) {
         data.pop_back();
     }
 
     /*Goal state*/
-    goal = buildMatrixState(*it);
-    ++it;
+    goal = buildMatrixState(data.rbegin()->c_str());
     data.pop_back();
 
     /*Initial state*/
-    initial = buildMatrixState(*it);
+    initial = buildMatrixState(data.rbegin()->c_str());
     data.pop_back();
 
     /*Iterates data list. Each string represents a ROW in the matrix*/
@@ -77,7 +75,7 @@ P* SearchableBuilder<P>::buildMatrixState(string state_str) {
     smatch match;
     int x, y;
 
-    auto it = sregex_iterator(state_str.begin(), state_str.end(), intRx);
+    sregex_iterator it = sregex_iterator(state_str.begin(), state_str.end(), intRx);
     try {
         x = stoi(it->str());
         ++it;
