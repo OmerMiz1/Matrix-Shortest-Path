@@ -11,21 +11,17 @@
  * @param y the y coordinate of the cell
  * @return the cell in the (x,y) place in the matrix
  */
-template <typename T>
-T* Matrix<T>::at(int x, int y)  {
-        if(x < rows_count && matrix.at(x)->size() < y) {
-            return matrix.at(x)->at(y);
-        }
+template<typename T>
+T *Matrix<T>::at(int x, int y) {
+    //bounds check
+    if (x < 0 || x > (this->columns_count - 1) || y < 0 || y > (this->rows_count - 1)) {
         return OUT_OF_BOUNDS;
+    }
+    return matrix.at(x)->at(y);
 }
 
 template<typename T>
 T *Matrix<T>::at(Point point) {
-    int x = point.getX();
-    int y = point.getY();
-    if (x < 0 || x > (this->columns_count-1) || y < 0 || y > (this->rows_count-1)) {
-        return OUT_OF_BOUNDS;
-    }
     return at(point.getX(), point.getY());
 }
 
@@ -34,7 +30,7 @@ T *Matrix<T>::at(Point point) {
  * @return the number of rows in the matrix
  */
 template<typename T>
-int Matrix<T>::getRowsCount()  {
+int Matrix<T>::getRowsCount() {
     return rows_count;
 }
 
@@ -43,7 +39,7 @@ int Matrix<T>::getRowsCount()  {
  * @return the number of columns in the matrix
  */
 template<typename T>
-int Matrix<T>::getColsCount()  {
+int Matrix<T>::getColsCount() {
     return columns_count;
 }
 
@@ -54,19 +50,19 @@ int Matrix<T>::getColsCount()  {
  * @tparam T
  * @param new_row
  */
-template <typename T>
-void Matrix<T>::addRow(vector<T>* new_row) {
+template<typename T>
+void Matrix<T>::addRow(vector<T> *new_row) {
     int cur_col = 0;
     /*Allocate memory for new row*/
-    auto tempRow = new vector<T*>();
+    auto tempRow = new vector<T *>();
     matrix.push_back(tempRow);
 
     /*Add cell by cell*/
-    for(auto it = new_row->begin(); it != new_row->end(); ++it,++cur_col) {
+    for (auto it = new_row->begin(); it != new_row->end(); ++it, ++cur_col) {
         T temp = *it;
         T *cell = new T(temp);
         matrix.at(rows_count)->push_back(cell);
-        value_point_map[&temp] = Point(rows_count,cur_col);
+        value_point_map[&temp] = Point(rows_count, cur_col);
     }
 
     /*Assuming all matrices are of order NxN*/
@@ -90,11 +86,11 @@ void Matrix<T>::removeRow(int row_num) {
 
 template<typename T>
 Point Matrix<T>::getPoint(T cell) const {
-    int row_num=0, col_num=0;
+    int row_num = 0, col_num = 0;
 
-    for(auto row : matrix) {
-        for(auto element : *row) {
-            if(cell == *element) {
+    for (auto row : matrix) {
+        for (auto element : *row) {
+            if (cell == *element) {
                 return cell.getState();
             }
             ++col_num;
@@ -107,34 +103,34 @@ Point Matrix<T>::getPoint(T cell) const {
 template<typename T>
 T *Matrix<T>::getAbove(T state) {
     auto p = getPoint(state);
-    return at(p.getX(), (p.getY()-1));
+    return at(p.getX(), (p.getY() - 1));
 }
 
 template<typename T>
 T *Matrix<T>::getBelow(T state) {
     auto p = getPoint(state);
-    return at(p.getX(), (p.getY()+1));
+    return at(p.getX(), (p.getY() + 1));
 }
 
 template<typename T>
 T *Matrix<T>::getLeft(T state) {
     auto p = getPoint(state);
-    return at(p.getX()-1, p.getY());
+    return at(p.getX() - 1, p.getY());
 }
 
 template<typename T>
 T *Matrix<T>::getRight(T state) {
     auto p = getPoint(state);
-    return at(p.getX()+1, p.getY());
+    return at(p.getX() + 1, p.getY());
 }
 
 template<typename T>
 Matrix<T>::~Matrix() {
-    for (vector<T*>* row : this->matrix) {
-        for (T* cell : *row) {
-            delete(cell);
+    for (vector<T *> *row : this->matrix) {
+        for (T *cell : *row) {
+            delete (cell);
         }
-        delete(row);
+        delete (row);
     }
 }
 
