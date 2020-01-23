@@ -36,8 +36,7 @@ list<P>* DFS<P>::search(Searchable<P> *problem) {
         return special_case_result;
     }
 
-    stack<P> statesStack;/*TODO wy stack State<Point> and not P? P is State<Point> in our case*/
-    /*TODO: brought "typename" back, not sure if its good.*/
+    stack<P> statesStack;
     //the existence of a State in this set indicates he was discovered already
     set<P, positionComparator<P>> visitedSet;
     P initial = problem->getInitialState();

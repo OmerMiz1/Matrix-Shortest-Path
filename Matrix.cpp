@@ -12,16 +12,16 @@
  * @return the cell in the (x,y) place in the matrix
  */
 template<typename T>
-T *Matrix<T>::at(int x, int y) {
+T* Matrix<T>::at(int x, int y) const {
     //bounds check
     if (x < 0 || x > (this->columns_count - 1) || y < 0 || y > (this->rows_count - 1)) {
         return OUT_OF_BOUNDS;
     }
-    return matrix.at(x)->at(y);
+    return matrix.at(x)->at(y)->clone();
 }
 
 template<typename T>
-T *Matrix<T>::at(Point point) {
+T* Matrix<T>::at(Point point) const {
     return at(point.getX(), point.getY());
 }
 
@@ -30,7 +30,7 @@ T *Matrix<T>::at(Point point) {
  * @return the number of rows in the matrix
  */
 template<typename T>
-int Matrix<T>::getRowsCount() {
+int Matrix<T>::getRowsCount() const {
     return rows_count;
 }
 
@@ -39,7 +39,7 @@ int Matrix<T>::getRowsCount() {
  * @return the number of columns in the matrix
  */
 template<typename T>
-int Matrix<T>::getColsCount() {
+int Matrix<T>::getColsCount() const {
     return columns_count;
 }
 
@@ -89,7 +89,7 @@ Point Matrix<T>::getPoint(T cell) const {
 
     for (auto row : matrix) {
         for (auto element : *row) {
-            if (cell == *element) {
+            if (cell.getState() == element->getState()) {
                 return cell.getState();
             }
             ++col_num;
@@ -100,25 +100,25 @@ Point Matrix<T>::getPoint(T cell) const {
 }
 
 template<typename T>
-T *Matrix<T>::getAbove(T state) {
+T* Matrix<T>::getAbove(T state) const {
     auto p = getPoint(state);
     return at(p.getX(), (p.getY() - 1));
 }
 
 template<typename T>
-T *Matrix<T>::getBelow(T state) {
+T* Matrix<T>::getBelow(T state) const {
     auto p = getPoint(state);
     return at(p.getX(), (p.getY() + 1));
 }
 
 template<typename T>
-T *Matrix<T>::getLeft(T state) {
+T* Matrix<T>::getLeft(T state) const {
     auto p = getPoint(state);
     return at(p.getX() - 1, p.getY());
 }
 
 template<typename T>
-T *Matrix<T>::getRight(T state) {
+T* Matrix<T>::getRight(T state) const {
     auto p = getPoint(state);
     return at(p.getX() + 1, p.getY());
 }

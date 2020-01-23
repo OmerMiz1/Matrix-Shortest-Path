@@ -24,10 +24,10 @@ class Matrix {
     vector<vector<T*>*> matrix;
     map<T*, Point> value_point_map;
 
-    T* getAbove(T cell); /*TODO: possible bug: output when tracing back the path will be inverted.*/
-    T* getBelow(T state); /*TODO*/
-    T* getLeft(T state); /*TODO*/
-    T* getRight(T state); /*TODO*/
+    T* getAbove(T cell) const; /*TODO: possible bug: output when tracing back the path will be inverted.*/
+    T* getBelow(T state) const; /*TODO*/
+    T* getLeft(T state) const; /*TODO*/
+    T* getRight(T state) const; /*TODO*/
 
     virtual void addRow(vector<T>* new_row);
     virtual void removeRow(int row_num); /*Made it for symmetry, currently no use*/
@@ -35,12 +35,12 @@ class Matrix {
  public:
 //    Matrix();
     ~Matrix();
-    T* at(int x, int y);
-    T* at(Point point);
+    T* at(int x, int y) const;
+    T* at(Point point) const;
     /*T* find(T cell);*/
     Point getPoint(T cell) const;
-    int getRowsCount();
-    int getColsCount();
+    int getRowsCount() const;
+    int getColsCount() const;
 };
 
 template class Matrix<State<Point>>;
