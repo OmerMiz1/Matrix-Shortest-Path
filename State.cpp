@@ -101,6 +101,7 @@ bool State<T>::operator>(const State<T> &other_state) const{
 template<typename T>
 void State<T>::setPrev(State<T> *prev) {
     this->prev_state = prev;
+    this->cost += prev->getCost();
 }
 
 template<class T>

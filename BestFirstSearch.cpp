@@ -31,6 +31,12 @@ list<P>* BestFirstSearch<P>::search(Searchable<P> *problem) {
         // n <- dequeue open
         P n = open.topAndPop();
 
+        //TODO remove
+        char x = n.getState().getX() + 'A';
+        int y = n.getState().getY()+1;
+        int cost = n.getCost();
+        cout << "lowest cost in queue is: " << x << "," << y << " - with cost: " << cost << endl;
+
         // add n to the the set of "closed"\already-visited nodes
         closed.insert(n);
 

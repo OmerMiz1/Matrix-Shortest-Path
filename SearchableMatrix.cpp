@@ -37,6 +37,7 @@ list<P> SearchableMatrix<P>::getAllPossibleStates(P state) {
 
     P* temp = Matrix<P>::getAbove(state);
     if ((temp != nullptr) && (temp->getCost() != NOT_A_NODE)) {
+
         temp->setPrev(state.clone());
         statesList.push_back(*temp);
     }
