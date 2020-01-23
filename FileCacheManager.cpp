@@ -8,23 +8,20 @@
 
 template<typename P, typename S>
 bool FileCacheManager<P, S>::contains(P problem) {
-    bool exist;
-    string problemClassName = typeid(P).name(); //TODO change to typeid(*P).name() ???
-    fstream test(problemClassName + "_" + problem, ios::in | ios::binary); //TODO change from binary to text
-    if (test) {
-        exist = true;
-    } else {
-        exist = false;
-        test.close();
+    string file_name = toFileName(problem);
+    ifstream ifile(file_name);
+    bool exists = ifile.good();
+    if(ifile.is_open()) {
+       ifile.close();
     }
-    return exist;
+    return exists;
 }
 
 template<typename P, typename S>
 S FileCacheManager<P, S>::get(P problem) {
     //if known problem read it from file and return it
     if (contains(problem)) {
-        return readFromFile(problem);
+        return readFromFile(toFileName(problem));
     } else {
         perror("asked for a solution without validating it's existence"); //TODO remove before submitting
         return nullptr;
@@ -33,8 +30,8 @@ S FileCacheManager<P, S>::get(P problem) {
 
 template<typename P, typename S>
 void FileCacheManager<P, S>::insert(P problem, S solution) {
-    if (contains(problem)) { //TODO for debugging purposes, remove before submitting
-        perror("writing a known solution");
+    if (contains(problem)) {
+        perror("writing a known solution"); /*TODO*/
     }
     writeToFile(problem, solution);
 }
@@ -42,29 +39,36 @@ void FileCacheManager<P, S>::insert(P problem, S solution) {
 template<typename P, typename S>
 void FileCacheManager<P, S>::writeToFile(P problem, S solution) {
     ofstream outFile;
-    string problemClassName = typeid(problem).name(); //TODO change to typeid(*P).name() ???
-    /*TODO: debug check prints*/
-    cout<<typeid(problem).name()<<endl;
-    //out<<typeid(*problem).name()<<endl; //get by reference?
-    outFile.open(problemClassName + "_" + problem, ios::binary); //TODO change from binary to text
+
+    cout<<toFileName(problem)<<endl; /*TODO debug*/
+    outFile.open(toFileName(problem) + "_" + problem + ".txt");
     if (!outFile.is_open()) {
         throw "Failed to create a file";
     }
-    outFile.write((char *)&solution, sizeof(S));
+
+    /*Assuming S is a string here !!!*/
+    outFile.write(solution.c_str(), sizeof(S));
     outFile.close();
 }
 
 template<typename P, typename S>
 S FileCacheManager<P, S>::readFromFile(P problem) {
-    string problemClassName = typeid(P).name(); //TODO change to typeid(*P).name() ???
-    fstream inFile(problemClassName + "_" + problem, ios::in | ios::binary); //TODO change from binary to text
-    if (!inFile) {
+    char buffer[MAX_CHARS];
+    fstream inFile(toFileName(problem));
+    S solution;
+    if (!inFile.is_open()) {
         throw "Failed to read from an existing file";
     }
-    S solution;
-    inFile.read((char *)&solution, sizeof(solution));
+    inFile.read(buffer, sizeof(solution));
     inFile.close();
+    solution = buffer;
     return solution;
+}
+
+template<typename P, typename S>
+string FileCacheManager<P,S>::toFileName(P problem) {
+    /*Assuming problem is the problem represented as string*/
+    return string (problem + ".txt");
 }
 
 template<typename P, typename S>
