@@ -60,7 +60,7 @@ list<P> *BestFS<P>::search(Searchable<P> *problem) {
         char x = n.getState().getX() + 'A';
         int y = n.getState().getY()+1;
         int cost = n.getCost();
-        clog << "lowest cost in queue is: " << x << "," << y << " - with cost: " << cost << endl;
+        clog << "The state with the lowest cost in the queue is: (" << x << "," << y << ") - with cost of " << cost << endl;
         // add n to the the set of "closed"\already-visited nodes
         closed.insert(n);
 

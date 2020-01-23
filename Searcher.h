@@ -20,7 +20,7 @@ class Searcher : public virtual Cloneable<Searcher<P>> {
     virtual bool isValid(Searchable<P> *problem) {
         int initial_cost = problem->getInitialState().getCost();
         int goal_cost = problem->getGoalState().getCost();
-        return ((initial_cost == NOT_A_NODE) or (goal_cost == NOT_A_NODE));
+        return (initial_cost != NOT_A_NODE) and (goal_cost != NOT_A_NODE);
     }
  public:
     virtual list<P>* search(Searchable<P>*)=0;
