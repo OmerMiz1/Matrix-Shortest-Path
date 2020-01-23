@@ -10,7 +10,7 @@
 #include "State.h"
 
 template <class P>
-class BestFirstSearch : public Searcher<P> {
+class BestFS : public Searcher<P> {
 private:
     int evaluatedNodesCount = 0;
 
@@ -19,5 +19,5 @@ public:
     Searcher<P> *clone() const override;
 };
 
-template class BestFirstSearch<State<Point>>;
+template class BestFS<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2_BESTFIRSTSEARCH_H

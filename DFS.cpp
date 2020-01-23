@@ -6,7 +6,7 @@
 #include <stack>
 #include <set>
 
-#include "DepthFirstSearch.h"
+#include "DFS.h"
 
 using namespace std;
 
@@ -17,8 +17,25 @@ using namespace std;
  * @return list of nodes of type P describing the route to the solution
  */
 template <class P>
-list<P>* DepthFirstSearch<P>::search(Searchable<P> *problem) {
-    cout << "Started DepthFirstSearch" << endl;/*TODO debug*/
+list<P>* DFS<P>::search(Searchable<P> *problem) {
+    cout << "Started DFS" << endl;/*TODO debug*/
+    auto special_case_result = new list<P>();
+
+    /*Returns empty list if goal or initial are walls.*/
+    if(!(Searcher<P>::isValid(problem))) {
+        cout << "Goal or initial is (-1)" << endl; /*TODO debug*/
+        cout << "Ended DFS" << endl; /*TODO debug*/
+        return special_case_result;
+    }
+
+    /*Case initial is goal*/
+    if(problem->isGoalState(problem->getInitialState())) {
+        special_case_result->push_back(problem->getInitialState());
+        cout << "Goal is initial state" << endl; /*TODO debug*/
+        cout << "Ended DFS" << endl; /*TODO debug*/
+        return special_case_result;
+    }
+
     stack<P> statesStack;/*TODO wy stack State<Point> and not P? P is State<Point> in our case*/
     /*TODO: brought "typename" back, not sure if its good.*/
     //the existence of a State in this set indicates he was discovered already
@@ -29,7 +46,8 @@ list<P>* DepthFirstSearch<P>::search(Searchable<P> *problem) {
         P current = statesStack.top();
         statesStack.pop();
         if (problem->isGoalState(current)) {
-            cout << "End DepthFirstSearch" << endl; /*TODO debug*/
+            cout << "Found the goal state" << endl; /*TODO debug*/
+            cout << "End DFS" << endl; /*TODO debug*/
             return current.backtrace();
         }
         if (!visitedSet.count(current)) {
@@ -49,5 +67,7 @@ list<P>* DepthFirstSearch<P>::search(Searchable<P> *problem) {
     }
 
     /*Return empty list if no path found*/
-    return new list<P>();
+    cout << "No path found" << endl; /*TODO debug*/
+    cout << "End DFS" << endl; /*TODO debug*/
+    return special_case_result;
 }

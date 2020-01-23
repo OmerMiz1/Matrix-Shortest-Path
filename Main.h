@@ -30,7 +30,7 @@ public:
 
         int port = stoi(argv[1]);
         /*Search type*/
-        Searcher<State<Point>> *searcher = new BestFirstSearch<State<Point>>();
+        Searcher<State<Point>> *searcher = new BestFS<State<Point>>();
         /*Object Adapter*/
         SearchSolver<State<Point>> *solver = new SearchSolver<State<Point>>(searcher);
         CacheManager<string, string> *cache = new FileCacheManager<string, string>();
@@ -101,7 +101,7 @@ public:
         }
 
         int port = stoi(argv[1]);
-        Searcher<State<Point>> *searcher = new BestFirstSearch<State<Point>>();
+        Searcher<State<Point>> *searcher = new BestFS<State<Point>>();
         SearchSolver<State<Point>> *solver = new SearchSolver<State<Point>>(searcher);
         auto cache = new FileCacheManager<string, string>();
         auto handler = new MyClientHandler<State<Point>>(solver, cache);
@@ -125,7 +125,7 @@ public:
             exit(EXIT_FAILURE);
         }
         int port = stoi(argv[1]);
-        Searcher<State<Point>> *searcher = new BestFirstSearch<State<Point>>();
+        Searcher<State<Point>> *searcher = new BestFS<State<Point>>();
         SearchSolver<State<Point>> *solver = new SearchSolver<State<Point>>(searcher);
         auto cache = new FileCacheManager<string, string>();
         auto handler = new MyClientHandler<State<Point>>(solver, cache);

@@ -11,11 +11,11 @@
 
 
 template <class P>
-class BreadthFirstSearch : public Searcher<P> {
+class BFS : public Searcher<P> {
 public:
     list<P>* search(Searchable<P> *problem) override;
     Searcher<P> *clone() const override;
 };
 
-template class BreadthFirstSearch<State<Point>>;
+template class BFS<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2_BREADTHFIRSTSEARCH_H

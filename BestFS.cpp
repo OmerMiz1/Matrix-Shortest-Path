@@ -6,7 +6,7 @@
 #include <iostream>
 
 #include "HashPriorityQueueBestFirstSearch.h"
-#include "BestFirstSearch.h"
+#include "BestFS.h"
 
 using namespace std;
 
@@ -16,9 +16,26 @@ using namespace std;
  * @param problem an object of type searchable (SearchableMatrix in our case)
  * @return list of nodes of type P describing the route to the solution
  */
-template <class P>
-list<P>* BestFirstSearch<P>::search(Searchable<P> *problem) {
-    cout<<"Started BestFirstSearch"<<endl; /*TODO debug*/
+template<class P>
+list<P> *BestFS<P>::search(Searchable<P> *problem) {
+    cout << "Started BestFS" << endl; /*TODO debug*/
+    auto special_case_result = new list<P>();
+
+    /*Returns empty list if goal or initial are walls.*/
+    if (!(Searcher<P>::isValid(problem))) {
+        cout << "Goal or initial is (-1)" << endl; /*TODO debug*/
+        cout << "Ended BestFS" << endl; /*TODO debug*/
+        return special_case_result;
+    }
+
+    /*Case initial is goal*/
+    if (problem->isGoalState(problem->getInitialState())) {
+        special_case_result->push_back(problem->getInitialState());
+        cout << "Goal is initial state" << endl; /*TODO debug*/
+        cout << "Ended BestFS" << endl; /*TODO debug*/
+        return special_case_result;
+    }
+
     /*Initialize open/closed*/
     HashPriorityQueueBestFirstSearch<P> open;
     set<P, typename P::positionComparator> closed;
@@ -42,9 +59,8 @@ list<P>* BestFirstSearch<P>::search(Searchable<P> *problem) {
 
         // if n is the goal state
         if (problem->isGoalState(n)) {
-            cout<<"Ended BestFirstSearch"<<endl; /*TODO debug*/
-            cout<<"Found the goal state"<<endl; /*TODO debug*/
-            //backtrace the route that got you to n and return it as list
+            cout << "Found the goal state" << endl; /*TODO debug*/
+            cout << "Ended BestFS" << endl; /*TODO debug*/
             return n.backtrace();
         }
         // creates n's successors
@@ -55,7 +71,7 @@ list<P>* BestFirstSearch<P>::search(Searchable<P> *problem) {
             if (!closed.count(s) && !open.contains(s)) {
                 // add s to open, s's prev is already updated
                 open.insert(s);
-            // if in closed or in open
+                // if in closed or in open
             } else {
                 // get the vertex himself
                 P before;
@@ -69,7 +85,7 @@ list<P>* BestFirstSearch<P>::search(Searchable<P> *problem) {
                     //if s not in open add it
                     if (!open.contains(s)) {
                         open.insert(s);
-                    //if s in open update him
+                        //if s in open update him
                     } else {
                         open.remove(before);
                         open.insert(s);
@@ -78,11 +94,12 @@ list<P>* BestFirstSearch<P>::search(Searchable<P> *problem) {
             }
         }
     }
+
     /*Return empty list no path found*/
-    cout<<"Ended BestFirstSearch"<<endl; /*TODO debug*/
-    return new list<P>();
-}
+    cout << "No path found" << endl; /*TODO debug*/
+    cout << "Ended BestFS" << endl; /*TODO debug*/
+    return special_case_result;}
 template<class P>
-Searcher<P> *BestFirstSearch<P>::clone() const {
-    return new BestFirstSearch<P>();
+Searcher<P> *BestFS<P>::clone() const {
+    return new BestFS<P>();
 }

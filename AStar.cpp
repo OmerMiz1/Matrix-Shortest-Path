@@ -11,7 +11,23 @@ using namespace std;
 
 template <class P>
 list<P>* AStar<P>::search(Searchable<P> *problem) {
-    cout << "Started A-Star" << endl; /*TODO debug*/
+    cout << "Started AStar" << endl; /*TODO debug*/
+    auto special_case_result = new list<P>();
+
+    /*Returns empty list if goal or initial are walls.*/
+    if(!(Searcher<P>::isValid(problem))) {
+        cout << "Goal or initial is (-1)" << endl; /*TODO debug*/
+        cout << "Ended AStar" << endl; /*TODO debug*/
+        return special_case_result;
+    }
+
+    /*Case initial is goal*/
+    if(problem->isGoalState(problem->getInitialState())) {
+        special_case_result->push_back(problem->getInitialState());
+        cout << "Goal is initial state" << endl; /*TODO debug*/
+        cout << "Ended AStar" << endl; /*TODO debug*/
+        return special_case_result;
+    }
 
     /*Init open list and closed list*/
     HashPriorityQueueAStar<P> open;
@@ -26,15 +42,6 @@ list<P>* AStar<P>::search(Searchable<P> *problem) {
     initial = problem->getInitialState();
     goal = problem->getGoalState();
 
-    /*Case initial is goal*/
-    if(problem->isGoalState(initial)) {
-        auto result = new list<P>();
-        result->push_back(initial);
-        cout << "Goal is initial state" << endl; /*TODO debug*/
-        cout << "Ended A-Star" << endl; /*TODO debug*/
-        return result;
-    }
-
     /*Push INITIAL state to OPEN list, first 'f' is set to 0 */
     auto init_pair = make_pair(initial, static_cast<double>(0));
     open.insert(init_pair);
@@ -47,8 +54,8 @@ list<P>* AStar<P>::search(Searchable<P> *problem) {
         for (auto s : problem->getAllPossibleStates(current.first)) {
             /*Goal found (succsessor is goal state )*/
             if (problem->isGoalState(s)) {
-                cout << "Ended A-Star" << endl; /*TODO debug*/
                 cout << "Found the goal state" << endl; /*TODO debug*/
+                cout << "Ended AStar" << endl; /*TODO debug*/
                 return current.first.backtrace();
             }
 
@@ -85,8 +92,9 @@ list<P>* AStar<P>::search(Searchable<P> *problem) {
     }// End while (Open is not empty)
 
     /*No path found - returns an empty list.*/
-    cout << "Ended A-Star" << endl; /*TODO debug*/
-    return new list<P>();
+    cout << "No path found" << endl; /*TODO debug*/
+    cout << "Ended AStar" << endl; /*TODO debug*/
+    return special_case_result;
 }
 template<class P>
 Searcher<P> *AStar<P>::clone() const {
