@@ -4,7 +4,9 @@
 
 #ifndef ALGORITHMICPROGRAMMING2__FILECACHEMANAGER_H_
 #define ALGORITHMICPROGRAMMING2__FILECACHEMANAGER_H_
-//TODO change the class file aren't saved as binery
+
+#define MAX_CHARS 1024
+
 #include <utility>
 #include <string>
 #include <list>
@@ -24,6 +26,7 @@ public:
 private:
     void writeToFile(P, S);
     S readFromFile(P);
+    string toFileName(P problem);
 };
 
 template class FileCacheManager<string,string>;

@@ -103,15 +103,15 @@ void SearchableMatrix<P>::removeRow(int row_num) {
 template<typename P>
 string SearchableMatrix<P>::str() const {
     string result;
-    /*Add typename, initial state and goal state*/
-    result = typeid(this).name();
+    /*Add state type, initial state and goal state*/
+    result.append(typeid(P).name());
     result.append("\n initial: ");
     result.append(initial_state->str());
     result.append("\n goal: ");
     result.append(goal_state->str());
     result.append("\n");
 
-    /*Also add each cell*/
+    /*Also add each state (cell)*/
     for(auto &row : Matrix<P>::matrix) {
         for(auto &cell : *row) {
             result.append(cell->str());
