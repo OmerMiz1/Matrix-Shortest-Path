@@ -10,9 +10,9 @@
 #include "State.h"
 
 template <class P>
-class DepthFirstSearch : public Searcher<P> {
+class DFS : public Searcher<P> {
 public:
     list<P>* search(Searchable<P> *problem) override;
 };
-template class DepthFirstSearch<State<Point>>;
+template class DFS<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2_DEPTHFIRSTSEARCH_H

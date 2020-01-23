@@ -70,7 +70,6 @@ void Matrix<T>::addRow(vector<T> *new_row) {
     this->rows_count++;
 }
 
-
 /** Removes specific row.
  *
  * @tparam T

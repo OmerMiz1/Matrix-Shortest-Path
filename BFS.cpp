@@ -6,7 +6,7 @@
 #include <queue>
 #include <set>
 
-#include "BreadthFirstSearch.h"
+#include "BFS.h"
 
 using namespace std;
 
@@ -31,8 +31,25 @@ class positionComparator {
  * @return list of nodes of type P describing the route to the solution
  */
 template <class P>
-list<P>* BreadthFirstSearch<P>::search(Searchable<P> *problem) {
-    cout << "Started BreadthFirstSearch" << endl;
+list<P>* BFS<P>::search(Searchable<P> *problem) {
+    cout << "Started BFS" << endl;
+    auto special_case_result = new list<P>();
+
+    /*Returns empty list if goal or initial are walls.*/
+    if(!(Searcher<P>::isValid(problem))) {
+        cout << "Goal or initial is (-1)" << endl; /*TODO debug*/
+        cout << "Ended BFS" << endl; /*TODO debug*/
+        return special_case_result;
+    }
+
+    /*Case initial is goal*/
+    if(problem->isGoalState(problem->getInitialState())) {
+        special_case_result->push_back(problem->getInitialState());
+        cout << "Goal is initial state" << endl; /*TODO debug*/
+        cout << "Ended BFS" << endl; /*TODO debug*/
+        return special_case_result;
+    }
+
     queue<P> statesQueue;
     /*TODO: brought "typename" back, not sure if its good.*/
     //the existence of a State in this set indicates he was discovered already
@@ -44,6 +61,8 @@ list<P>* BreadthFirstSearch<P>::search(Searchable<P> *problem) {
         P current = statesQueue.front();
         statesQueue.pop(); //TODO couldn't make sure that front doesn't pop already! make sure
         if (problem->isGoalState(current)) {
+            cout << "Found the goal state" << endl; /*TODO debug*/
+            cout << "Ended BFS" << endl; /*TODO debug*/
             return current.backtrace();
         }
 
@@ -65,11 +84,12 @@ list<P>* BreadthFirstSearch<P>::search(Searchable<P> *problem) {
         }
     }
 
-    /*TODO: MAKE SURE
-     * Returns an empty list if no path found...*/
-    return new list<P>();
+    /*Return empty list no path found*/
+    cout << "No path found" << endl; /*TODO debug*/
+    cout << "Ended BFS" << endl; /*TODO debug*/
+    return special_case_result;
 }
 template<class P>
-Searcher<P> *BreadthFirstSearch<P>::clone() const {
-    return new BreadthFirstSearch<P>();
+Searcher<P> *BFS<P>::clone() const {
+    return new BFS<P>();
 }

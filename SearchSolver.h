@@ -9,7 +9,7 @@
 #include "State.h"
 #include "Point.h"
 #include "Searchable.h"
-#include "BestFirstSearch.h"
+#include "BestFS.h"
 
 #include <list>
 #include <climits>
