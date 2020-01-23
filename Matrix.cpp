@@ -14,7 +14,7 @@
 template <typename T>
 T* Matrix<T>::at(int x, int y)  {
     try {
-        return &this->matrix.at(x).at(y);
+        return this->matrix.at(x)->at(y);
     } catch(const char* e) { /*catches out_of_bounds exceptions*/
         return OUT_OF_BOUNDS;
     }
@@ -54,12 +54,15 @@ template <typename T>
 void Matrix<T>::addRow(vector<T>* new_row) {
     int cur_col = 0;
     cout<<"HI"<<endl;
-    matrix.emplace_back(vector<T>(new_row->size(),0));
+    auto tempRow = new vector<T*>();
+    matrix.push_back(tempRow);
     cout<<"BYE"<<endl;
-    cout<<matrix.front().size()<<endl;
+    cout<<matrix.front()->size()<<endl;
     for(auto it = new_row->begin(); it != new_row->end(); ++it,++cur_col) {
-        matrix.at(rows_count).emplace_back(*it);
-        value_point_map[*it] = Point(rows_count,cur_col);
+        T temp = *it;
+        T *cell = new T(temp);
+        matrix.at(rows_count)->push_back(cell);
+        value_point_map[&temp] = Point(rows_count,cur_col);
     }
     cout<<"#4"<<endl;
     row_size_map[matrix.at(rows_count)] = new_row->size();
@@ -74,9 +77,9 @@ void Matrix<T>::addRow(vector<T>* new_row) {
  */
 template<typename T>
 void Matrix<T>::removeRow(int row_num) {
-    auto startIt = this->matrix.at(row_num).begin();
-    auto endIt = this->matrix.at(row_num).end();
-    this->matrix.at(row_num).erase(startIt, endIt);
+    auto startIt = this->matrix.at(row_num)->begin();
+    auto endIt = this->matrix.at(row_num)->end();
+    this->matrix.at(row_num)->erase(startIt, endIt);
     this->rows_count--;
 }
 
@@ -85,8 +88,8 @@ Point Matrix<T>::getPoint(T cell) const {
     int row_num=0, col_num=0;
 
     for(auto row : matrix) {
-        for(auto element : row) {
-            if(cell == element) {
+        for(auto element : *row) {
+            if(cell == *element) {
                 return cell.getState();
             }
             ++col_num;
@@ -118,6 +121,16 @@ template<typename T>
 T *Matrix<T>::getRight(T state) {
     auto p = getPoint(state);
     return at(p.getX()+1, p.getY());
+}
+
+template<typename T>
+Matrix<T>::~Matrix() {
+    for (vector<T*>* row : this->matrix) {
+        for (T* cell : *row) {
+            delete(cell);
+        }
+        delete(row);
+    }
 }
 
 

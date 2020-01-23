@@ -17,8 +17,8 @@ using namespace std;
 template <typename P>
 class SearchableBuilder {
  private:
-    P buildMatrixState(string state_str);
-    P buildMatrixCell(int x,int y, double cost, P* prev);
+    P* buildMatrixState(string state_str);
+    P* buildMatrixCell(int x,int y, double cost, P* prev);
 
  public:
     SearchableMatrix<P>* buildMatrix(list<string> data);

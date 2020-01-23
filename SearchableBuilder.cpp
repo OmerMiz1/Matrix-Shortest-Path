@@ -7,7 +7,7 @@
 template <class P>
 SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
     auto sMatrix = new SearchableMatrix<P>;
-    P initial, goal;
+    P *initial, *goal;
     int row_index=0, col_index=0;
     regex intRx("(-?\\d+)");
 
@@ -29,7 +29,7 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
 
     /*Iterates data list. Each string represents a ROW in the matrix*/
     for(auto row_iter = data.begin(); row_iter != data.end(); ++row_iter, ++row_index, col_index=0) {
-        auto row = new vector<P*>;
+        auto row = new vector<P>;
         double cost;
 
         /*Regex iterators to match each integer in parsed string*/
@@ -49,16 +49,16 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
                 return nullptr;
             }
             /*Build cell (State<Point>) and push to the end of current row*/
-            auto cur_cell = buildMatrixCell(row_index, col_index, cost, nullptr);
+            P* cur_cell = buildMatrixCell(row_index, col_index, cost, nullptr);
 
-            if(cur_cell.getState() == initial.getState()) {
-                sMatrix->setInitialState(cur_cell);
+            if(cur_cell->getState() == initial->getState()) {
+                sMatrix->setInitialState(*cur_cell);
             }
-            if(cur_cell.getState() == goal.getState()) {
-                sMatrix->setGoalState(goal);
+            if(cur_cell->getState() == goal->getState()) {
+                sMatrix->setGoalState(*goal);
             }
 
-            row->push_back(cur_cell);
+            row->emplace_back(*cur_cell);
         }
         sMatrix->addRow(row);
     }

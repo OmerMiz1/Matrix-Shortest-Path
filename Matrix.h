@@ -21,9 +21,9 @@ class Matrix {
  protected:
     int rows_count;
     int columns_count=0;
-    vector<vector<T>> matrix;
-    map<T, Point> value_point_map;
-    map<vector<T>,size_t> row_size_map; /*row_size = how many columns in that row.*/
+    vector<vector<T*>*> matrix;
+    map<T*, Point> value_point_map;
+    map<vector<T*>*,size_t> row_size_map; /*row_size = how many columns in that row.*/
 
     T* getAbove(T cell); /*TODO: possible bug: output when tracing back the path will be inverted.*/
     T* getBelow(T state); /*TODO*/
@@ -35,7 +35,7 @@ class Matrix {
 
  public:
 //    Matrix();
-//    ~Matrix();
+    ~Matrix();
     T* at(int x, int y);
     T* at(Point point);
     /*T* find(T cell);*/

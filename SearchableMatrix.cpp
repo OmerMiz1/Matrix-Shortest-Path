@@ -112,8 +112,8 @@ string SearchableMatrix<P>::str() const {
 
     /*Also add each cell*/
     for(auto &row : Matrix<P>::matrix) {
-        for(auto &cell : row) {
-            result.append(cell.str());
+        for(auto &cell : *row) {
+            result.append(cell->str());
             result.append(" ");
         }
         /*End of row*/
