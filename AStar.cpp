@@ -1,14 +1,17 @@
 //
 // Created by Dor Refaeli on 21/01/2020.
 //
-
-#include <iostream>
-
 #include "AStar.h"
-#include "HashPriorityQueueAStar.h"
 
 using namespace std;
 
+/** AStar algorithm for matrices with 4 neighbours.
+ *  Link: https://www.geeksforgeeks.org/a-search-algorithm/
+ *
+ * @tparam State<Point>
+ * @param problem, searchable matrix.
+ * @return
+ */
 template <class P>
 list<P>* AStar<P>::search(Searchable<P> *problem) {
     auto special_case_result = new list<P>();
@@ -87,11 +90,23 @@ list<P>* AStar<P>::search(Searchable<P> *problem) {
     /*No path found - returns an empty list.*/
     return special_case_result;
 }
+
+/** Clone.
+ *
+ * @tparam P
+ * @return
+ */
 template<class P>
 Searcher<P> *AStar<P>::clone() const {
     return new AStar<P>();
 }
 
+/** Calculates heuristic distance of state from goal state.
+ *
+ * @tparam State<Point>
+ * @param current state (successor)
+ * @return
+ */
 template<class P>
 int AStar<P>::heuristicDistance(P current) {
     Point currentPoint = current.getState();

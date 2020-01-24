@@ -2,11 +2,7 @@
 // Created by omer on 15/01/2020.
 //
 
-#define MAX_CHARS 1024
-#define END_OF_MESSAGE "end"
-
 #include "MyTestClientHandler.h"
-
 
 template<class P, class S>
 MyTestClientHandler<P, S>::MyTestClientHandler(Solver<P, S> *solver,

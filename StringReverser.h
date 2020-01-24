@@ -13,6 +13,10 @@
 
 using namespace std;
 
+/** Reverses strings.
+ *
+ * @tparam P
+ */
 template<class P>
 class StringReverser : public Solver<P,P> {
  public:

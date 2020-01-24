@@ -11,9 +11,13 @@
 #include <string>
 
 using namespace std;
+
 /*TODO future assignments: make a namespace for our comparators and stick them
- * all in there.*/
-/*Kinda useless, already overriding operators*/
+all in there.*/
+/**
+ * Comparator for costs of states.
+ * @tparam T
+ */
 template <class T>
 class costComparator {
 public:
@@ -22,7 +26,11 @@ public:
     }
 };
 
-
+/** Comparator for positions of states.
+ *
+ * @tparam T
+ * @return true if points of states are same.
+ */
 template <class T>
 class positionComparator {
 public:
@@ -31,6 +39,10 @@ public:
     }
 };
 
+/** A point with value, mainly for graphs (node).
+ *
+ * @tparam State<T>
+ */
 template <class T>
 class State : public Cloneable<State<T>>, public Stringable<T>, public Stringable<State<T>> {
 private:

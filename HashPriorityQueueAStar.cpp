@@ -4,6 +4,11 @@
 
 #include "HashPriorityQueueAStar.h"
 
+/** Inserts to queue.
+ *
+ * @tparam P
+ * @param element
+ */
 template <typename P>
 void HashPriorityQueueAStar<P>::insert(pair<P,int> element) {
     /*If exists already, must be removed first.
@@ -15,6 +20,11 @@ void HashPriorityQueueAStar<P>::insert(pair<P,int> element) {
     this->push(element);
 }
 
+/** Remove and return the top of the queue.
+ *
+ * @tparam P
+ * @return
+ */
 template<typename P>
 pair<P,int> HashPriorityQueueAStar<P>::topAndPop() {
     auto element = this->top();
@@ -24,11 +34,23 @@ pair<P,int> HashPriorityQueueAStar<P>::topAndPop() {
     return element;
 }
 
+/** Returns true if element exists.
+ *
+ * @tparam P
+ * @param element
+ * @return
+ */
 template<typename P>
 bool HashPriorityQueueAStar<P>::contains(pair<P,int> element) {
     return this->my_set.count(element);
 }
 
+/** Returns an element from queue.
+ *
+ * @tparam P
+ * @param element
+ * @return
+ */
 template<typename P>
 pair<P,int> HashPriorityQueueAStar<P>::find(pair<P,int> element) {
     return *(this->my_set.find(element));

@@ -13,7 +13,10 @@
 #include "ClientHandler.h"
 
 using namespace std;
-
+/** Builder for searchables.
+ * currently only supports SearchableMatrix.
+ * @tparam State<Point>
+ */
 template <typename P>
 class SearchableBuilder {
  private:

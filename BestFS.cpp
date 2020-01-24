@@ -2,10 +2,6 @@
 // Created by Dor Refaeli on 19/01/2020.
 //
 
-#include <set>
-#include <iostream>
-
-#include "HashPriorityQueueBestFirstSearch.h"
 #include "BestFS.h"
 
 using namespace std;
@@ -86,6 +82,7 @@ list<P> *BestFS<P>::search(Searchable<P> *problem) {
     /*Return empty list no path found*/
     return special_case_result;
 }
+
 template<class P>
 Searcher<P> *BestFS<P>::clone() const {
     return new BestFS<P>();

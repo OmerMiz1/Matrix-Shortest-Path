@@ -10,6 +10,8 @@ namespace server_side {
 
     namespace boot {
         class Main;
+
+        /*Below made for tests, please ignore.*/
         class SerialStringTester;
         class ParallelStringTester;
         class SerialMatrixTester;

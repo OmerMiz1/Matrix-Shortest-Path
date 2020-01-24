@@ -9,10 +9,11 @@
 using namespace std;
 
 /*Interface*/
-/**
- * 1. lru list: Queue, the front pair contains the least recently used object.
- * 2. cacheMap: contains the data for fast access.
- **/
+/** Template CacheManager
+ *
+ * @tparam P problem - string.
+ * @tparam S solution - string.
+ */
 template<typename P, typename S>
 class CacheManager : Cloneable<CacheManager<P,S>> {
  public:

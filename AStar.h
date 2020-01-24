@@ -5,9 +5,12 @@
 #ifndef ALGORITHMICPROGRAMMING2_ASTAR_H
 #define ALGORITHMICPROGRAMMING2_ASTAR_H
 
+#include <iostream>
+
 #include "Searcher.h"
 #include "Searchable.h"
 #include "State.h"
+#include "HashPriorityQueueAStar.h"
 
 template <class P>
 class AStar : public Searcher<P> {

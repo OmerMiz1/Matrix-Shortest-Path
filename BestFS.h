@@ -5,10 +5,18 @@
 #ifndef ALGORITHMICPROGRAMMING2_BESTFIRSTSEARCH_H
 #define ALGORITHMICPROGRAMMING2_BESTFIRSTSEARCH_H
 
+#include <set>
+#include <iostream>
+
 #include "Searcher.h"
 #include "Searchable.h"
 #include "State.h"
+#include "HashPriorityQueueBestFirstSearch.h"
 
+/** Best First Search algorithm.
+ *
+ * @tparam State<Point>
+ */
 template <class P>
 class BestFS : public Searcher<P> {
 private:

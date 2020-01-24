@@ -5,6 +5,9 @@
 #ifndef ALGORITHMICPROGRAMMING2__MYPARALLELSERVER_H_
 #define ALGORITHMICPROGRAMMING2__MYPARALLELSERVER_H_
 
+#define MAX_CLIENTS 10
+#define TIME_OUT_SECONDS 120
+
 #include <chrono>
 #include <iostream>
 #include <unistd.h>
@@ -16,9 +19,12 @@
 #include <vector>
 
 #include "Server.h"
+
 using namespace std;
 using namespace server_side;
-
+/**
+ * Multi threaded TCP server.
+ */
 class MyParallelServer : public server_side::Server{
  private:
     int sockfd = -1;

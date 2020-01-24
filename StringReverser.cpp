@@ -4,6 +4,12 @@
 
 #include "StringReverser.h"
 
+/** Returns the string reveresed.
+ *
+ * @tparam P
+ * @param problem
+ * @return
+ */
 template<class P>
 P StringReverser<P>::solve(P *problem) {
     P problem_reversed;

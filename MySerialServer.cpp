@@ -1,19 +1,11 @@
 //
 // Created by omer on 15/01/2020.
 //
-#define MAX_CLIENTS 10
-#define TIME_OUT_SECONDS 20
-
 
 #include "MySerialServer.h"
 
-
 /** Opened server starts listening until stop() is called or error.
  *
- * ----------------------Instructions-------------------------------
- * 1. create a new thread with the proper arguments.
- * 2. call join()
- * -----------------------------------------------------------------
  * @param port to be bind onto.
  * @param handler in-charge of handling the client requests.
  * @return 0 success, negative value o.w (might also terminate the program).
@@ -31,12 +23,13 @@ int MySerialServer::open(int port, ClientHandler *handler) {
     }
 
     /*TODO remove !*/
-    /*Force attach to given port */
+    /*Force attach to given port
     int opt = 1;
     if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,&opt, sizeof(opt))) {
         perror("setsockopt");
         exit(EXIT_FAILURE);
     }
+    */
 
     FD_ZERO(&fdset);
     FD_SET(sockfd, &fdset);

@@ -5,8 +5,8 @@
 #define MAX_CHARS 1024
 #define END_OF_MESSAGE "end"
 #define NO_SOLUTION "No path (-1)"
+#define NO_MOVES_MADE "No Moves (0)"
 
-#include <netinet/in.h>
 #include "MyClientHandler.h"
 
 template<class P>
@@ -22,16 +22,19 @@ MyClientHandler<P>::MyClientHandler(SearchSolver<P> *solver,
     this->my_cache = move(cache);
 }
 
-/** Returns a list of strings from first line received from client until line
- * says "end". The list DOESNT INCLUDE "end"!
+template<class P>
+MyClientHandler<P>::~MyClientHandler() {
+    delete my_solver;
+    delete my_cache;
+}
+
+/** Handler for TCP clients with matrix paths problems.
  *
- * @tparam P
- * @tparam S
- * @param client_socketfd
+ * @tparam State<Point>
+ * @param client_socketfd to handle.
  */
 template <class P>
 void MyClientHandler<P>::handleClient(int client_socketfd) {
-    /*TODO dont forget to delete the backtrace*/
     SearchableBuilder<P> s_builder;
     Searchable<P> *problem;
     list<string> recieved_data, tmp;
@@ -62,9 +65,11 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
     probBuildMtx.lock();
     problem = s_builder.buildMatrix(recieved_data);
     probBuildMtx.unlock();
+
+    /*Error*/
     if(problem == nullptr) {
         perror("handleClient#2");
-        /*TODO: Delete everything allocated and return this thread (not exit)*/
+        return;
     }
 
     /*Generate problem key for cache*/
@@ -108,6 +113,12 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
     toChunksMtx.unlock();
 }
 
+/**
+ * Reads the message (problem) from client.
+ * @tparam P
+ * @param client_socketfd
+ * @return
+ */
 template <class P>
 list<string> MyClientHandler<P>::readMessageFromClient(int client_socketfd) {
     list<string> result;
@@ -146,6 +157,12 @@ MyClientHandler<P>* MyClientHandler<P>::clone() const {
     return new MyClientHandler<P>(my_solver->clone(),my_cache->clone());
 }
 
+/** Hash Searchable<P> problem.
+ *
+ * @tparam P
+ * @param problem
+ * @return
+ */
 template<class P>
 string MyClientHandler<P>::hashProblem(Searchable<P> *problem) const {
     hash<string> hasher;
@@ -153,12 +170,18 @@ string MyClientHandler<P>::hashProblem(Searchable<P> *problem) const {
     return to_string(hashed_problem);
 }
 
+/**
+ * Generate string description for solution (directions and cost at each step).
+ */
 template<class P>
 string MyClientHandler<P>::solutionDescription(list<P> *solution) {
     string result, cur_direction, cur_cost;
 
+    /*solution is empty if there is NO SOLUTION*/
     if(solution->empty()) {
         return NO_SOLUTION;
+    } else if (solution->size() == 1) {
+        return NO_MOVES_MADE;
     }
 
     auto cur_element = solution->begin();
@@ -169,32 +192,40 @@ string MyClientHandler<P>::solutionDescription(list<P> *solution) {
         /*Get direction from cur to next.*/
         cur_direction = cur_element->getState().getDirectionToStr(next_element->getState());
         /*Error*/
-        if(!cur_direction.compare("Same") || !cur_direction.compare("ERROR")) {
+        if (!cur_direction.compare("Same") || !cur_direction.compare("ERROR")) {
             perror("solutionDescription#1");
             /*TODO: Delete everything allocated and return this thread (not exit)*/
         }
         /*Parse next element's cost to string*/
         try {
             cur_cost = to_string(next_element->getCost());
-        } catch (const char* e) {
+        } catch (const char *e) {
             perror("SolutionDescription#2");
             perror(e);
             /*TODO: Delete everything allocated and return this thread (not exit)*/
         }
         /*Add all up to the end of result so far*/
-        result.append(cur_direction + "(" + cur_cost +") ," );
+        result.append(cur_direction + " (" + cur_cost + "), ");
     }
-
+    /*Pop last space, ',' delimiter and adds end of line */
+    result.pop_back();
+    result.pop_back();
     result.append("\n");
-
     return result;
 }
 
+/**
+ * Splits content to chunks of 1024 to send to client.
+ * @tparam P
+ * @param solution as returned from solutionDescriptor or Cache.
+ * @return
+ */
 template<class P>
 list<string> MyClientHandler<P>::toChunks(string solution) {
     list<string> result;
     string cur_chunk;
     int chunk_size = MAX_CHARS-1;
+
     result.clear();
     for(unsigned i = 0; i<solution.size();i+=chunk_size) {
         cur_chunk = solution.substr(i,chunk_size);
@@ -203,6 +234,7 @@ list<string> MyClientHandler<P>::toChunks(string solution) {
     result.emplace_back("\n");
     return result;
 }
+
 
 
 

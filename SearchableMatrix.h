@@ -13,6 +13,10 @@
 #include "Matrix.h"
 #include "Searchable.h"
 
+/** SearchableMatrix
+ *
+ * @tparam State<Point>
+ */
 template <typename P>
 class SearchableMatrix : public Searchable<P>, public Matrix<P> {
  private:

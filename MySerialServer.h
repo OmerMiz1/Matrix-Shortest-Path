@@ -5,6 +5,9 @@
 #ifndef ALGORITHMICPROGRAMMING2__MYSERIALSERVER_H_
 #define ALGORITHMICPROGRAMMING2__MYSERIALSERVER_H_
 
+#define MAX_CLIENTS 10
+#define TIME_OUT_SECONDS 120
+
 #include <chrono>
 #include <iostream>
 #include <unistd.h>

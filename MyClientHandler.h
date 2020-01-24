@@ -1,6 +1,6 @@
 //
 // Created by omer on 19/01/2020.
-//
+//P
 
 #ifndef ALGORITHMICPROGRAMMING2__MYCLIENTHANDLER_H_
 #define ALGORITHMICPROGRAMMING2__MYCLIENTHANDLER_H_
@@ -10,6 +10,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
 #include <utility>
 #include <mutex>
 
@@ -24,6 +25,11 @@
 
 using namespace std;
 
+/**
+ * MyClientHandler used to handle clients with matrix path's problems.
+ * Currently supporting TCP servers.
+ * @tparam State<Point>
+ */
 template<class P>
 class MyClientHandler : public ClientHandler {
  private:
@@ -36,6 +42,7 @@ class MyClientHandler : public ClientHandler {
     bool message_end = false;
 
  public:
+    ~MyClientHandler();
     MyClientHandler(Solver<Searchable<P>,list<P>*> *solver,CacheManager<string,string> *cache);
     MyClientHandler(SearchSolver<P> *solver,CacheManager<string,string> *cache);
     void handleClient(int client_socketfd) override;

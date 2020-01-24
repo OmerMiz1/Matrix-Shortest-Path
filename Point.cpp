@@ -2,8 +2,6 @@
 // Created by Dor Refaeli on 18/01/2020.
 //
 
-#include <math.h>
-
 #include "Point.h"
 
 Point::Point(int xVal, int yVal): x(xVal), y(yVal) {}
@@ -59,10 +57,19 @@ Point* Point::clone() const {
     return new Point(*this);
 }
 
+/** Point string representation.
+ *
+ * @return
+ */
 string Point::str() const {
     return "(" + to_string(x) + "," + to_string(y) + ")";
 }
 
+/** Returns direction to the other point (above, below..)
+ *
+ * @param other point
+ * @return enum Direction
+ */
 Point::Direction Point::getDirectionTo(const Point &other) const {
     if (this->x < other.x) {
         return Down;
@@ -77,6 +84,11 @@ Point::Direction Point::getDirectionTo(const Point &other) const {
     }
 }
 
+/** Returns direction to other point.
+ *
+ * @param other point
+ * @return string direction (up,down...)
+ */
 string Point::getDirectionToStr(const Point &other) const {
     auto direction = this->getDirectionTo(other);
     switch(direction) {
@@ -99,6 +111,27 @@ string Point::getDirectionToStr(const Point &other) const {
             return "ERROR";
         }
     }
+}
+
+/** Returns a unique string representation of the point (hashing).
+ *
+ * Dor wanted to say he didnt have a typo in the function name, but he did that
+ * as a tribute to BIU UNIQ credit card.
+ * Dont believe him.
+ *
+ * @return Hash
+ */
+int Point::uniq() {
+    stringstream strXTemp;
+    strXTemp << setw(10) << setfill('0') << x;
+    string strX = strXTemp.str();
+    stringstream strYTemp;
+    strYTemp << setw(10) << setfill('0') << y;
+    string strY = strYTemp.str();
+    ::hash<int> hasher;
+    size_t h1 = std::hash<std::string>{}(strX);
+    size_t h2 = std::hash<std::string>{}(strY);
+    return h1 ^ (h2 << 1);
 }
 
 

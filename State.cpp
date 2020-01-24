@@ -41,11 +41,22 @@ T State<T>::getState() const {
     return *(my_state->clone());
 }
 
+/** Returns state cost.
+ *
+ * @tparam T
+ * @return
+ */
 template <typename T>
 int State<T>::getCost() const{
     return this->cost;
 }
 
+/** Returns the cost of prev state.
+ * Mainly for calculating the difference while searching.
+ *
+ * @tparam T
+ * @return
+ */
 template<class T>
 int State<T>::getPrevCost() const {
     if(prev_state == nullptr) {
@@ -93,6 +104,11 @@ bool State<T>::operator>(const State<T> &other_state) const{
     return (this->cost > other_state.cost);
 }
 
+/**
+ * Only made it for SearchableBuilder to use.
+ * @tparam T
+ * @param prev
+ */
 template<typename T>
 void State<T>::setPrev(State<T> *prev) {
     this->prev_state = prev;
@@ -132,6 +148,11 @@ list<State<T>>* State<T>::backtrace() const {
     return backtrace_path;
 }
 
+/** Returns a string representation of the inner state (Point).
+ *
+ * @tparam T
+ * @return
+ */
 template<class T>
 string State<T>::str() const {
     return my_state->str();

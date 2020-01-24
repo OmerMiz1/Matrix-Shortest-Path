@@ -1,17 +1,11 @@
 //
 // Created by omer on 18/01/2020.
 //
-#define MAX_CLIENTS 10
-#define TIME_OUT_SECONDS 20
 
 #include "MyParallelServer.h"
 
 /** Opened server starts listening until stop() is called or error.
- *
- * ----------------------Instructions-------------------------------
- * 1. create a new thread with the proper arguments.
- * 2. call join()
- * -----------------------------------------------------------------
+
  * @param port to be bind onto.
  * @param handler in-charge of handling the client requests.
  * @return 0 success, negative value o.w (might also terminate the program).
@@ -31,13 +25,14 @@ int MyParallelServer::open(int port, ClientHandler *handler) {
     FD_ZERO(&fdset);
     FD_SET(sockfd, &fdset);
 
-    /* TODO: remove before submitting.*/
-    /* Force attach to given port */
+    /*TODO: for debugging*/
+    /* Force attach to given port
     int opt = 1;
+
     if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,&opt, sizeof(opt))) {
         perror("setsockopt");
         exit(EXIT_FAILURE);
-    }
+    }*/
 
     /*SET TIMEOUT*/
     tv.tv_sec = TIME_OUT_SECONDS;
@@ -114,6 +109,7 @@ void MyParallelServer::start(ClientHandler *handler) {
                 return;
             }
 
+            /*Call handler in a new thread*/
             ClientHandler *cloned = handler->clone();
             threads.push_back(thread(&ClientHandler::handleClient, &(*cloned), std::ref(client_socket)));
 
@@ -121,9 +117,9 @@ void MyParallelServer::start(ClientHandler *handler) {
             this_thread::sleep_for(200ms);
         }
     } // End of while, server is done listening.
-    joinAllThreads();
 
-    /*Close socket check for errors*/
+    /*Join threads and close socket*/
+    joinAllThreads();
     if(close(sockfd)==-1) {
         perror("parallel_start#3");
         return;
@@ -131,8 +127,8 @@ void MyParallelServer::start(ClientHandler *handler) {
     cout<<"Server closed successfully..."<<endl;
 }
 
-/** Join all threads before closing server
- * (possibly after time-out, error, etc...).
+/**
+ * Joins all threads before closing server.
  */
 void MyParallelServer::joinAllThreads() {
     cout<<"Joining all running threads..."<<endl;

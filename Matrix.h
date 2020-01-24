@@ -16,6 +16,10 @@
 
 using namespace std;
 
+/** Matrix class, should be built using SearchableBuilder currently.
+ *
+ * @tparam T State<Point>
+ */
 template<typename T>
 class Matrix {
  protected:
@@ -33,11 +37,9 @@ class Matrix {
     virtual void removeRow(int row_num); /*Made it for symmetry, currently no use*/
 
  public:
-//    Matrix();
     ~Matrix();
     T* at(int x, int y) const;
     T* at(Point point) const;
-    /*T* find(T cell);*/
     Point getPoint(T cell) const;
     int getRowsCount() const;
     int getColsCount() const;

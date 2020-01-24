@@ -9,7 +9,11 @@
 #include "Stringable.h"
 
 using namespace std;
-
+/**
+ * Searchable must be Stringable!
+ * @tparam State<P>
+ */
+ /*Interface*/
 template <typename P>
 class Searchable : Stringable<P>, Stringable<Searchable<P>> {
 public:

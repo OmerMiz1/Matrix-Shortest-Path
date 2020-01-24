@@ -5,18 +5,15 @@
 #ifndef ALGORITHMICPROGRAMMING2_HASHPRIORITYQUEUEBESTFIRSTSEARCH_H
 #define ALGORITHMICPROGRAMMING2_HASHPRIORITYQUEUEBESTFIRSTSEARCH_H
 
+#include <stdio.h>
+#include <algorithm>
+#include <iostream>
 #include <queue>
 #include <set>
+
 #include "State.h"
 
 using namespace std;
-
-/*template <typename E>
-class positionComparator {
-    bool operator()(const E& first, const E& second) const {
-        return first.getState() < second.getState();
-    }
-};*/
 
 /**
  * A priority_queue wrapped by a class for the purpose of including a set

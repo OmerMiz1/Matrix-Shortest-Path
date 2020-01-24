@@ -35,12 +35,15 @@ template <class P>
 list<P> SearchableMatrix<P>::getAllPossibleStates(P state) {
     list<P> statesList;
 
+    /*Explanation:
+     * nullptr: if out of bounds.
+     * NOT_A_NODE: if cost = -1.
+     * If either of the above is true, than not a possible state.*/
     P* temp = Matrix<P>::getAbove(state);
     if ((temp != nullptr) && (temp->getCost() != NOT_A_NODE)) {
         temp->setPrev(state.clone());
         statesList.push_back(*temp);
     }
-
     temp = Matrix<P>::getBelow(state);
     if ((temp != nullptr) && (temp->getCost() != NOT_A_NODE)) {
         temp->setPrev(state.clone());
@@ -56,13 +59,12 @@ list<P> SearchableMatrix<P>::getAllPossibleStates(P state) {
         temp->setPrev(state.clone());
         statesList.push_back(*temp);
     }
+
     return statesList;
 }
 
 /** Sets the initial state of the searchable matrix.
- * TODO: Potential bug: initial_state was deleted and then its possible to set it.
- *  Ask dor if he can make sure its immutable.
- *
+ * Only allowed once, all other requests will be ignored.
  * @param initial_point_state
  */
 template <class P>
@@ -71,8 +73,7 @@ void SearchableMatrix<P>::setInitialState(P initial_point_state) {
 }
 
 /** Sets the goal state of the searchable matrix.
- * TODO: Potential bug: goal_state was deleted and then its possible to set it.
- *  Ask dor if he can make sure its immutable.
+ *
  * @param goal_point_state
  */
 template <class P>
@@ -81,16 +82,32 @@ void SearchableMatrix<P>::setGoalState(P goal_point_state) {
 
 }
 
+/** Returns the goal state.
+ *
+ * @tparam P
+ * @return
+ */
 template <class P>
 P SearchableMatrix<P>::getGoalState() const {
     return *(goal_state->clone());
 }
 
+/** Adds a new row to matrix.
+ *
+ * @tparam P
+ * @param new_row
+ */
 template <typename P>
 void SearchableMatrix<P>::addRow(vector<P> *new_row) {
     Matrix<P>::addRow(new_row);
 }
 
+/** Removes a row from matrix.
+ * Currently not in use, made it for symmetry.
+ *
+ * @tparam P
+ * @param row_num
+ */
 template<typename P>
 void SearchableMatrix<P>::removeRow(int row_num) {
     Matrix<P>::removeRow(row_num);

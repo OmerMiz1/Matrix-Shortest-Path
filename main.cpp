@@ -19,9 +19,9 @@ int main(int argc, char *argv[]) {
     sMatrix.main(argc,argv);
     cout<<"SerialMatrixTester end..."<<endl;*/
 
-    cout<<"ParallelMatrixTester start..."<<endl;
+    cout<<"ParallelMatrixTester #1 start..."<<endl;
     pMatrix.main(argc,argv);
-    cout<<"ParallelMatrixTester end..."<<endl;
+    cout<<"ParallelMatrixTester #1 end..."<<endl;
 
     return 0;
 }

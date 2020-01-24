@@ -5,6 +5,9 @@
 #ifndef ALGORITHMICPROGRAMMING2__MYTESTCLIENTHANDLER_H_
 #define ALGORITHMICPROGRAMMING2__MYTESTCLIENTHANDLER_H_
 
+#define MAX_CHARS 1024
+#define END_OF_MESSAGE "end"
+
 #include <string>
 #include <iostream>
 #include <unistd.h>

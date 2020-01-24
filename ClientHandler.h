@@ -7,6 +7,9 @@
 
 #include "Cloneable.h"
 
+/** ClientHandler interface for servers.
+ *
+ */
 /*Interface*/
 class ClientHandler : virtual public Cloneable<ClientHandler> {
  public:

@@ -4,13 +4,20 @@
 
 #include "SearchableBuilder.h"
 
+/** Builds a SearchableMatrix object.
+ *
+ * @tparam State<Point>
+ * @param data list of string, each line represents a row in the matrix (int)
+ * seperated by ','.
+ * @return Matrix.
+ */
 template <class P>
 SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
     auto sMatrix = new SearchableMatrix<P>;
-    P *initial, *goal;
     int row_index=0, col_index=0;
-    regex intRx("(-?\\d+)");
+    P *initial, *goal;
     string special_state;
+    regex intRx("(-?\\d+)");
 
     /*Double check "end" didnt sneak in*/
     if(strstr(data.rbegin()->c_str(), "end")) {
@@ -27,6 +34,7 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
 
     /*Iterates data list. Each string represents a ROW in the matrix*/
     for(auto row_iter = data.begin(); row_iter != data.end(); ++row_iter, ++row_index, col_index=0) {
+        /*Init new row's vector*/
         auto row = new vector<P>;
         int cost;
 
@@ -55,8 +63,12 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
                 return nullptr;
             }
 
+            /*Handle special cases accordingly*/
             if(cur_cell->getState() == initial->getState()) {
-                /*BANDAGE: set initial cost 0*/
+                /*If initial_state is not a node*/
+                if(cost == -1) {
+                    sMatrix->setInitialState(*cur_cell);
+                }
                 sMatrix->setInitialState(*initial);
             }
             if(cur_cell->getState() == goal->getState()) {
@@ -69,8 +81,7 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
     return sMatrix;
 }
 
-/** Builds matrix state - in our case its a Point.
- *  Used to parse initial point and goal point.
+/** Builds matrix state, used for initial or goal.
  *
  * @param state_str
  * @return
@@ -95,7 +106,7 @@ P* SearchableBuilder<P>::buildMatrixState(string state_str) {
 }
 
 /** Cell in our case is a State<P>, a point with cost.
- *  NOTE: prev should be nullptr as for now.
+ *  NOTE: prev should be nullptr as for this part.
  *
  * @param row index
  * @param col index

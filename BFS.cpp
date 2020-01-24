@@ -32,7 +32,6 @@ class positionComparator {
  */
 template <class P>
 list<P>* BFS<P>::search(Searchable<P> *problem) {
-    cout << "Started BFS" << endl;
     auto special_case_result = new list<P>();
 
     /*Returns empty list if goal or initial are walls.*/

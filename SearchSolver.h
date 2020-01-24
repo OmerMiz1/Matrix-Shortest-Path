@@ -17,6 +17,10 @@
 #include <list>
 #include <climits>
 
+/** Solver for matrix search problems.
+ *
+ * @tparam State<Point>
+ */
 /*Object Adapter*/
 template <typename P>
 class SearchSolver : public Solver<Searchable<P>, list<P>*> {

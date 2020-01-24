@@ -10,6 +10,7 @@
 #include "Searchable.h"
 using namespace std;
 
+/*Interface*/
 template <typename P, typename S>
 class Solver : virtual public Cloneable<Solver<P,S>> {
  public:

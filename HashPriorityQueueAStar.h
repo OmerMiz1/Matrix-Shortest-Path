@@ -12,6 +12,10 @@
 
 using namespace std;
 
+/** Heuristic distance comparator for pair of State and double (f value).
+ *
+ * @tparam P
+ */
 template <typename P>
 class HeuristicDistanceComparator {
  public:
@@ -20,6 +24,10 @@ class HeuristicDistanceComparator {
     }
 };
 
+/** Comparator for position of pairs.
+ *
+ * @tparam P
+ */
 template <typename P>
 class PairPositionComparator {
  public:

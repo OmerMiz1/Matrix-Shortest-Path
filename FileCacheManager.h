@@ -14,7 +14,9 @@
 
 #include "CacheManager.h"
 
-
+/** FileCacheManager uses files to cache evaluted data.
+ * File must be hashed properly.
+ */
 class FileCacheManager : public CacheManager<string,string> {
 public:
     void insert(string problem_key, string content) override;
@@ -23,7 +25,7 @@ public:
     FileCacheManager* clone() const override;
 
 private:
-    void writeToFile(string file_name, string content);
+    void writeToFile(string problem_key, string content);
     string readFromFile(string problem_key);
     string addTxt(string problem);
 };

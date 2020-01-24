@@ -4,9 +4,12 @@
 
 #ifndef ALGORITHMICPROGRAMMING2__STRINGABLE_H_
 #define ALGORITHMICPROGRAMMING2__STRINGABLE_H_
+
 #include <string>
+
 using namespace std;
 
+/*Interface*/
 template <class T>
 class Stringable {
  public:
