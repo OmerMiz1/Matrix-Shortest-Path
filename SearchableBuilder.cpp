@@ -74,7 +74,7 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
             if(cur_cell->getState() == goal->getState()) {
                 sMatrix->setGoalState(*goal);
             }
-            row->emplace_back(*cur_cell);
+            row->push_back(*cur_cell);
         }
         sMatrix->addRow(row);
     }

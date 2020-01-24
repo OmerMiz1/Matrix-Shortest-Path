@@ -3,6 +3,16 @@
 //
 
 #include "State.h"
+/** Default CTOR
+ *
+ * @tparam T
+ */
+template<class T>
+State<T>::State() {
+    my_state = nullptr;
+    cost = INTMAX_MAX;
+    prev_state = nullptr;
+}
 
 /**
  * A constructor to State
@@ -31,6 +41,16 @@ State<T>::State(T *myState): State<T>(myState, -1, nullptr) {}
  */
 template<class T>
 State<T>::State(int x, int y, int cost, State<T> *prevState):State<T>(new T(x,y), cost, prevState)  {}
+
+/*template<class T>
+State<T>::~State() {
+    if(my_state != nullptr) {
+        delete my_state;
+    }
+    if(prev_state != nullptr) {
+        delete prev_state;
+    }
+}*/
 
 /**
  * Returns this states state
@@ -157,4 +177,6 @@ template<class T>
 string State<T>::str() const {
     return my_state->str();
 }
+
+
 

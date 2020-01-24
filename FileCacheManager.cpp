@@ -4,6 +4,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <cstring>
 #include "FileCacheManager.h"
 
 /** Returns true if file matching problem-key already_existed, false o.w.
@@ -11,9 +12,15 @@
  * @param problem_key problem_type + problem_hashed (key)
  * @return true/false.
  */
-bool FileCacheManager::contains(string problem_key) {
-    string file_name = addTxt(problem_key);
-    ifstream ifile(file_name);
+bool FileCacheManager::contains(string *problem_key) {
+    string* file_name;
+    if(!strstr(problem_key->c_str(), ".txt")) {
+        file_name = addTxt(problem_key);
+    } else {
+        file_name = problem_key;
+    }
+
+    ifstream ifile(*file_name);
     bool exists = ifile.good();
 
     /*If file do exists, close it and return result*/
@@ -28,7 +35,7 @@ bool FileCacheManager::contains(string problem_key) {
  * @param problem_key
  * @return The solution if exists, o.w. nullptr.
  */
-string FileCacheManager::get(string problem_key) {
+string* FileCacheManager::get(string *problem_key) {
     //if known problem_key read it from file and return it
     if (contains(problem_key)) {
         return readFromFile(problem_key);
@@ -42,7 +49,7 @@ string FileCacheManager::get(string problem_key) {
  * @param problem_key
  * @param solution
  */
-void FileCacheManager::insert(string problem_key, string solution) {
+void FileCacheManager::insert(string *problem_key, string *solution) {
     writeToFile(problem_key, solution); /*TODO DEBUG*/
 }
 
@@ -52,8 +59,14 @@ void FileCacheManager::insert(string problem_key, string solution) {
  * @param problem_key
  * @param solution
  */
-void FileCacheManager::writeToFile(string problem_key, string solution) {
-    ofstream outFile(addTxt(problem_key));
+void FileCacheManager::writeToFile(string *problem_key, string *solution) {
+    ofstream outFile;
+    if(!strstr(problem_key->c_str(), ".txt")) {
+        outFile.open(*addTxt(problem_key));
+    } else {
+        outFile.open(*problem_key);
+    }
+
     if (!outFile.is_open()) {
         throw "Failed to create a file";
     }
@@ -69,19 +82,22 @@ void FileCacheManager::writeToFile(string problem_key, string solution) {
  * @param problem_key
  * @return
  */
-string FileCacheManager::readFromFile(string problem_key) {
-    ifstream inFile(addTxt(problem_key));
-
-    char buffer[MAX_CHARS];
-    string solution;
-
+string* FileCacheManager::readFromFile(string *problem_key) {
+    ifstream inFile;
+    if(!strstr(problem_key->c_str(), ".txt")) {
+        inFile.open(*addTxt(problem_key));
+    } else {
+        inFile.open(*problem_key);
+    }
+    auto solution = new string();
     if (!inFile.is_open()) {
         throw "Failed to read from an existing file";
     }
 
     while(!inFile.eof()) {
-        inFile.read(buffer, sizeof(solution));
-        solution.append(buffer);
+        char *buffer = (char*)malloc(MAX_CHARS);
+        inFile.read(buffer, MAX_CHARS-1);
+        solution->append(buffer);
     }
 
     inFile.close();
@@ -93,9 +109,10 @@ string FileCacheManager::readFromFile(string problem_key) {
  * @param problem_key
  * @return
  */
-string FileCacheManager::addTxt(string problem_key) {
+string* FileCacheManager::addTxt(string *problem_key) {
     /*Assuming problem is the problem represented as string*/
-    return string (problem_key + ".txt");
+    problem_key->append(".txt");
+    return problem_key;
 }
 
 FileCacheManager* FileCacheManager::clone() const {

@@ -39,7 +39,9 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
     Searchable<P> *problem;
     list<string> recieved_data, tmp;
     list<P>* solution;
-    string cur_line, result, solution_str, problem_key;
+    string cur_line, result;
+    auto problem_key = new string();
+    auto solution_str = new string();
     bool sol_in_cache;
 
     /*Reads all data from client*/
@@ -74,9 +76,9 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
 
     /*Generate problem key for cache*/
     keyGenMtx.lock();
-    problem_key.append(typeid(problem).name());
-    problem_key.append("_");
-    problem_key.append(hashProblem(problem));
+    problem_key->append(typeid(problem).name());
+    problem_key->append("_");
+    problem_key->append(hashProblem(problem));
     keyGenMtx.unlock();
 
     getSolMtx.lock();
@@ -101,16 +103,18 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
     }
 
     /*Send each chunk to client*/
-    toChunksMtx.lock();
+    sendMsgMtx.lock();
     tmp.clear();
     tmp = toChunks(solution_str);
+
     for(auto chunk : tmp) {
         if (send(client_socketfd,chunk.c_str(), chunk.size(), MSG_CONFIRM) == -1) {
             perror("handleClient#3");
             return;
         }
     }
-    toChunksMtx.unlock();
+    sendMsgMtx.unlock();
+    delete problem;
 }
 
 /**
@@ -174,14 +178,16 @@ string MyClientHandler<P>::hashProblem(Searchable<P> *problem) const {
  * Generate string description for solution (directions and cost at each step).
  */
 template<class P>
-string MyClientHandler<P>::solutionDescription(list<P> *solution) {
-    string result, cur_direction, cur_cost;
+string* MyClientHandler<P>::solutionDescription(list<P> *solution) {
+    string *result = new string(), cur_direction, cur_cost;
 
     /*solution is empty if there is NO SOLUTION*/
     if(solution->empty()) {
-        return NO_SOLUTION;
+        result->append(NO_SOLUTION);
+        return result;
     } else if (solution->size() == 1) {
-        return NO_MOVES_MADE;
+        result->append(NO_MOVES_MADE);
+        return result;
     }
 
     auto cur_element = solution->begin();
@@ -194,7 +200,6 @@ string MyClientHandler<P>::solutionDescription(list<P> *solution) {
         /*Error*/
         if (!cur_direction.compare("Same") || !cur_direction.compare("ERROR")) {
             perror("solutionDescription#1");
-            /*TODO: Delete everything allocated and return this thread (not exit)*/
         }
         /*Parse next element's cost to string*/
         try {
@@ -202,15 +207,14 @@ string MyClientHandler<P>::solutionDescription(list<P> *solution) {
         } catch (const char *e) {
             perror("SolutionDescription#2");
             perror(e);
-            /*TODO: Delete everything allocated and return this thread (not exit)*/
         }
         /*Add all up to the end of result so far*/
-        result.append(cur_direction + " (" + cur_cost + "), ");
+        result->append(cur_direction + " (" + cur_cost + "), ");
     }
     /*Pop last space, ',' delimiter and adds end of line */
-    result.pop_back();
-    result.pop_back();
-    result.append("\n");
+    result->pop_back();
+    result->pop_back();
+    result->append("\n");
     return result;
 }
 
@@ -221,14 +225,14 @@ string MyClientHandler<P>::solutionDescription(list<P> *solution) {
  * @return
  */
 template<class P>
-list<string> MyClientHandler<P>::toChunks(string solution) {
+list<string> MyClientHandler<P>::toChunks(string *solution) {
     list<string> result;
     string cur_chunk;
     int chunk_size = MAX_CHARS-1;
 
     result.clear();
-    for(unsigned i = 0; i<solution.size();i+=chunk_size) {
-        cur_chunk = solution.substr(i,chunk_size);
+    for(unsigned i = 0; i<solution->size();i+=chunk_size) {
+        cur_chunk = solution->substr(i,chunk_size);
         result.push_back(cur_chunk);
     }
     result.emplace_back("\n");

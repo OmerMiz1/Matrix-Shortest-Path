@@ -19,15 +19,15 @@
  */
 class FileCacheManager : public CacheManager<string,string> {
 public:
-    void insert(string problem_key, string content) override;
-    bool contains(string problem_key) override;
-    string get(string problem_key) override;
+    void insert(string *problem_key, string* content) override;
+    bool contains(string* problem_key) override;
+    string* get(string* problem_key) override;
     FileCacheManager* clone() const override;
 
 private:
-    void writeToFile(string problem_key, string content);
-    string readFromFile(string problem_key);
-    string addTxt(string problem);
+    void writeToFile(string *problem_key, string *content);
+    string* readFromFile(string *problem_key);
+    string* addTxt(string *problem);
 };
 
 #endif //ALGORITHMICPROGRAMMING2__FILECACHEMANAGER_H_

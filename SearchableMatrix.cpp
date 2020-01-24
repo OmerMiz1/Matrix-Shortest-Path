@@ -1,8 +1,18 @@
 //
 // Created by Dor Refaeli on 18/01/2020.
 //
-#define NOT_A_NODE -1
+
 #include "SearchableMatrix.h"
+
+template<typename P>
+SearchableMatrix<P>::~SearchableMatrix() {
+    if(initial_state != nullptr) {
+        delete initial_state;
+    }
+    if(goal_state != nullptr) {
+        delete goal_state;
+    }
+}
 
 /**
  * Returns the initial state

@@ -5,6 +5,8 @@
 #ifndef ALGORITHMICPROGRAMMING2_SEARCHABLEMATRIX_H
 #define ALGORITHMICPROGRAMMING2_SEARCHABLEMATRIX_H
 
+#define NOT_A_NODE -1
+
 #include <unordered_map>
 #include <list>
 
@@ -23,7 +25,6 @@ class SearchableMatrix : public Searchable<P>, public Matrix<P> {
     /*Allows SearchableBuilder::buildMatrix to use setters.*/
     template <typename S>
     friend class SearchableBuilder;
-
     P *initial_state = nullptr;
     P *goal_state = nullptr;
 
@@ -35,6 +36,7 @@ class SearchableMatrix : public Searchable<P>, public Matrix<P> {
     void removeRow(int row_num) override;
 
  public:
+    ~SearchableMatrix();
     P getInitialState() const override;
     P getGoalState() const override;
     bool isGoalState(P state) const override;

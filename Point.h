@@ -16,6 +16,7 @@ class Point : Cloneable<Point>, Stringable<Point> {
     int x;
     int y;
 public:
+    ~Point() = default;
     Point()=default;
     Point(int, int);
     Point(const Point &other);

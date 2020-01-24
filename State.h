@@ -46,12 +46,13 @@ public:
 template <class T>
 class State : public Cloneable<State<T>>, public Stringable<T>, public Stringable<State<T>> {
 private:
-    T *my_state; // the state of this state
-    int cost; //the cost that it took us to get to this state, 0 if this is the first state
-    State<T> *prev_state; //the state that this state got from, null if this is the first state
+    T *my_state; // inner state.
+    int cost; // the cost until this state.
+    State<T> *prev_state; // where we came from
 
 public:
-    State()=default;
+//    ~State();
+    State();
     State(T *myState);
     State(T *myState, int cost, State<T> *prevState);
     State(int x, int y, int cost, State<T> *prevState);

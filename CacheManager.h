@@ -17,9 +17,9 @@ using namespace std;
 template<typename P, typename S>
 class CacheManager : Cloneable<CacheManager<P,S>> {
  public:
-    virtual void insert(P problem, S solution)=0;
-    virtual bool contains(P given_problem)=0;
-    virtual S get(P problem)=0;
+    virtual void insert(P* problem, S* solution)=0;
+    virtual bool contains(P* given_problem)=0;
+    virtual S *get(P* problem)=0;
     virtual CacheManager<P, S>* clone() const=0;
 };
 #endif //ALGORITHMICPROGRAMMING2__CACHEMANAGER_H_

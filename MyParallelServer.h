@@ -30,11 +30,13 @@ class MyParallelServer : public server_side::Server{
     int sockfd = -1;
     bool done = false;
     sockaddr_in address{};
-    vector<thread> threads;
+    vector<thread> *threads = new vector<thread>();
+    list<ClientHandler*> *handlers = new list<ClientHandler*>();
     void joinAllThreads();
     void start(ClientHandler* handler);
 
  public:
+    ~MyParallelServer();
     int open(int port, ClientHandler *handler) override;
     void stop() override;
 };

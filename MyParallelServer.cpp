@@ -4,6 +4,17 @@
 
 #include "MyParallelServer.h"
 
+
+MyParallelServer::~MyParallelServer() {
+    for(auto handler : *handlers) {
+        if(handler != nullptr) {
+            delete handler;
+        }
+    }
+    delete handlers;
+    delete threads;
+}
+
 /** Opened server starts listening until stop() is called or error.
 
  * @param port to be bind onto.
@@ -26,13 +37,12 @@ int MyParallelServer::open(int port, ClientHandler *handler) {
     FD_SET(sockfd, &fdset);
 
     /*TODO: for debugging*/
-    /* Force attach to given port
+    /*Force attach to given port*/
     int opt = 1;
-
     if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,&opt, sizeof(opt))) {
         perror("setsockopt");
         exit(EXIT_FAILURE);
-    }*/
+    }
 
     /*SET TIMEOUT*/
     tv.tv_sec = TIME_OUT_SECONDS;
@@ -111,7 +121,8 @@ void MyParallelServer::start(ClientHandler *handler) {
 
             /*Call handler in a new thread*/
             ClientHandler *cloned = handler->clone();
-            threads.push_back(thread(&ClientHandler::handleClient, &(*cloned), std::ref(client_socket)));
+            handlers->push_back(cloned);
+            threads->push_back(thread(&ClientHandler::handleClient, &(*cloned), std::ref(client_socket)));
 
             /*Make this thread sleep so new handler can read and not get blocked by select()*/
             this_thread::sleep_for(200ms);
@@ -132,10 +143,11 @@ void MyParallelServer::start(ClientHandler *handler) {
  */
 void MyParallelServer::joinAllThreads() {
     cout<<"Joining all running threads..."<<endl;
-    for(auto& t : this->threads) {
+    for(auto& t : *this->threads) {
         if( t.joinable()) {
             t.join();
         }
     }
 }
+
 

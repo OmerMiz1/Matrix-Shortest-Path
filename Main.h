@@ -52,6 +52,13 @@ public:
         } catch (const char *e) {
             perror(e);
         }
+
+        delete searcher;
+        delete solver;
+        delete cache;
+        delete handler;
+        delete mps;
+
         return 0;
     }
 };
