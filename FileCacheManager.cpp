@@ -21,22 +21,20 @@ string FileCacheManager::get(string problem) {
     if (contains(problem)) {
         return readFromFile(problem);
     } else {
-        perror("asked for a solution without validating it's existence"); //TODO remove before submitting
         return nullptr;
     }
 }
 
 void FileCacheManager::insert(string problem, string solution) {
-//    writeToFile(problem, solution); /*TODO debug*/
+    writeToFile(problem, solution);
 }
 
 void FileCacheManager::writeToFile(string problem, string solution) {
     ofstream outFile(addTxt(problem));
-    cout<<addTxt(problem)<<endl; /*TODO debug*/
-
     if (!outFile.is_open()) {
         throw "Failed to create a file";
     }
+
     /*Assuming string is a string here !!!*/
     outFile.clear();
     outFile << solution << endl;

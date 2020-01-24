@@ -11,21 +11,16 @@ using namespace std;
 
 template <class P>
 list<P>* AStar<P>::search(Searchable<P> *problem) {
-    cout << "Started AStar" << endl; /*TODO debug*/
     auto special_case_result = new list<P>();
 
     /*Returns empty list if goal or initial are walls.*/
     if(!(Searcher<P>::isValid(problem))) {
-        cout << "Goal or initial is (-1)" << endl; /*TODO debug*/
-        cout << "Ended AStar" << endl; /*TODO debug*/
         return special_case_result;
     }
 
     /*Case initial is goal*/
     if(problem->isGoalState(problem->getInitialState())) {
         special_case_result->push_back(problem->getInitialState());
-        cout << "Goal is initial state" << endl; /*TODO debug*/
-        cout << "Ended AStar" << endl; /*TODO debug*/
         return special_case_result;
     }
 
@@ -54,8 +49,6 @@ list<P>* AStar<P>::search(Searchable<P> *problem) {
         for (auto s : problem->getAllPossibleStates(current.first)) {
             /*Goal found (succsessor is goal state )*/
             if (problem->isGoalState(s)) {
-                cout << "Found the goal state" << endl; /*TODO debug*/
-                cout << "Ended AStar" << endl; /*TODO debug*/
                 return current.first.backtrace();
             }
 
@@ -92,8 +85,6 @@ list<P>* AStar<P>::search(Searchable<P> *problem) {
     }// End while (Open is not empty)
 
     /*No path found - returns an empty list.*/
-    cout << "No path found" << endl; /*TODO debug*/
-    cout << "Ended AStar" << endl; /*TODO debug*/
     return special_case_result;
 }
 template<class P>

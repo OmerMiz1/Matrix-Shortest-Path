@@ -18,29 +18,18 @@ using namespace std;
  */
 template<class P>
 list<P> *BestFS<P>::search(Searchable<P> *problem) {
-    cout << "Started BestFS" << endl; /*TODO debug*/
     auto special_case_result = new list<P>();
 
     /*Returns empty list if goal or initial are walls.*/
     if (!(Searcher<P>::isValid(problem))) {
-        cout << "Goal or initial is (-1)" << endl; /*TODO debug*/
-        cout << "Ended BestFS" << endl; /*TODO debug*/
         return special_case_result;
     }
 
     /*Case initial is goal*/
     if (problem->isGoalState(problem->getInitialState())) {
         special_case_result->push_back(problem->getInitialState());
-        cout << "Goal is initial state" << endl; /*TODO debug*/
-        cout << "Ended BestFS" << endl; /*TODO debug*/
         return special_case_result;
     }
-
-    //TODO remove!!!
-    char x = problem->getInitialState().getState().getX() + 'A';
-    int y = problem->getInitialState().getState().getY()+1;
-    x = problem->getGoalState().getState().getX() + 'A';
-    y = problem->getGoalState().getState().getY()+1;
 
     /*Initialize open/closed*/
     HashPriorityQueueBestFirstSearch<P> open;
@@ -54,22 +43,16 @@ list<P> *BestFS<P>::search(Searchable<P> *problem) {
         // n <- dequeue open
         P n = open.topAndPop();
 
-        //TODO remove
-        char x = n.getState().getX() + 'A';
-        int y = n.getState().getY()+1;
-        int cost = n.getCost();
-        clog << "The state with the lowest cost in the queue is: (" << x << "," << y << ") - with cost of " << cost << endl;
         // add n to the the set of "closed"\already-visited nodes
         closed.insert(n);
 
         // if n is the goal state
         if (problem->isGoalState(n)) {
-            cout << "Found the goal state" << endl; /*TODO debug*/
-            cout << "Ended BestFS" << endl; /*TODO debug*/
             return n.backtrace();
         }
         // creates n's successors
         auto successors = problem->getAllPossibleStates(n);
+
         // for each successor s do
         for (auto s : successors) {
             // if not in closed and not in open
@@ -101,9 +84,8 @@ list<P> *BestFS<P>::search(Searchable<P> *problem) {
     }
 
     /*Return empty list no path found*/
-    cout << "No path found" << endl; /*TODO debug*/
-    cout << "Ended BestFS" << endl; /*TODO debug*/
-    return special_case_result;}
+    return special_case_result;
+}
 template<class P>
 Searcher<P> *BestFS<P>::clone() const {
     return new BestFS<P>();

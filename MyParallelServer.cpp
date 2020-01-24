@@ -82,17 +82,16 @@ void MyParallelServer::stop() {
  * @param handler injected handler to be used.
  */
 void MyParallelServer::start(ClientHandler *handler) {
-    int accepted_count = 0;
     socklen_t addr_len;
 
     /*Accepts clients one-by-one until done*/
     while(!done) {
         /*Reset values every iteration*/
         int client_socket = 0;
-        struct timeval tv{};
         fd_set fdset;
         FD_ZERO(&fdset);
         FD_SET(sockfd, &fdset);
+        struct timeval tv{};
 
         /*SET TIMEOUT*/
         tv.tv_sec = TIME_OUT_SECONDS;
@@ -114,10 +113,6 @@ void MyParallelServer::start(ClientHandler *handler) {
                 perror("parallel_start#2");
                 return;
             }
-
-            /*Mainly used for visualizing whats going on*/
-            ++accepted_count; /*TODO: debug*/
-            cout<<"Server: client #" <<accepted_count<<" accepted..."<<endl;
 
             ClientHandler *cloned = handler->clone();
             threads.push_back(thread(&ClientHandler::handleClient, &(*cloned), std::ref(client_socket)));
@@ -142,7 +137,7 @@ void MyParallelServer::start(ClientHandler *handler) {
 void MyParallelServer::joinAllThreads() {
     cout<<"Joining all running threads..."<<endl;
     for(auto& t : this->threads) {
-        if(t.joinable()) {
+        if( t.joinable()) {
             t.join();
         }
     }

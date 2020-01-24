@@ -18,21 +18,16 @@ using namespace std;
  */
 template <class P>
 list<P>* DFS<P>::search(Searchable<P> *problem) {
-    cout << "Started DFS" << endl;/*TODO debug*/
     auto special_case_result = new list<P>();
 
     /*Returns empty list if goal or initial are walls.*/
     if(!(Searcher<P>::isValid(problem))) {
-        cout << "Goal or initial is (-1)" << endl; /*TODO debug*/
-        cout << "Ended DFS" << endl; /*TODO debug*/
         return special_case_result;
     }
 
     /*Case initial is goal*/
     if(problem->isGoalState(problem->getInitialState())) {
         special_case_result->push_back(problem->getInitialState());
-        cout << "Goal is initial state" << endl; /*TODO debug*/
-        cout << "Ended DFS" << endl; /*TODO debug*/
         return special_case_result;
     }
 
@@ -45,8 +40,6 @@ list<P>* DFS<P>::search(Searchable<P> *problem) {
         P current = statesStack.top();
         statesStack.pop();
         if (problem->isGoalState(current)) {
-            cout << "Found the goal state" << endl; /*TODO debug*/
-            cout << "End DFS" << endl; /*TODO debug*/
             return current.backtrace();
         }
         //if not in visited Set
@@ -62,8 +55,6 @@ list<P>* DFS<P>::search(Searchable<P> *problem) {
     }
 
     /*Return empty list if no path found*/
-    cout << "No path found" << endl; /*TODO debug*/
-    cout << "End DFS" << endl; /*TODO debug*/
     return special_case_result;
 }
 

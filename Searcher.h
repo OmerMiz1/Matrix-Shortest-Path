@@ -24,6 +24,7 @@ class Searcher : public virtual Cloneable<Searcher<P>> {
     }
  public:
     virtual list<P>* search(Searchable<P>*)=0;
+    virtual unsigned evaluatedCount()=0;
     virtual Searcher<P> *clone() const =0;
 };
 

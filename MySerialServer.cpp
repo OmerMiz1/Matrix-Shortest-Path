@@ -30,7 +30,8 @@ int MySerialServer::open(int port, ClientHandler *handler) {
         exit(EXIT_FAILURE);
     }
 
-    // Forcefully attaching socket to the port 8080 /*TODO remove !*/
+    /*TODO remove !*/
+    /*Force attach to given port */
     int opt = 1;
     if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,&opt, sizeof(opt))) {
         perror("setsockopt");
@@ -78,7 +79,6 @@ int MySerialServer::open(int port, ClientHandler *handler) {
  * @param tv time value struct used for managing timeouts.
  */
 void MySerialServer::start(ClientHandler *handler) {
-    int accepted_count = 0;
     socklen_t addr_len;
 
     /*Accepts clients one-by-one until done*/
@@ -112,19 +112,8 @@ void MySerialServer::start(ClientHandler *handler) {
             }
         }
 
-        /*Mainly used for visualizing whats going on*/
-        ++accepted_count; /*TODO: debug*/
-        cout<<"Server: client #" <<accepted_count<<" accepted..."<<endl;
-
         /*Handle current client*/
-        try {
-            handler->handleClient(client_socket);
-        } catch (const char* e) {
-            perror(e); /*TODO debug*/
-            exit(EXIT_FAILURE);
-        }
-
-        cout<<"Client #"<<accepted_count<<" done..."<<endl;
+        handler->handleClient(client_socket);
     }
 
     /*Case of unsuccessful close*/

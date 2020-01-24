@@ -40,14 +40,20 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
             try {
                 cost = stol(cost_str);
             } catch (const char* e) {
-                perror("buildMatrix"); /*TODO: debug*/
-                perror(e);
-                clog<<"row_index: "<<row_index<<"col_index: "<<col_index<<endl;
+                delete row;
                 delete sMatrix;
                 return nullptr;
             }
+
             /*Build cell (State<Point>) and push to the end of current row*/
             P* cur_cell = buildMatrixCell(row_index, col_index, cost, nullptr);
+
+            /*Error occurred*/
+            if(cur_cell == nullptr) {
+                delete row;
+                delete sMatrix;
+                return nullptr;
+            }
 
             if(cur_cell->getState() == initial->getState()) {
                 sMatrix->setInitialState(*cur_cell);
@@ -55,7 +61,6 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
             if(cur_cell->getState() == goal->getState()) {
                 sMatrix->setGoalState(*goal);
             }
-
             row->emplace_back(*cur_cell);
         }
         sMatrix->addRow(row);
@@ -85,7 +90,6 @@ P* SearchableBuilder<P>::buildMatrixState(string state_str) {
         perror(e);
         exit(EXIT_FAILURE);
     }
-    /*TODO made it -1 for debuging, if its -1 and the real value isnt - bug!*/
     return buildMatrixCell(x,y, 0, nullptr);
 }
 

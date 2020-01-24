@@ -44,6 +44,5 @@ class MyClientHandler : public ClientHandler {
     list<string> toChunks(string basic_string);
 };
 
-/*TODO: NO IDEA WHY IT IS SO IMPORTANT DECLARATION IS IN THIS ORDER*/
 template class MyClientHandler<State<Point>>;
 #endif //ALGORITHMICPROGRAMMING2__MYCLIENTHANDLER_H_

@@ -61,6 +61,7 @@ list<P> SearchableMatrix<P>::getAllPossibleStates(P state) {
 
 /** Sets the initial state of the searchable matrix.
  * TODO: Potential bug: initial_state was deleted and then its possible to set it.
+ *  Ask dor if he can make sure its immutable.
  *
  * @param initial_point_state
  */
@@ -70,7 +71,8 @@ void SearchableMatrix<P>::setInitialState(P initial_point_state) {
 }
 
 /** Sets the goal state of the searchable matrix.
- * TODO: Potential bug: initial_state was deleted and then its possible to set it.
+ * TODO: Potential bug: goal_state was deleted and then its possible to set it.
+ *  Ask dor if he can make sure its immutable.
  * @param goal_point_state
  */
 template <class P>

@@ -37,21 +37,16 @@ list<P>* BFS<P>::search(Searchable<P> *problem) {
 
     /*Returns empty list if goal or initial are walls.*/
     if(!(Searcher<P>::isValid(problem))) {
-        cout << "Goal or initial is (-1)" << endl; /*TODO debug*/
-        cout << "Ended BFS" << endl; /*TODO debug*/
         return special_case_result;
     }
 
     /*Case initial is goal*/
     if(problem->isGoalState(problem->getInitialState())) {
         special_case_result->push_back(problem->getInitialState());
-        cout << "Goal is initial state" << endl; /*TODO debug*/
-        cout << "Ended BFS" << endl; /*TODO debug*/
         return special_case_result;
     }
 
     queue<P> statesQueue;
-    /*TODO: brought "typename" back, not sure if its good.*/
     //the existence of a State in this set indicates he was discovered already
     set<P, positionComparator<P>> discoveredSet;
     P initial = problem->getInitialState();
@@ -61,16 +56,9 @@ list<P>* BFS<P>::search(Searchable<P> *problem) {
         P current = statesQueue.front();
         statesQueue.pop(); //TODO couldn't make sure that front doesn't pop already! make sure
         if (problem->isGoalState(current)) {
-            cout << "Found the goal state" << endl; /*TODO debug*/
-            cout << "Ended BFS" << endl; /*TODO debug*/
             return current.backtrace();
         }
 
-        /*TODO: had this line below, you had a list of S (Solutions), we changed Solution to be
-         * list<P>.
-         * Was is wrong (the S in adjacents) or not?
-         * If not than we need to change list<P> to list<list<P>>.
-         *list<S> adjacents = problem.getAllPossibleStates(current);*/
         list<P> adjacents = problem->getAllPossibleStates(current);
         for (auto adjacent : adjacents) {
             if (!discoveredSet.count(adjacent)) { //if the adjacent wasn't discovered yet
@@ -85,8 +73,6 @@ list<P>* BFS<P>::search(Searchable<P> *problem) {
     }
 
     /*Return empty list no path found*/
-    cout << "No path found" << endl; /*TODO debug*/
-    cout << "Ended BFS" << endl; /*TODO debug*/
     return special_case_result;
 }
 template<class P>

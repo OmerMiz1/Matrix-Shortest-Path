@@ -52,7 +52,6 @@ int Point::manhattanHeuristicDistance(Point *other) const {
  * @return
  */
 bool Point::operator<(const Point &other) const{
-    /*TODO: Make sure its !(this==other) and that auto correct didnt change it*/
     return !(*this == other);
 }
 
@@ -61,7 +60,6 @@ Point* Point::clone() const {
 }
 
 string Point::str() const {
-    /*TODO possible issues with parallel server?*/
     return "(" + to_string(x) + "," + to_string(y) + ")";
 }
 

@@ -32,7 +32,6 @@ MyClientHandler<P>::MyClientHandler(SearchSolver<P> *solver,
 template <class P>
 void MyClientHandler<P>::handleClient(int client_socketfd) {
     /*TODO dont forget to delete the backtrace*/
-
     SearchableBuilder<P> s_builder;
     Searchable<P> *problem;
     list<string> recieved_data, tmp;
@@ -63,10 +62,10 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
     probBuildMtx.unlock();
     if(problem == nullptr) {
         perror("handleClient#2");
-        exit(EXIT_FAILURE); /*TODO debug*/
+        /*TODO: Delete everything allocated and return this thread (not exit)*/
     }
     keyGenMtx.lock();
-    problem_key = typeid(problem).name();
+    problem_key.append(typeid(problem).name());
     problem_key.append("_");
     problem_key.append(hashProblem(problem));
     keyGenMtx.unlock();
@@ -107,7 +106,6 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         }
     }
     sendMsgMtx.unlock();
-    cout<<"client done"<<endl;/*TODO debug*/
 }
 
 template <class P>
@@ -116,13 +114,13 @@ list<string> MyClientHandler<P>::readMessageFromClient(int client_socketfd) {
     regex lineRx("(.*)\\n");
     sregex_iterator start, end = sregex_iterator();
     string buf_str;
-    int read_count = 0;
 
     /*Clear to avoid garbage*/
     int bytes_read = 0;
     char buffer[MAX_CHARS] = {0};
     bytes_read = read(client_socketfd, buffer, MAX_CHARS-1);
 
+    /*Check if end of message reached*/
     if(strstr(buffer,"end")) {
         message_end = true;
     }
@@ -174,7 +172,7 @@ string MyClientHandler<P>::solutionDescription(list<P> *solution) {
         /*Error*/
         if(!cur_direction.compare("Same") || !cur_direction.compare("ERROR")) {
             perror("solutionDescription#1");
-            exit(EXIT_FAILURE); /*TODO debug*/
+            /*TODO: Delete everything allocated and return this thread (not exit)*/
         }
         /*Parse next element's cost to string*/
         try {
@@ -182,7 +180,7 @@ string MyClientHandler<P>::solutionDescription(list<P> *solution) {
         } catch (const char* e) {
             perror("SolutionDescription#2");
             perror(e);
-            exit(EXIT_FAILURE); /*TODO debug*/
+            /*TODO: Delete everything allocated and return this thread (not exit)*/
         }
         /*Add all up to the end of result so far*/
         result.append(cur_direction + " (" + cur_cost +"), " );

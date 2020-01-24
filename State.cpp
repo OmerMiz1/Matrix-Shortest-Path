@@ -54,7 +54,8 @@ int State<T>::getPrevCost() const {
     return prev_state->getCost();
 }
 
-/** Returns true if its the same object.
+/** Returns true if state and cost are same (prev_states are not taken into an
+ * account).
  *
  * @tparam T
  * @param other_state
@@ -64,7 +65,6 @@ template <typename T>
 bool State<T>::is(State<T> other_state) const {
     return (this->cost == other_state.getCost()
     && this->my_state == other_state.getState().clone());
-    /*TODO: not adding this, might be an expensive recursion*/
 }
 
 /**
@@ -110,7 +110,6 @@ State<T>* State<T>::clone() const {
     return new State<T>(my_state->clone(), this->cost, this->prev_state->clone());
 }
 
-/*TODO: should be in Searcher!*/
 /** Method used when searcher reaches goal state.
  *
  * @tparam T

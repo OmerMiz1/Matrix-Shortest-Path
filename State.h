@@ -11,7 +11,8 @@
 #include <string>
 
 using namespace std;
-
+/*TODO future assignments: make a namespace for our comparators and stick them
+ * all in there.*/
 /*Kinda useless, already overriding operators*/
 template <class T>
 class costComparator {
@@ -41,7 +42,7 @@ public:
     State()=default;
     State(T *myState);
     State(T *myState, int cost, State<T> *prevState);
-    State(int x, int y, int cost, State<T> *prevState); /*TODO for T = Point*/
+    State(int x, int y, int cost, State<T> *prevState);
 
     T getState() const;
     int getCost() const;
@@ -56,8 +57,6 @@ public:
     bool operator==(const State<T> &other_state) const;
     bool operator<(const State<T> &other_state) const;
     bool operator>(const State<T> &other_state) const;
-
-
 };
 
 template class costComparator<State<Point>>;

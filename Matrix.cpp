@@ -44,9 +44,6 @@ int Matrix<T>::getColsCount() const {
 }
 
 /** Add an entire row to matrix.
- * TODO: PROBLEM: new_row length can be different than cols_count!
- *  POSSIBLE SOLUTION1: first element of each row vector will specify the count.
- *  POSSIBLE SOLUTION2: keep a map for sizes of each row.
  * @tparam T
  * @param new_row
  */
