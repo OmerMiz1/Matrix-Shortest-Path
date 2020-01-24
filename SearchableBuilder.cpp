@@ -56,7 +56,8 @@ SearchableMatrix<P>* SearchableBuilder<P>::buildMatrix(list<string> data) {
             }
 
             if(cur_cell->getState() == initial->getState()) {
-                sMatrix->setInitialState(*cur_cell);
+                /*BANDAGE: set initial cost 0*/
+                sMatrix->setInitialState(*initial);
             }
             if(cur_cell->getState() == goal->getState()) {
                 sMatrix->setGoalState(*goal);

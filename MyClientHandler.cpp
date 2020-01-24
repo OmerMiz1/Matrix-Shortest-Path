@@ -40,6 +40,7 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
     bool sol_in_cache;
 
     /*Reads all data from client*/
+    recvMsgMtx.lock();
     while (!message_end) {
         tmp = readMessageFromClient(client_socketfd);
         if (tmp.empty() && !message_end) {
@@ -55,8 +56,9 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         }
         tmp.clear();
     }
+    recvMsgMtx.unlock();
 
-    /*Generate problem object and hash it for cache*/
+    /*Generate problem*/
     probBuildMtx.lock();
     problem = s_builder.buildMatrix(recieved_data);
     probBuildMtx.unlock();
@@ -64,6 +66,8 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         perror("handleClient#2");
         /*TODO: Delete everything allocated and return this thread (not exit)*/
     }
+
+    /*Generate problem key for cache*/
     keyGenMtx.lock();
     problem_key.append(typeid(problem).name());
     problem_key.append("_");
@@ -91,21 +95,17 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         setSolMtx.unlock();
     }
 
-    /*Double check its clear, and split solution to chunks*/
+    /*Send each chunk to client*/
     toChunksMtx.lock();
     tmp.clear();
     tmp = toChunks(solution_str);
-    toChunksMtx.unlock();
-
-    /*Send each chunk to client*/
-    sendMsgMtx.lock();
     for(auto chunk : tmp) {
-        if (send(client_socketfd,chunk.c_str(), chunk.size(),MSG_CONFIRM) == -1) {
+        if (send(client_socketfd,chunk.c_str(), chunk.size(), MSG_CONFIRM) == -1) {
             perror("handleClient#3");
             return;
         }
     }
-    sendMsgMtx.unlock();
+    toChunksMtx.unlock();
 }
 
 template <class P>
@@ -168,7 +168,6 @@ string MyClientHandler<P>::solutionDescription(list<P> *solution) {
     for(; next_element != solution->end(); ++cur_element, ++next_element) {
         /*Get direction from cur to next.*/
         cur_direction = cur_element->getState().getDirectionToStr(next_element->getState());
-
         /*Error*/
         if(!cur_direction.compare("Same") || !cur_direction.compare("ERROR")) {
             perror("solutionDescription#1");
@@ -183,18 +182,25 @@ string MyClientHandler<P>::solutionDescription(list<P> *solution) {
             /*TODO: Delete everything allocated and return this thread (not exit)*/
         }
         /*Add all up to the end of result so far*/
-        result.append(cur_direction + " (" + cur_cost +"), " );
+        result.append(cur_direction + "(" + cur_cost +") ," );
     }
+
+    result.append("\n");
+
     return result;
 }
 
 template<class P>
 list<string> MyClientHandler<P>::toChunks(string solution) {
-    int chunk_size = MAX_CHARS;
     list<string> result;
+    string cur_chunk;
+    int chunk_size = MAX_CHARS-1;
+    result.clear();
     for(unsigned i = 0; i<solution.size();i+=chunk_size) {
-        result.push_back(solution.substr(i, chunk_size));
+        cur_chunk = solution.substr(i,chunk_size);
+        result.push_back(cur_chunk);
     }
+    result.emplace_back("\n");
     return result;
 }
 

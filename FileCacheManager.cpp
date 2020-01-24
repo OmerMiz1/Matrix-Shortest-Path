@@ -26,7 +26,7 @@ string FileCacheManager::get(string problem) {
 }
 
 void FileCacheManager::insert(string problem, string solution) {
-    writeToFile(problem, solution);
+//    writeToFile(problem, solution); /*TODO DEBUG*/
 }
 
 void FileCacheManager::writeToFile(string problem, string solution) {

@@ -27,7 +27,7 @@ using namespace std;
 template<class P>
 class MyClientHandler : public ClientHandler {
  private:
-    mutex getSolMtx, setSolMtx, toChunksMtx, sendMsgMtx, solDescMtx, probBuildMtx, keyGenMtx;
+    mutex getSolMtx, setSolMtx, toChunksMtx, recvMsgMtx ,sendMsgMtx, solDescMtx, probBuildMtx, keyGenMtx;
     Solver<Searchable<P>,list<P>*> *my_solver;
     CacheManager<string,string> *my_cache;
     list<string> readMessageFromClient(int client_socketfd);
