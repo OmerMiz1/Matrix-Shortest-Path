@@ -25,9 +25,9 @@ void MyTestClientHandler<P,S>::handleClient(int client_socketfd) {
         message = readMessageFromClient(client_socketfd);
         if (message == nullptr) {
             perror("handleClient#1");
-            return;
+            break;
         }
-        /*Client requested to end connection*/
+        /*End of message reached*/
         else if (!message->compare(END_OF_MESSAGE)) {
             break;
         }
@@ -36,7 +36,7 @@ void MyTestClientHandler<P,S>::handleClient(int client_socketfd) {
         result = my_solver->solve(message);
         if (send(client_socketfd, result.c_str(), result.size(), 0) == -1) {
             perror("handleClient#2");
-            return;
+            break;
         }
     }
     close(client_socketfd);
@@ -46,9 +46,6 @@ template<class P, class S>
 string* MyTestClientHandler<P,S>::readMessageFromClient(int client_socketfd) {
     /*Clear to avoid garbage*/
     int bytes_read = 0;
-
-    /*TODO: bug- doesnt stop at the right place.
-     * i think im supposed to read 1 time and count on them not to bring longer strings than expected.*/
 
     char buffer[MAX_CHARS] = {'\0'};
     bytes_read = read(client_socketfd, buffer, MAX_CHARS);
@@ -60,7 +57,6 @@ string* MyTestClientHandler<P,S>::readMessageFromClient(int client_socketfd) {
     } else if (0 < bytes_read /*&& bytes_read < MAX_CHARS*/) {
         return (new string(buffer));
     }
-    //cout<<buffer<<endl; /*TODO: for debugging.*/
 
     /*Also error, shouldnt get here.*/
     perror("readMessageFromClient#2");

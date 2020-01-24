@@ -34,7 +34,6 @@ class MyClientHandler : public ClientHandler {
     string hashProblem(Searchable<P> *problem) const;
     string solutionDescription(list<P> *solution);
     bool message_end = false;
-    bool running = true;
 
  public:
     MyClientHandler(Solver<Searchable<P>,list<P>*> *solver,CacheManager<string,string> *cache);
@@ -47,6 +46,4 @@ class MyClientHandler : public ClientHandler {
 
 /*TODO: NO IDEA WHY IT IS SO IMPORTANT DECLARATION IS IN THIS ORDER*/
 template class MyClientHandler<State<Point>>;
-//template class MyClientHandler<SearchSolver<State<Point>>>;
-//template class MyClientHandler<Searchable<State<Point>>>;
 #endif //ALGORITHMICPROGRAMMING2__MYCLIENTHANDLER_H_

@@ -24,7 +24,6 @@ class MyParallelServer : public server_side::Server{
     int sockfd = -1;
     bool done = false;
     sockaddr_in address{};
-    vector<ClientHandler*> handlers;
     vector<thread> threads;
     void joinAllThreads();
     void start(ClientHandler* handler);

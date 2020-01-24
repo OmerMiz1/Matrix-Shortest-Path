@@ -39,10 +39,8 @@ list<P> *BestFS<P>::search(Searchable<P> *problem) {
     //TODO remove!!!
     char x = problem->getInitialState().getState().getX() + 'A';
     int y = problem->getInitialState().getState().getY()+1;
-    clog << "Initial state is: " << x << "," << y << endl;
     x = problem->getGoalState().getState().getX() + 'A';
     y = problem->getGoalState().getState().getY()+1;
-    clog << "Goal state state is: " << x << "," << y << endl;
 
     /*Initialize open/closed*/
     HashPriorityQueueBestFirstSearch<P> open;

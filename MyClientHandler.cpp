@@ -45,7 +45,6 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         tmp = readMessageFromClient(client_socketfd);
         if (tmp.empty() && !message_end) {
             perror("handleClient#1");
-            running = false;
             exit(EXIT_FAILURE);
         }
 
@@ -59,23 +58,27 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
     }
 
     /*Generate problem object and hash it for cache*/
+    probBuildMtx.lock();
     problem = s_builder.buildMatrix(recieved_data);
+    probBuildMtx.unlock();
     if(problem == nullptr) {
         perror("handleClient#2");
-        running = false;
         exit(EXIT_FAILURE); /*TODO debug*/
     }
+    keyGenMtx.lock();
     problem_key = typeid(problem).name();
     problem_key.append("_");
     problem_key.append(hashProblem(problem));
+    keyGenMtx.unlock();
 
     getSolMtx.lock();
     sol_in_cache = my_cache->contains(problem_key);
     getSolMtx.unlock();
 
-
     if(sol_in_cache) {
+        getSolMtx.lock();
         solution_str = my_cache->get(problem_key);
+        getSolMtx.unlock();
     } else {
         /*Solution NOT IN cache, solve problem and store in cache*/
         solution = my_solver->solve(problem);
@@ -104,7 +107,6 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         }
     }
     sendMsgMtx.unlock();
-    running = false;
     cout<<"client done"<<endl;/*TODO debug*/
 }
 
@@ -114,11 +116,12 @@ list<string> MyClientHandler<P>::readMessageFromClient(int client_socketfd) {
     regex lineRx("(.*)\\n");
     sregex_iterator start, end = sregex_iterator();
     string buf_str;
+    int read_count = 0;
 
     /*Clear to avoid garbage*/
     int bytes_read = 0;
-    char buffer[MAX_CHARS] = {'\0'};
-    bytes_read = read(client_socketfd, buffer, MAX_CHARS);
+    char buffer[MAX_CHARS] = {0};
+    bytes_read = read(client_socketfd, buffer, MAX_CHARS-1);
 
     if(strstr(buffer,"end")) {
         message_end = true;
@@ -127,7 +130,6 @@ list<string> MyClientHandler<P>::readMessageFromClient(int client_socketfd) {
     /*Print error, return empty list*/
     if (bytes_read == -1) {
         perror("readMessageFromClient#1");
-        running = false;
         return list<string>();
     } else if (0 < bytes_read) {
         buf_str.append(buffer);
@@ -180,7 +182,6 @@ string MyClientHandler<P>::solutionDescription(list<P> *solution) {
         } catch (const char* e) {
             perror("SolutionDescription#2");
             perror(e);
-            running = false;
             exit(EXIT_FAILURE); /*TODO debug*/
         }
         /*Add all up to the end of result so far*/

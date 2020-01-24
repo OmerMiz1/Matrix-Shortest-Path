@@ -31,13 +31,13 @@ int MyParallelServer::open(int port, ClientHandler *handler) {
     FD_ZERO(&fdset);
     FD_SET(sockfd, &fdset);
 
-    /* TODO: remove before submitting.
-     * // Forcefully attaching socket to the port 8080
+    /* TODO: remove before submitting.*/
+    /* Force attach to given port */
     int opt = 1;
-    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,&opt, sizeof(opt))) {
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,&opt, sizeof(opt))) {
         perror("setsockopt");
         exit(EXIT_FAILURE);
-    }*/
+    }
 
     /*SET TIMEOUT*/
     tv.tv_sec = TIME_OUT_SECONDS;
@@ -68,8 +68,6 @@ int MyParallelServer::open(int port, ClientHandler *handler) {
     /*Start infinite loop that handles clients.*/
     start(handler);
 
-    /*Clean exit, open ran successfully*/
-    close(sockfd);
     return 0;
 }
 
@@ -101,8 +99,7 @@ void MyParallelServer::start(ClientHandler *handler) {
 
         /*SELECT FROM QUEUE*/
         int select_status = select(this->sockfd+1, &fdset, nullptr, nullptr, &tv);
-        cout<<"threads in list: "<<this->threads.size()<<endl;
-        if (select_status <= 0 && !this->threads.size()) {
+        if (select_status <= 0) {
             cout<<("Server timed-out...")<<endl;
             this->done = true;
             break;
@@ -117,17 +114,21 @@ void MyParallelServer::start(ClientHandler *handler) {
                 perror("parallel_start#2");
                 return;
             }
+
             /*Mainly used for visualizing whats going on*/
             ++accepted_count; /*TODO: debug*/
             cout<<"Server: client #" <<accepted_count<<" accepted..."<<endl;
+
             ClientHandler *cloned = handler->clone();
-            handlers.push_back(cloned);
             threads.push_back(thread(&ClientHandler::handleClient, &(*cloned), std::ref(client_socket)));
+
+            /*Make this thread sleep so new handler can read and not get blocked by select()*/
+            this_thread::sleep_for(200ms);
         }
     } // End of while, server is done listening.
     joinAllThreads();
 
-    /*Error closing socket*/
+    /*Close socket check for errors*/
     if(close(sockfd)==-1) {
         perror("parallel_start#3");
         return;
@@ -139,9 +140,11 @@ void MyParallelServer::start(ClientHandler *handler) {
  * (possibly after time-out, error, etc...).
  */
 void MyParallelServer::joinAllThreads() {
+    cout<<"Joining all running threads..."<<endl;
     for(auto& t : this->threads) {
         if(t.joinable()) {
             t.join();
         }
     }
 }
+
