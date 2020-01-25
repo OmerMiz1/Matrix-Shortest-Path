@@ -87,3 +87,9 @@ template<class P>
 Searcher<P> *BestFS<P>::clone() const {
     return new BestFS<P>();
 }
+
+template<class P>
+string BestFS<P>::str() const {
+    string result = "BestFS";
+    return result;
+}

@@ -33,3 +33,9 @@ template<class P>
 StringReverser<P>* StringReverser<P>::clone() const {
     return new StringReverser<P>();
 }
+
+template<class P>
+string StringReverser<P>::str() const {
+   string result = "StringReverser";
+   return result;
+}

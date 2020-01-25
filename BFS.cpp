@@ -78,3 +78,9 @@ template<class P>
 Searcher<P> *BFS<P>::clone() const {
     return new BFS<P>();
 }
+
+template<class P>
+string BFS<P>::str() const {
+    string result = "BFS";
+    return result;
+}

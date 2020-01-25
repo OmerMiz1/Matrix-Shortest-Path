@@ -23,6 +23,15 @@ SearchSolver<P> *SearchSolver<P>::clone() const {
     return new SearchSolver<P>(my_searcher->clone());
 }
 
+template <typename P>
+string SearchSolver<P>::str() const {
+    string result("SearchSolver_");
+    result += my_searcher->str();
+    return result;
+}
+
+
+
 
 
 

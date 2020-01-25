@@ -154,22 +154,22 @@ public:
         auto DFS_handler = new MyClientHandler<State<Point>>(DFS_solver, cache);
         auto BFS_handler = new MyClientHandler<State<Point>>(BFS_solver, cache);
         auto AStar_handler = new MyClientHandler<State<Point>>(AStar_solver, cache);
-        auto BestFS_handler = new MyClientHandler<State<Point>>(BFS_solver, cache);
+        auto BestFS_handler = new MyClientHandler<State<Point>>(BestFS_solver, cache);
         auto DFS_server = new MyParallelServer();
         auto BFS_server = new MyParallelServer();
         auto AStar_server = new MyParallelServer();
         auto BestFS_server = new MyParallelServer();
 
         try {
-//            thread DFS_th(&MyParallelServer::open, DFS_server, 8080, DFS_handler);
-//            thread BFS_th(&MyParallelServer::open, BFS_server, 8081, BFS_handler);
-            thread AStar_th(&MyParallelServer::open, AStar_server, 8080, AStar_handler);
-//            thread BestFS_th(&MyParallelServer::open, BestFS_server, 8083, BestFS_handler);
+            thread DFS_th(&MyParallelServer::open, DFS_server, 8080, DFS_handler);
+            thread BFS_th(&MyParallelServer::open, BFS_server, 8081, BFS_handler);
+            thread AStar_th(&MyParallelServer::open, AStar_server, 8082, AStar_handler);
+            thread BestFS_th(&MyParallelServer::open, BestFS_server, 8083, BestFS_handler);
 
-//            DFS_th.join();
-//            BFS_th.join();
+            DFS_th.join();
+            BFS_th.join();
             AStar_th.join();
-//            BestFS_th.join();
+            BestFS_th.join();
         } catch (const char *e) {
             perror(e);
         }

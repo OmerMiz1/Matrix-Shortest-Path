@@ -25,6 +25,7 @@ private:
 public:
     list<P>* search(Searchable<P> *problem) override;
     Searcher<P> *clone() const override;
+    string str() const override;
 };
 
 template class BestFS<State<Point>>;

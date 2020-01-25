@@ -117,3 +117,9 @@ int AStar<P>::heuristicDistance(P current) {
     Point goalPoint = goal.getState();
     return currentPoint.manhattanHeuristicDistance(&goalPoint);
 }
+
+template<class P>
+string AStar<P>::str() const {
+    string result = "AStar";
+    return result;
+}

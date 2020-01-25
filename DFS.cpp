@@ -61,3 +61,9 @@ template<class P>
 Searcher<P> *DFS<P>::clone() const {
     return new DFS<P>();
 }
+
+template<class P>
+string DFS<P>::str() const {
+    string result = "DFS";
+    return result;
+}

@@ -76,7 +76,7 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
 
     /*Generate problem key for cache*/
     keyGenMtx.lock();
-    problem_key->append(typeid(problem).name());
+    problem_key->append(my_solver->str());
     problem_key->append("_");
     problem_key->append(hashProblem(problem));
     keyGenMtx.unlock();
@@ -238,7 +238,6 @@ list<string> MyClientHandler<P>::toChunks(string *solution) {
         cur_chunk.append("\000");
         result.push_back(cur_chunk);
     }
-    result.emplace_back("\n");
     return result;
 }
 

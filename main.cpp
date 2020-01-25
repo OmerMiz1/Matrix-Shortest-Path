@@ -3,8 +3,9 @@
 
 int main(int argc, char *argv[]) {
 
-//    auto myMain = server_side::boot::Main();
-    auto myMain = server_side::boot::ParallelMatrixTester();
+    auto myMain = server_side::boot::Main();
+    /*Below made for testing*/
+//    auto myMain = server_side::boot::ParallelMatrixTester();
     myMain.main(argc,argv);
 
     /*Below was used for testing :)*/

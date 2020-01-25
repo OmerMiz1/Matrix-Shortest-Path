@@ -22,6 +22,8 @@ class StringReverser : public Solver<P,P> {
  public:
     P solve(P *problem) override;
     StringReverser<P>* clone() const override;
+
+    string str() const override;
 };
 template class StringReverser<string>;
 #endif //ALGORITHMICPROGRAMMING2__STRINGREVERSER_H_

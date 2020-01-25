@@ -30,6 +30,7 @@ class SearchSolver : public Solver<Searchable<P>, list<P>*> {
     SearchSolver(Searcher<P> *searcher);
     list<P>* solve(Searchable<P> *sMatrix) override;
     SearchSolver<P> *clone() const override;
+    string str() const override;
 };
 
 template class SearchSolver<State<Point>>;

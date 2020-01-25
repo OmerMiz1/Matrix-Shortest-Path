@@ -12,9 +12,10 @@ using namespace std;
 
 /*Interface*/
 template <typename P, typename S>
-class Solver : virtual public Cloneable<Solver<P,S>> {
+class Solver : virtual public Cloneable<Solver<P,S>>, virtual public Stringable<Solver<P,S>> {
  public:
     virtual S solve(P *problem)=0;
+    virtual string str() const =0;
 };
 
 template class Solver<string,string>;
