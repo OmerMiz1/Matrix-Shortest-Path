@@ -37,8 +37,8 @@ class Matrix {
     virtual void removeRow(int row_num); /*Made it for symmetry, currently no use*/
 
  public:
-    ~Matrix();
-    T* at(int x, int y) const;
+    virtual ~Matrix();
+    T* at(unsigned int x, unsigned int y) const;
     T* at(Point point) const;
     Point getPoint(T cell) const;
     int getRowsCount() const;

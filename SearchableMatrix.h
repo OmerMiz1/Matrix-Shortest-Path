@@ -36,7 +36,7 @@ class SearchableMatrix : public Searchable<P>, public Matrix<P> {
     void removeRow(int row_num) override;
 
  public:
-    ~SearchableMatrix();
+    virtual ~SearchableMatrix();
     P getInitialState() const override;
     P getGoalState() const override;
     bool isGoalState(P state) const override;

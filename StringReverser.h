@@ -1,5 +1,5 @@
 //
-// Created by omer on 17/01/2020.
+// Created by Omer Mizrachi on 17/01/2020.
 //
 
 #ifndef ALGORITHMICPROGRAMMING2__STRINGREVERSER_H_

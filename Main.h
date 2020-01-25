@@ -1,5 +1,5 @@
 //
-// Created by omer on 17/01/2020.
+// Created by Omer Mizrachi on 17/01/2020.
 //
 
 #ifndef ALGORITHMICPROGRAMMING2__MAIN_H_
@@ -140,8 +140,7 @@ public:
  */
 class server_side::boot::ParallelMatrixTester {
 public:
-    int main(int argc, char *argv[]) {
-        int port = stoi(argv[1]);
+    int main() {
         Searcher<State<Point>>* sDFS = new DFS<State<Point>>();
         Searcher<State<Point>>* sBFS = new BFS<State<Point>>();
         Searcher<State<Point>>* sAStar = new AStar<State<Point>>();

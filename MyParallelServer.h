@@ -1,5 +1,5 @@
 //
-// Created by omer on 18/01/2020.
+// Created by Omer Mizrachi on 18/01/2020.
 //
 
 #ifndef ALGORITHMICPROGRAMMING2__MYPARALLELSERVER_H_

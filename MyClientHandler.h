@@ -1,5 +1,5 @@
 //
-// Created by omer on 19/01/2020.
+// Created by Omer Mizrachi on 19/01/2020.
 //P
 
 #ifndef ALGORITHMICPROGRAMMING2__MYCLIENTHANDLER_H_

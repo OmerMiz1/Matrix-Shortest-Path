@@ -1,5 +1,5 @@
 //
-// Created by omer on 15/01/2020.
+// Created by Omer Mizrachi on 15/01/2020.
 //
 
 #ifndef ALGORITHMICPROGRAMMING2__MYSERIALSERVER_H_
@@ -25,7 +25,9 @@ using namespace server_side;
     sockaddr_in address{};
 
  public:
-    /* NOTE: This class must be generic for all kinds of servers (protocols and such). */
+     virtual ~MySerialServer();
+
+     /* NOTE: This class must be generic for all kinds of servers (protocols and such). */
     int open(int, ClientHandler *) override;
     void stop() override;
     void start(ClientHandler *handler);

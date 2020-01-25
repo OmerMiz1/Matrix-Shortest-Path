@@ -128,7 +128,6 @@ int Point::uniq() {
     stringstream strYTemp;
     strYTemp << setw(10) << setfill('0') << y;
     string strY = strYTemp.str();
-    ::hash<int> hasher;
     size_t h1 = std::hash<std::string>{}(strX);
     size_t h2 = std::hash<std::string>{}(strY);
     return h1 ^ (h2 << 1);

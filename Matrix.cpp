@@ -24,7 +24,7 @@ Matrix<T>::~Matrix() {
  * @return the cell in the (x,y) place in the matrix, nullptr if out of bounds.
  */
 template<typename T>
-T* Matrix<T>::at(int x, int y) const {
+T* Matrix<T>::at(unsigned int x, unsigned int y) const {
     //bounds check
     if (x < 0 || x >= matrix.size() || y < 0 || y >= this->matrix.at(x)->size()) {
         return OUT_OF_BOUNDS;
@@ -120,6 +120,8 @@ Point Matrix<T>::getPoint(T cell) const {
         col_num = 0;
         ++row_num;
     }
+    /*TODO debug*/
+    return Point(0,0);
 }
 
 /** Returns the cell above given.

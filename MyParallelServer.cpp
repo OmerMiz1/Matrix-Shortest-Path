@@ -1,5 +1,5 @@
 //
-// Created by omer on 18/01/2020.
+// Created by Omer Mizrachi on 18/01/2020.
 //
 
 #include "MyParallelServer.h"

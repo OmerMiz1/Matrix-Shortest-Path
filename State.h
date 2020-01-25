@@ -1,5 +1,5 @@
 //
-// Created by omer on 17/01/2020.
+// Created by Omer Mizrachi on 17/01/2020.
 //
 
 #ifndef ALGORITHMICPROGRAMMING2__STATE_H_
@@ -54,8 +54,8 @@ public:
 //    ~State();
     State();
     State(T *myState);
-    State(T *myState, int cost, State<T> *prevState);
-    State(int x, int y, int cost, State<T> *prevState);
+    State(T *myState, int myCost, State<T> *prevState);
+    State(int x, int y, int myCost, State<T> *prevState);
 
     T getState() const;
     int getCost() const;

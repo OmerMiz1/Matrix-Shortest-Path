@@ -1,5 +1,5 @@
 //
-// Created by omer on 15/01/2020.
+// Created by Omer Mizrachi on 15/01/2020.
 //
 
 #ifndef ALGORITHMICPROGRAMMING2__CACHEMANAGER_H_

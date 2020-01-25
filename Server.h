@@ -1,5 +1,5 @@
 //
-// Created by omer on 17/01/2020.
+// Created by Omer Mizrachi on 17/01/2020.
 //
 
 #ifndef ALGORITHMICPROGRAMMING2__SERVER_H_
@@ -13,6 +13,8 @@ class server_side::Server {
  public:
     virtual int open(int port, ClientHandler *handler)=0;
     virtual void stop()=0;
+
+    virtual ~Server() = default;
 };
 
 #endif //ALGORITHMICPROGRAMMING2__SERVER_H_

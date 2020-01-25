@@ -1,5 +1,5 @@
 //
-// Created by omer on 17/01/2020.
+// Created by Omer Mizrachi on 17/01/2020.
 //
 
 #include <climits>
@@ -22,7 +22,7 @@ State<T>::State() {
  * @param prevState the state that this state got from
  */
 template<typename T>
-State<T>::State(T *myState, int cost, State<T> *prevState):my_state(myState), cost(cost),
+State<T>::State(T *myState, int myCost, State<T> *prevState):my_state(myState), cost(myCost),
                                                               prev_state(prevState) {}
 
 /** Calls above C'TOR
@@ -41,7 +41,7 @@ State<T>::State(T *myState): State<T>(myState, -1, nullptr) {}
  * @param prevState
  */
 template<class T>
-State<T>::State(int x, int y, int cost, State<T> *prevState):State<T>(new T(x,y), cost, prevState)  {}
+State<T>::State(int x, int y, int myCost, State<T> *prevState):State<T>(new T(x,y), myCost, prevState)  {}
 
 /*template<class T>
 State<T>::~State() {

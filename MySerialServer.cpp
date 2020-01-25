@@ -1,5 +1,5 @@
 //
-// Created by omer on 15/01/2020.
+// Created by Omer Mizrachi on 15/01/2020.
 //
 
 #include "MySerialServer.h"
@@ -120,3 +120,5 @@ void MySerialServer::start(ClientHandler *handler) {
 void MySerialServer::stop() {
     this->done = true;
 }
+
+MySerialServer::~MySerialServer() = default;
