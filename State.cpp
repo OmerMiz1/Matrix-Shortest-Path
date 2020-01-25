@@ -58,7 +58,7 @@ State<T>::~State() {
  */
 template<typename T>
 T State<T>::getState() const {
-    return *(my_state->clone());
+    return *my_state;
 }
 
 /** Returns state cost.

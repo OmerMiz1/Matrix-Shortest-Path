@@ -73,7 +73,7 @@ void FileCacheManager::writeToFile(string *problem_key, string *solution) {
 
     /*Assuming string is a string here !!!*/
     outFile.clear();
-    outFile << solution << endl;
+    outFile << *solution << endl;
     outFile.close();
 }
 

@@ -29,7 +29,7 @@ T* Matrix<T>::at(int x, int y) const {
     if (x < 0 || x > (this->columns_count - 1) || y < 0 || y > (this->rows_count - 1)) {
         return OUT_OF_BOUNDS;
     }
-    return matrix.at(x)->at(y)->clone();
+    return matrix.at(x)->at(y);
 }
 
 /** Returns the cell given a point (x,y) object.
