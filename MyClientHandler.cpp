@@ -41,7 +41,7 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
     list<P>* solution;
     string cur_line, result;
     auto problem_key = new string();
-    auto solution_str = new string();
+    string *solution_str;
     bool sol_in_cache;
 
     /*Reads all data from client*/
@@ -102,11 +102,13 @@ void MyClientHandler<P>::handleClient(int client_socketfd) {
         setSolMtx.unlock();
     }
 
+    delete problem_key;
+    
     /*Send each chunk to client*/
     sendMsgMtx.lock();
     tmp.clear();
     tmp = toChunks(solution_str);
-
+    delete solution_str;
     for(auto chunk : tmp) {
         if (send(client_socketfd,chunk.c_str(), chunk.size(), MSG_CONFIRM) == -1) {
             perror("handleClient#3");

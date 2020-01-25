@@ -131,7 +131,11 @@ Point Matrix<T>::getPoint(T cell) const {
 template<typename T>
 T* Matrix<T>::getAbove(T state) const {
     auto p = getPoint(state);
-    return at(p.getX(), (p.getY() - 1));
+    T* temp = at(p.getX(), (p.getY() - 1));;
+    if(temp != nullptr) {
+        return temp->clone();
+    }
+    return temp;
 }
 
 /** Returns the cell below given.
@@ -143,7 +147,11 @@ T* Matrix<T>::getAbove(T state) const {
 template<typename T>
 T* Matrix<T>::getBelow(T state) const {
     auto p = getPoint(state);
-    return at(p.getX(), (p.getY() + 1));
+    T* temp = at(p.getX(), (p.getY() + 1));;
+    if(temp != nullptr) {
+        return temp->clone();
+    }
+    return temp;
 }
 
 /** Returns the cell to the left of given.
@@ -155,7 +163,11 @@ T* Matrix<T>::getBelow(T state) const {
 template<typename T>
 T* Matrix<T>::getLeft(T state) const {
     auto p = getPoint(state);
-    return at(p.getX() - 1, p.getY());
+    T* temp = at(p.getX() - 1, p.getY());;
+    if(temp != nullptr) {
+        return temp->clone();
+    }
+    return temp;
 }
 
 /** Returns the cell to the right of given.
@@ -167,7 +179,11 @@ T* Matrix<T>::getLeft(T state) const {
 template<typename T>
 T* Matrix<T>::getRight(T state) const {
     auto p = getPoint(state);
-    return at(p.getX() + 1, p.getY());
+    T* temp = at(p.getX() + 1, p.getY());;
+    if(temp != nullptr) {
+        return temp->clone();
+    }
+    return temp;
 }
 
 
