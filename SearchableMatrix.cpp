@@ -44,29 +44,29 @@ bool SearchableMatrix<P>::isGoalState(P state)const {
 template <class P>
 list<P> SearchableMatrix<P>::getAllPossibleStates(P state) {
     list<P> statesList;
-
+    auto stateTemp = state.clone();
     /*Explanation:
      * nullptr: if out of bounds.
      * NOT_A_NODE: if cost = -1.
      * If either of the above is true, than not a possible state.*/
-    P* temp = Matrix<P>::getAbove(state);
+    P* temp = Matrix<P>::getAbove(*stateTemp);
     if ((temp != nullptr) && (temp->getCost() != NOT_A_NODE)) {
-        temp->setPrev(state.clone());
+        temp->setPrev(stateTemp);
         statesList.push_back(*temp);
     }
-    temp = Matrix<P>::getBelow(state);
+    temp = Matrix<P>::getBelow(*stateTemp);
     if ((temp != nullptr) && (temp->getCost() != NOT_A_NODE)) {
-        temp->setPrev(state.clone());
+        temp->setPrev(stateTemp);
         statesList.push_back(*temp);
     }
-    temp = Matrix<P>::getLeft(state);
+    temp = Matrix<P>::getLeft(*stateTemp);
     if ((temp != nullptr) && (temp->getCost() != NOT_A_NODE)) {
-        temp->setPrev(state.clone());
+        temp->setPrev(stateTemp);
         statesList.push_back(*temp);
     }
-    temp = Matrix<P>::getRight(state);
+    temp = Matrix<P>::getRight(*stateTemp);
     if ((temp != nullptr) && (temp->getCost() != NOT_A_NODE)) {
-        temp->setPrev(state.clone());
+        temp->setPrev(stateTemp);
         statesList.push_back(*temp);
     }
 

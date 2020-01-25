@@ -40,7 +40,7 @@ public:
 
         /*Initialize Searchers and everything...
          *Chose AStar as Roi said in piazza to choose it anyway. */
-        Searcher<State<Point>> *searcher = new AStar<State<Point>>(); /*Searcher Type*/
+        Searcher<State<Point>> *searcher = new BestFS<State<Point>>(); /*Searcher Type*/
         SearchSolver<State<Point>> *solver = new SearchSolver<State<Point>>(searcher);/*Solver Type*/
         CacheManager<string, string> *cache = new FileCacheManager();
         auto handler = new MyClientHandler<State<Point>>(solver, cache);
@@ -141,10 +141,6 @@ public:
 class server_side::boot::ParallelMatrixTester {
 public:
     int main(int argc, char *argv[]) {
-        if (argc < 2) {
-            perror("main");
-            exit(EXIT_FAILURE);
-        }
         int port = stoi(argv[1]);
         Searcher<State<Point>>* sDFS = new DFS<State<Point>>();
         Searcher<State<Point>>* sBFS = new BFS<State<Point>>();
@@ -167,14 +163,13 @@ public:
         try {
 //            thread DFS_th(&MyParallelServer::open, DFS_server, 8080, DFS_handler);
 //            thread BFS_th(&MyParallelServer::open, BFS_server, 8081, BFS_handler);
-            thread AStar_th(&MyParallelServer::open, AStar_server, 8082, AStar_handler);
+            thread AStar_th(&MyParallelServer::open, AStar_server, 8080, AStar_handler);
 //            thread BestFS_th(&MyParallelServer::open, BestFS_server, 8083, BestFS_handler);
 
 //            DFS_th.join();
 //            BFS_th.join();
             AStar_th.join();
 //            BestFS_th.join();
-//            DFS_server->open(port, handler);
         } catch (const char *e) {
             perror(e);
         }

@@ -233,6 +233,7 @@ list<string> MyClientHandler<P>::toChunks(string *solution) {
     result.clear();
     for(unsigned i = 0; i<solution->size();i+=chunk_size) {
         cur_chunk = solution->substr(i,chunk_size);
+        cur_chunk.append("\000");
         result.push_back(cur_chunk);
     }
     result.emplace_back("\n");

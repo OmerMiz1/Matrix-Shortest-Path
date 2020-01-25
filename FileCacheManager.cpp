@@ -95,9 +95,10 @@ string* FileCacheManager::readFromFile(string *problem_key) {
     }
 
     while(!inFile.eof()) {
-        char *buffer = (char*)malloc(MAX_CHARS);
+        char *buffer = (char*)calloc(MAX_CHARS,1);
         inFile.read(buffer, MAX_CHARS-1);
         solution->append(buffer);
+        free(buffer);
     }
 
     inFile.close();

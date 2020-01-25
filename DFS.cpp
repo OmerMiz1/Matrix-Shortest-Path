@@ -44,6 +44,7 @@ list<P>* DFS<P>::search(Searchable<P> *problem) {
         if (!visitedSet.count(current)) {
             visitedSet.insert(current);
             list<P> adjacents = problem->getAllPossibleStates(current);
+
             for (auto adjacent : adjacents) {
                 if (!visitedSet.count(adjacent)) {
                     statesStack.push(adjacent);

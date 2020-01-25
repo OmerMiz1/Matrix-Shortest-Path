@@ -26,7 +26,7 @@ Matrix<T>::~Matrix() {
 template<typename T>
 T* Matrix<T>::at(int x, int y) const {
     //bounds check
-    if (x < 0 || x > (this->columns_count - 1) || y < 0 || y > (this->rows_count - 1)) {
+    if (x < 0 || x >= matrix.size() || y < 0 || y >= this->matrix.at(x)->size()) {
         return OUT_OF_BOUNDS;
     }
     return matrix.at(x)->at(y);

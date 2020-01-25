@@ -2,6 +2,7 @@
 // Created by omer on 17/01/2020.
 //
 
+#include <climits>
 #include "State.h"
 /** Default CTOR
  *
@@ -10,7 +11,7 @@
 template<class T>
 State<T>::State() {
     my_state = nullptr;
-    cost = INTMAX_MAX;
+    cost = INT_MAX;
     prev_state = nullptr;
 }
 
