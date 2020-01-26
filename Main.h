@@ -26,21 +26,24 @@ using namespace std;
 class server_side::boot::Main {
 public:
     int main(int argc, char *argv[]) {
-        if (argc < 2) {
-            perror("main");
-            exit(EXIT_FAILURE);
-        }
         int port;
-        try {
-             port = stoi(argv[1]);
-        } catch(const char* e) {
-            perror(e);
-            exit(EXIT_FAILURE);
+
+        if (argc < 2) {
+            port = 5600;
         }
+        else {
+            try {
+                port = stoi(argv[1]);
+            } catch(const char* e) {
+                perror(e);
+                exit(EXIT_FAILURE);
+            }
+        }
+
 
         /*Initialize Searchers and everything...
          *Chose AStar as Roi said in piazza to choose it anyway. */
-        Searcher<State<Point>> *searcher = new BestFS<State<Point>>(); /*Searcher Type*/
+        Searcher<State<Point>> *searcher = new AStar<State<Point>>(); /*Searcher Type*/
         SearchSolver<State<Point>> *solver = new SearchSolver<State<Point>>(searcher);/*Solver Type*/
         CacheManager<string, string> *cache = new FileCacheManager();
         auto handler = new MyClientHandler<State<Point>>(solver, cache);
