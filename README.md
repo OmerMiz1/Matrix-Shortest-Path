@@ -22,4 +22,6 @@ We tested which algorithm had the best results in means of costs per path (avg).
 &nbsp;&nbsp;&nbsp;&nbsp;NOTE: This is the port that the server will be listening to.
 3. Solutions can be found at the same folder where the compiled program files are.
 
-For further assistance please contact our costumers service at: 0545622942.
+# UML:
+![UML](https://user-images.githubusercontent.com/47946943/131499646-6a1e78be-88c4-4e46-961e-d6997863ed0d.png)
+
